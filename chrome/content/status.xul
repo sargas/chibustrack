@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<overlay id="ctacheckerstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript" src="chrome://ctachecker/content/overlay.js" />
+	<statusbar id="status-bar">
+		<statusbarpanel id="my-panel" label="Hi" onclick="ctachecker.getdate(event);" />
+	</statusbar>
+</overlay>

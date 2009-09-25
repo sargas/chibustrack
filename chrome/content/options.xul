@@ -12,8 +12,18 @@ window.addEventListener("load", function() {
 </script>
 
 <prefpane label="CTA Checker Options">
+	<preferences>
+		<preference id="sbints" name="ctachecker.sbinterval" type="int"/>
+		<preference id="curRoute" name="ctachecker.route" type="string"/>
+	</preferences>
+
 <groupbox id="ctaroutes">
 <caption label="CTA Routes" />
+</groupbox>
+<groupbox>
+<hbox><caption label="Service Bulletin Updates every " />
+<textbox type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
+<caption label=" minutes" /></hbox>
 </groupbox>
 </prefpane>
 

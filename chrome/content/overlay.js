@@ -1,6 +1,8 @@
 var ExtCtaChecker = {
 	_routetomenu: null, //just passing around a variable
 	route: null, //current route
+	sbinterval: null, //interval for service bullintin timer
+	sbtimer: null, //id of timer
 	prefs: null,
 	load: function() {
 		this._routetomenu = new XSLTProcessor();
@@ -10,17 +12,21 @@ var ExtCtaChecker = {
 		// XMLDocument.load is asynchronous, so all processing happens in the 
 		// onload handler
 
+		//initialize the xlst stylesheet.
+		//Needed to be done right away to avoid a race condition
 		theTransform.addEventListener("load", function() {
 			ExtCtaChecker._routetomenu.importStylesheet(theTransform);
 		}, false);
 		theTransform.load("chrome://ctachecker/content/routetomenu.xslt");
 
+		//load prefs
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 			.getService(Components.interfaces.nsIPrefService)
 			.getBranch("ctachecker.");
 		this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 
 		this.route = this.prefs.getCharPref("route");
+		this.sbinterval = this.prefs.getIntPref("sbinterval");
 	},
 	unload: function() {
 		this.prefs.removeObserver("", this);
@@ -60,10 +66,19 @@ var ExtCtaChecker = {
 			var routes = ExtCtaChecker._routetomenu.transformToDocument(doc);
 			var menulist = document.getElementById("ctaroutes");
 			menulist.appendChild(routes.documentElement);
+
+			//got to reload the setting for some reason...
+			//perhaps preferences system doesn't work dynamically
+			//generated like this
 			var curRoute = document.getElementById("CTARoute"+ExtCtaChecker.route);
 			var realmenulist = document.getElementById("CTARouteChooser");
 			realmenulist.selectedItem = curRoute;
 		});
+	},
+	setupstatusbar: function() {
+		ExtCtaChecker.loadstatusbar();
+		ExtCtaChecker.sbtimer = window.setInterval(ExtCtaChecker.loadstatusbar,this.sbinterval*60*1000);
+		ExtCtaChecker.prefs.addObserver("", ExtCtaChecker, false);
 	},
 	loadstatusbar: function() {
 		this.loadCTAData("getservicebulletins",function(response) {
@@ -98,10 +113,12 @@ var ExtCtaChecker = {
 				this.route = this.prefs.getCharPref("route");
 				this.loadstatusbar();
 				break;
+			case "sbinterval":
+				this.sbinterval = this.prefs.getIntPref("sbinterval");
+				window.clearInterval(this.sbtimer);
+				ExtCtaChecker.sbtimer = window.setInterval(ExtCtaChecker.loadstatusbar,this.sbinterval*60*1000);
+				break;
 		}
-	},
-	changeRoute: function (route) {
-		this.prefs.setCharPref("route", route);
 	},
 };
 

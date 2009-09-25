@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="options.css" type="text/css"?>
+<prefwindow id="ctacheckerOptions" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" title="CTA Checker Options">
+
+<script type="text/javascript" src="chrome://ctachecker/content/overlay.js" />
+<script type="text/javascript">
+<![CDATA[
+window.addEventListener("load", function() {
+	ExtCtaChecker.loadroutes(); },false);
+]]>
+</script>
+
+<prefpane label="CTA Checker Options">
+<groupbox id="ctaroutes">
+<caption label="CTA Routes" />
+</groupbox>
+</prefpane>
+
+</prefwindow>

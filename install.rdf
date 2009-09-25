@@ -19,5 +19,7 @@
 		<em:name>CTA Bus Checker</em:name>
 		<em:description>Hi</em:description>
 		<em:creator>Joseph Jon Booker</em:creator>
+
+		<em:optionsURL>chrome://ctachecker/content/options.xul</em:optionsURL>
 	</Description>
 </RDF>

@@ -22,7 +22,7 @@ var ExtCtaChecker = {
 		//load prefs
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 			.getService(Components.interfaces.nsIPrefService)
-			.getBranch("ctachecker.");
+			.getBranch("extensions.ctachecker.");
 		this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 
 		this.route = this.prefs.getCharPref("route");

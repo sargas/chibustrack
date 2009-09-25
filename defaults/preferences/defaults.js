@@ -1,2 +1,2 @@
-pref("ctachecker.route","1");
-pref("ctachecker.sbinterval",10);
+pref("extensions.ctachecker.route","1");
+pref("extensions.ctachecker.sbinterval",10);

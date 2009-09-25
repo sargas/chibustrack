@@ -13,8 +13,8 @@ window.addEventListener("load", function() {
 
 <prefpane label="CTA Checker Options">
 	<preferences>
-		<preference id="sbints" name="ctachecker.sbinterval" type="int"/>
-		<preference id="curRoute" name="ctachecker.route" type="string"/>
+		<preference id="sbints" name="extensions.ctachecker.sbinterval" type="int"/>
+		<preference id="curRoute" name="extensions.ctachecker.route" type="string"/>
 	</preferences>
 
 <groupbox id="ctaroutes">

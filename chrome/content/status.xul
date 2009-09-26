@@ -1,15 +1,7 @@
 <?xml version="1.0"?>
 <overlay id="ctacheckerstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript" src="chrome://ctachecker/content/overlay.js" />
-	<script type="application/x-javascript">
-		<![CDATA[
-			window.addEventListener("load", function() {
-					ExtCtaChecker.loadstatusbar();
-					window.setInterval(ExtCtaChecker.loadstatusbar,10*60*1000);
-					ExtCtaChecker.prefs.addObserver("", ExtCtaChecker, false);
-				},false);
-		]]>
-	</script>
+	<script type="application/x-javascript" src="chrome://ctachecker/content/ctachecker.js" />
+	<script type="application/x-javascript" src="chrome://ctachecker/content/status.js" />
 	<statusbar id="status-bar">
 		<statusbarpanel id="ctachecker-panel" label="Loading..." onclick="ExtCtaChecker.onclick(event);" />
 	</statusbar>

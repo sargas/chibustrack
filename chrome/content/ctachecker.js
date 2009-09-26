@@ -5,20 +5,6 @@ var ExtCtaChecker = {
 	sbtimer: null, //id of timer
 	prefs: null,
 	load: function() {
-		this._routetomenu = new XSLTProcessor();
-		// from mdc
-		var theTransform = document.implementation.createDocument("", "test", null);
-		// just an example to get a transform into a script as a DOM
-		// XMLDocument.load is asynchronous, so all processing happens in the 
-		// onload handler
-
-		//initialize the xlst stylesheet.
-		//Needed to be done right away to avoid a race condition
-		theTransform.addEventListener("load", function() {
-			ExtCtaChecker._routetomenu.importStylesheet(theTransform);
-		}, false);
-		theTransform.load("chrome://ctachecker/content/routetomenu.xslt");
-
 		//load prefs
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 			.getService(Components.interfaces.nsIPrefService)
@@ -31,7 +17,7 @@ var ExtCtaChecker = {
 	unload: function() {
 		this.prefs.removeObserver("", this);
 	},
-	loadCTAData: function(verb,callback,params) {
+	loadCTAData: function(verb,callback,params) { //simplified $.get
 		var xhr = new XMLHttpRequest();
 		var args = "";
 		xhr.onreadystatechange  = function() {
@@ -56,9 +42,6 @@ var ExtCtaChecker = {
 		xhr.open("GET","http://www.ctabustracker.com/bustime/api/v1/"+verb+"?key=HeDbySM4CUDgRDsrGnRGZmD6K"+args,
 				true);xhr.send(null);
 	},
-	getdate: function() {
-		this.loadCTAData("gettime",function (a) alert(a));
-	},
 	loadroutes: function() {
 		this.loadCTAData("getroutes",function(response) {
 			var parser = new DOMParser();
@@ -75,13 +58,8 @@ var ExtCtaChecker = {
 			realmenulist.selectedItem = curRoute;
 		});
 	},
-	setupstatusbar: function() {
-		ExtCtaChecker.loadstatusbar();
-		ExtCtaChecker.sbtimer = window.setInterval(ExtCtaChecker.loadstatusbar,this.sbinterval*60*1000);
-		ExtCtaChecker.prefs.addObserver("", ExtCtaChecker, false);
-	},
 	loadstatusbar: function() {
-		this.loadCTAData("getservicebulletins",function(response) {
+		ExtCtaChecker.loadCTAData("getservicebulletins",function(response) {
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(response, "text/xml");
 			var panel = document.getElementById("ctachecker-panel");
@@ -102,9 +80,6 @@ var ExtCtaChecker = {
 				panel.setAttribute("tooltiptext",details);
 			}
 		},{rt: ExtCtaChecker.route});
-	},
-	onclick: function(event) {
-		 window.openDialog('chrome://ctachecker/content/options.xul','_blank','chrome,all,dialog=no');
 	},
 	observe: function (subject, topic, data) {
 		if (topic != "nsPref:changed") return;

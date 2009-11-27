@@ -4,6 +4,7 @@ var ExtCtaChecker = {
 	sbinterval: null, //interval for service bullintin timer
 	sbtimer: null, //id of timer
 	prefs: null,
+	ctaicon: null, //Icon in status bar
 	load: function() {
 		//load prefs
 		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
@@ -66,6 +67,7 @@ var ExtCtaChecker = {
 			if (doc.documentElement.childElementCount == 0) {
 				panel.setAttribute("label","No Bulletins for route "+ExtCtaChecker.route);
 				panel.removeAttribute("tooltiptext");
+				panel.setAttribute("collapsed",true);
 				return;
 			}
 			//we got atleast one service bulletin...
@@ -78,6 +80,7 @@ var ExtCtaChecker = {
 				details = details.replace(/<br.>/g,"\n");
 				panel.setAttribute("label",name+" - "+subject);
 				panel.setAttribute("tooltiptext",details);
+				panel.setAttribute("collapsed",false);
 			}
 		},{rt: ExtCtaChecker.route});
 	},

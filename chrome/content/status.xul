@@ -1,11 +1,27 @@
 <?xml version="1.0"?>
-<overlay id="ctacheckerstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript" src="chrome://ctachecker/content/prefs.js" />
-	<script type="application/x-javascript" src="chrome://ctachecker/content/ctachecker.js" />
-	<script type="application/x-javascript" src="chrome://ctachecker/content/status.js" />
+<!-- ***** BEGIN LICENSE BLOCK *****
+    This file is part of Chicago Bus Tracker.
+
+    Chicago Bus Tracker is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chicago Bus Tracker is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
+    ***** END LICENSE BLOCK ***** -->
+<overlay id="chibustrackstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript" src="chrome://chibustrack/content/prefs.js" />
+	<script type="application/x-javascript" src="chrome://chibustrack/content/chibus.js" />
+	<script type="application/x-javascript" src="chrome://chibustrack/content/status.js" />
 	<statusbar id="status-bar">
-		<statusbarpanel id="ctachecker-icon" onclick="ExtCtaChecker.onclick(event);">
-			<image alt="CTA Checker Options" src="chrome://ctachecker/skin/icon_bustrackerlogo.png" />
+		<statusbarpanel id="chibustrack-icon" onclick="ExtChiBusTrack.onclick(event);">
+			<image alt="Chicago Bus Tracker Options" src="chrome://chibustrack/skin/icon_bustrackerlogo.png" />
 		</statusbarpanel>
 	</statusbar>
 </overlay>

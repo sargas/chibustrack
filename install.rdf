@@ -4,8 +4,8 @@
 	xmlns:em="http://www.mozilla.org/2004/em-rdf#">
 
 	<Description about="urn:mozilla:install-manifest">
-		<em:id>ctachecker@neoturbine.net</em:id>
-		<em:version>1.0</em:version>
+		<em:id>chibustrack@neoturbine.net</em:id>
+		<em:version>0.1</em:version>
 		<em:type>2</em:type>
 
 		<em:targetApplication>
@@ -16,10 +16,10 @@
 			</Description>
 		</em:targetApplication>
 
-		<em:name>CTA Bus Checker</em:name>
-		<em:description>Hi</em:description>
+		<em:name>Chicago Bus Tracker</em:name>
+		<em:description>Displays service bulletins for your favorite CTA bus routes.</em:description>
 		<em:creator>Joseph Jon Booker</em:creator>
 
-		<em:optionsURL>chrome://ctachecker/content/options.xul</em:optionsURL>
+		<em:optionsURL>chrome://chibustrack/content/options.xul</em:optionsURL>
 	</Description>
 </RDF>

@@ -1,4 +1,4 @@
-content	ctachecker chrome/content/ 
-skin ctachecker ctachecker-1.0  chrome/skin/
+content	chibustrack chrome/content/ 
+skin chibustrack chibustrack-1.0  chrome/skin/
 
-overlay	chrome://browser/content/browser.xul	chrome://ctachecker/content/status.xul
+overlay	chrome://browser/content/browser.xul	chrome://chibustrack/content/status.xul

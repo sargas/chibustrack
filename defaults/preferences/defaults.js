@@ -1,2 +1,2 @@
-pref("extensions.ctachecker.bullroutes","1");
-pref("extensions.ctachecker.sbinterval",30);
+pref("extensions.chibustrack.bullroutes","1");
+pref("extensions.chibustrack.sbinterval",30);

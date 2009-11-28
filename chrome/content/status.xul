@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <overlay id="ctacheckerstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<script type="application/x-javascript" src="chrome://ctachecker/content/prefs.js" />
 	<script type="application/x-javascript" src="chrome://ctachecker/content/ctachecker.js" />
 	<script type="application/x-javascript" src="chrome://ctachecker/content/status.js" />
 	<statusbar id="status-bar">
-		<statusbarpanel id="ctachecker-panel" label="Loading..." />
-		<statusbarpanel onclick="ExtCtaChecker.onclick(event);">
+		<statusbarpanel id="ctachecker-icon" onclick="ExtCtaChecker.onclick(event);">
 			<image alt="CTA Checker Options" src="chrome://ctachecker/skin/icon_bustrackerlogo.png" />
 		</statusbarpanel>
 	</statusbar>

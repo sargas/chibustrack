@@ -1,4 +1,12 @@
 window.addEventListener("load",function () {
+	
+	ExtCtaCheckerPrefs.load(function(data) {
+		switch(data) {
+		case "bullroutes":
+			ExtCtaChecker.loadBullRoutes();
+			break;
+		}
+	});
 	ExtCtaChecker._routetomenu = new XSLTProcessor();
 
 	// from mdc
@@ -11,7 +19,8 @@ window.addEventListener("load",function () {
 	//Needed to be done right away to avoid a race condition
 	theTransform.addEventListener("load", function() {
 		ExtCtaChecker._routetomenu.importStylesheet(theTransform);
+		ExtCtaChecker.loadroutes();
 	}, false);
 	theTransform.load("chrome://ctachecker/content/routetomenu.xslt");
-	ExtCtaChecker.loadroutes();
+	ExtCtaChecker.loadBullRoutes();
 },false);

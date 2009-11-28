@@ -3,23 +3,36 @@
 <?xml-stylesheet href="chrome://ctachecker/skin/options.css" type="text/css"?>
 <prefwindow id="ctacheckerOptions" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" title="CTA Checker Options">
 
+<script type="text/javascript" src="chrome://ctachecker/content/prefs.js" />
 <script type="text/javascript" src="chrome://ctachecker/content/ctachecker.js" />
 <script type="text/javascript" src="chrome://ctachecker/content/options.js" />
+
+<panel id="addbulletin" position="after_start">
+<groupbox id="bullroutes">
+	<label control="bullroute" value="Route: "/>
+</groupbox>
+</panel>
 
 <prefpane label="CTA Checker Options">
 	<preferences>
 		<preference id="sbints" name="extensions.ctachecker.sbinterval" type="int"/>
-		<preference id="curRoute" name="extensions.ctachecker.route" type="string"/>
 	</preferences>
 
-<groupbox id="ctaroutes">
-<caption label="CTA Routes" />
-</groupbox>
-<groupbox>
-<hbox><caption label="Service Bulletin Updates every " />
-<textbox type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
-<caption label=" minutes" /></hbox>
-</groupbox>
+	<groupbox>
+		<caption label="Service Bulletins" />
+		<hbox>
+		<listbox id="selbullroutes" rows="4" flex="1">
+		</listbox>
+		<groupbox>
+			<button label="Add Route" popup="addbulletin"/>
+			<button label="Remove" id="rmBulBut" oncommand="ExtCtaChecker.removeBullRoute(event)" />
+		</groupbox>
+		</hbox>
+	</groupbox>
+	<groupbox>
+		<hbox><caption label="Updates every " />
+		<textbox type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
+		<caption label=" minutes" /></hbox>
+	</groupbox>
 </prefpane>
-
 </prefwindow>

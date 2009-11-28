@@ -1,23 +1,6 @@
 var ExtCtaChecker = {
 	_routetomenu: null, //just passing around a variable
-	route: null, //current route
-	sbinterval: null, //interval for service bullintin timer
 	sbtimer: null, //id of timer
-	prefs: null,
-	ctaicon: null, //Icon in status bar
-	load: function() {
-		//load prefs
-		this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
-			.getService(Components.interfaces.nsIPrefService)
-			.getBranch("extensions.ctachecker.");
-		this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
-
-		this.route = this.prefs.getCharPref("route");
-		this.sbinterval = this.prefs.getIntPref("sbinterval");
-	},
-	unload: function() {
-		this.prefs.removeObserver("", this);
-	},
 	loadCTAData: function(verb,callback,params) { //simplified $.get
 		var xhr = new XMLHttpRequest();
 		var args = "";
@@ -44,63 +27,93 @@ var ExtCtaChecker = {
 				true);xhr.send(null);
 	},
 	loadroutes: function() {
+		//populate the little drop down box when adding routes
 		this.loadCTAData("getroutes",function(response) {
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(response, "text/xml");
 			var routes = ExtCtaChecker._routetomenu.transformToDocument(doc);
-			var menulist = document.getElementById("ctaroutes");
+			var menulist = document.getElementById("bullroutes");
+			routes.firstChild.addEventListener("command",ExtCtaChecker.addBullRoute,false);
 			menulist.appendChild(routes.documentElement);
-
-			//got to reload the setting for some reason...
-			//perhaps preferences system doesn't work dynamically
-			//generated like this
-			var curRoute = document.getElementById("CTARoute"+ExtCtaChecker.route);
-			var realmenulist = document.getElementById("CTARouteChooser");
-			realmenulist.selectedItem = curRoute;
 		});
 	},
 	loadstatusbar: function() {
+		var statusbar = document.getElementById("status-bar");
+		var icon = document.getElementById("ctachecker-icon");
+
+		//rid ourselves of all previous bulletins:
+		var oldpanels = document.getElementsByClassName("ctachecker-bulletins");
+		while(oldpanels.length>0) {
+			statusbar.removeChild(oldpanels[0]);
+		}
+
+		//iterate through each route
+		var routes = ExtCtaCheckerPrefs.bullroutes.split(';');
+		for(var j=0;j<routes.length;++j)
 		ExtCtaChecker.loadCTAData("getservicebulletins",function(response) {
 			var parser = new DOMParser();
 			var doc = parser.parseFromString(response, "text/xml");
-			var panel = document.getElementById("ctachecker-panel");
+
 			if (doc.documentElement.childElementCount == 0) {
-				panel.setAttribute("label","No Bulletins for route "+ExtCtaChecker.route);
-				panel.removeAttribute("tooltiptext");
-				panel.setAttribute("collapsed",true);
-				return;
+				return; //nothing to report :)
 			}
 			//we got atleast one service bulletin...
 			var sb = doc.documentElement.children;
 			for (var i = 0; i < sb.length; i++) {
+				var panel = document.createElement("statusbarpanel");
 				var name = sb[i].getElementsByTagName("nm")[0].textContent;
 				var subject = sb[i].getElementsByTagName("sbj")[0].textContent;
 				var details = sb[i].getElementsByTagName("dtl")[0].textContent;
 				//try to match <br/> without using /
-				details = details.replace(/<br.>/g,"\n");
-				panel.setAttribute("label",name+" - "+subject);
+				details = subject+"\n"+details.replace(/<br.>/g,"\n");
+				panel.setAttribute("label",name);
 				panel.setAttribute("tooltiptext",details);
-				panel.setAttribute("collapsed",false);
+				panel.className = "ctachecker-bulletins";
+				statusbar.insertBefore(panel,icon);
 			}
-		},{rt: ExtCtaChecker.route});
+		},{rt: routes[j]});
 	},
-	observe: function (subject, topic, data) {
-		if (topic != "nsPref:changed") return;
-		switch(data) {
-			case "route":
-				this.route = this.prefs.getCharPref("route");
-				this.loadstatusbar();
-				break;
-			case "sbinterval":
-				this.sbinterval = this.prefs.getIntPref("sbinterval");
-				window.clearInterval(this.sbtimer);
-				ExtCtaChecker.sbtimer = window.setInterval(ExtCtaChecker.loadstatusbar,this.sbinterval*60*1000);
-				break;
+	loadBullRoutes: function () {
+		var routes = ExtCtaCheckerPrefs.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
+		var selbullroutes = document.getElementById("selbullroutes");
+		
+		//clear the routes
+		while(selbullroutes.firstChild) selbullroutes.removeChild(selbullroutes.firstChild);
+
+		//re-add them (if any)
+		for(var i=0;i<routes.length;++i) {
+			if(routes[i] == "") continue;
+			var newlistitem = document.createElement("listitem");
+			newlistitem.setAttribute("label",routes[i]);
+			newlistitem.setAttribute("value",routes[i]);
+			selbullroutes.appendChild(newlistitem);
+			document.getElementById("rmBulBut").setAttribute("disabled",false);
+		}
+		if(!selbullroutes.hasChildNodes()) {
+			document.getElementById("rmBulBut").setAttribute("disabled",true);
 		}
 	},
-};
+	addBullRoute: function (e) { //e is an oncommand event
+		if (e.target.getAttribute("value") != "--") { //skip adding --
+			//worry about duplicates....
+			if(ExtCtaCheckerPrefs.bullroutes.split(';').indexOf(e.target.getAttribute("value")) == -1)
+			ExtCtaCheckerPrefs.prefs.setCharPref("bullroutes",ExtCtaCheckerPrefs.bullroutes + ";" + e.target.getAttribute("value"));
+		}
+		//always do this, even if selected --
+		document.getElementById("addbulletin").hidePopup();
+	},
+	removeBullRoute: function (e) {
+		var selbullroutes = document.getElementById("selbullroutes");
+		if(selbullroutes.selectedItem == null) return;
+		var route = selbullroutes.selectedItem.getAttribute("value");
 
-window.addEventListener("load", function() {
-	ExtCtaChecker.load(); },false);
-window.addEventListener("unload", function() {
-	ExtCtaChecker.unload(); },false);
+		//might as well sort the list in the prefs while we're at it
+		var routes = ExtCtaCheckerPrefs.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
+		var newroutes = new Array();
+
+		for(var i=0;i<routes.length;++i) {
+			if(routes[i] != route && routes[i] != "") newroutes.push(routes[i]);
+		}
+		ExtCtaCheckerPrefs.prefs.setCharPref("bullroutes",newroutes.join(";"));
+	},
+};

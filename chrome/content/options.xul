@@ -44,12 +44,12 @@
 		<listbox id="selbullroutes" rows="4" flex="1">
 		</listbox>
 		<vbox>
-			<button label="Add Route" popup="addbulletin"/>
-			<button label="Remove" id="rmBulBut" oncommand="ExtChiBusTrack.removeBullRoute(event)" />
+			<button flex="1" label="Add Route" popup="addbulletin"/>
+			<button flex="1" label="Remove" id="rmBulBut" oncommand="ExtChiBusTrack.removeBullRoute(event)" />
 		</vbox>
 		</hbox>
 		<hbox><label>Updates every </label>
-		<textbox type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
+		<textbox flex="1" type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
 		<label> minutes</label></hbox>
 	</groupbox>
 	<groupbox>
@@ -58,12 +58,12 @@
 		<listbox id="selstops" rows="4" flex="1">
 		</listbox>
 		<vbox>
-			<button label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />
-			<button label="Remove" id="rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
+			<button flex="1" label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />
+			<button flex="1" label="Remove" id="rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
 		</vbox>
 		</hbox>
 	</groupbox>
-	<groupbox>
+	<groupbox flex="1">
 		<label>
 			This extension redistributable under the terms of the <html:a href="chrome://chibustrack/content/COPYING">
 				GNU GPL3</html:a>.

@@ -20,8 +20,15 @@
 	<script type="application/x-javascript" src="chrome://chibustrack/content/chibus.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/status.js" />
 	<statusbar id="status-bar">
-		<statusbarpanel id="chibustrack-icon" onclick="ExtChiBusTrack.onclick(event);">
-			<image alt="Chicago Bus Tracker Options" src="chrome://chibustrack/skin/icon_bustrackerlogo.png" />
+		<panel id="chibustrack-panel">
+			<hbox align="stretch" equalsize="always">
+			</hbox>
+		</panel>
+		<statusbarpanel id="chibustrack-icon" context="_child">
+			<image alt="Chicago Bus Tracker Options" onclick="ExtChiBusTrack.onclick(event);" src="chrome://chibustrack/skin/icon_bustrackerlogo.png"/>
+			<menupopup id="chibustrack-icon-menu">
+				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)"/>
+			</menupopup>
 		</statusbarpanel>
 	</statusbar>
 </overlay>

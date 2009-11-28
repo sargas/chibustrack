@@ -18,6 +18,7 @@ var ExtChiBusTrack = {
 	_routetomenu: null, //just passing around a variable
 	_dirtomenu: null, //yet more vars being passed
 	_stoptomenu: null,
+	_predtobox: null,
 	sbtimer: null, //id of timer
 	loadCTAData: function(verb,callback,params) { //simplified $.get
 		var xhr = new XMLHttpRequest();
@@ -43,6 +44,7 @@ var ExtChiBusTrack = {
 
 		xhr.open("GET","http://www.ctabustracker.com/bustime/api/v1/"+verb+"?key=HeDbySM4CUDgRDsrGnRGZmD6K"+args,
 				true);xhr.send(null);
+		if(false) alert("http://www.ctabustracker.com/bustime/api/v1/"+verb+"?key=HeDbySM4CUDgRDsrGnRGZmD6K"+args);
 	},
 	loadroutes: function() {
 		//populate the little drop down box when adding routes

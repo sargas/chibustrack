@@ -21,9 +21,18 @@ window.addEventListener("load",function () {
 		case "bullroutes":
 			ExtChiBusTrack.loadBullRoutes();
 			break;
+		case "stops":
+			ExtChiBusTrack.loadStops();
+			break;
 		}
 	});
 	ExtChiBusTrack._routetomenu = new XSLTProcessor();
+	ExtChiBusTrack._dirtomenu =   new XSLTProcessor();
+	ExtChiBusTrack._stoptomenu =  new XSLTProcessor();
+
+	//load from prefs
+	ExtChiBusTrack.loadBullRoutes();
+	ExtChiBusTrack.loadStops();
 
 	// from mdc
 	var theTransform = document.implementation.createDocument("", "test", null);
@@ -38,5 +47,16 @@ window.addEventListener("load",function () {
 		ExtChiBusTrack.loadroutes();
 	}, false);
 	theTransform.load("chrome://chibustrack/content/routetomenu.xslt");
-	ExtChiBusTrack.loadBullRoutes();
+
+	//more transforms....
+	var nextTransform = document.implementation.createDocument("","test",null);
+	nextTransform.addEventListener("load",function() {
+		ExtChiBusTrack._dirtomenu.importStylesheet(nextTransform);
+	},false);
+	nextTransform.load("chrome://chibustrack/content/dirtomenu.xslt");
+	var nextnextTransform = document.implementation.createDocument("","test",null);
+	nextnextTransform.addEventListener("load",function() {
+		ExtChiBusTrack._stoptomenu.importStylesheet(nextnextTransform);
+	},false);
+	nextnextTransform.load("chrome://chibustrack/content/stoptomenu.xslt");
 },false);

@@ -23,9 +23,14 @@
 <script type="text/javascript" src="chrome://chibustrack/content/options.js" />
 
 <panel id="addbulletin" position="after_start">
-<groupbox id="bullroutes">
-	<label control="bullroute" value="Route: "/>
-</groupbox>
+<hbox id="bullroutes">
+	<label value="Route: "/>
+</hbox>
+</panel>
+
+<panel id="addstop" position="after_start">
+<hbox id="stoproutes">
+</hbox>
 </panel>
 
 <prefpane label="Chicago Bus Tracker Options">
@@ -38,16 +43,25 @@
 		<hbox>
 		<listbox id="selbullroutes" rows="4" flex="1">
 		</listbox>
-		<groupbox>
+		<vbox>
 			<button label="Add Route" popup="addbulletin"/>
 			<button label="Remove" id="rmBulBut" oncommand="ExtChiBusTrack.removeBullRoute(event)" />
-		</groupbox>
+		</vbox>
 		</hbox>
+		<hbox><label>Updates every </label>
+		<textbox type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
+		<label> minutes</label></hbox>
 	</groupbox>
 	<groupbox>
-		<hbox><caption label="Updates every " />
-		<textbox type="number" min="1" increment="1" decimalplaces="0" id="sbints" preference="sbints" />
-		<caption label=" minutes" /></hbox>
+		<caption label="Bus Stops" />
+		<hbox>
+		<listbox id="selstops" rows="4" flex="1">
+		</listbox>
+		<vbox>
+			<button label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />
+			<button label="Remove" id="rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
+		</vbox>
+		</hbox>
 	</groupbox>
 	<groupbox>
 		<label>

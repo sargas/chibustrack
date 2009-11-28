@@ -19,6 +19,7 @@ var ExtChiBusTrackPrefs = {
 sbinterval: null, //interval for service bullintin timer
 prefs: null,
 bullroutes: null, //comma seperated list of routes
+stops: null, //<> seperated values within |
 handler: null,
 
 load: function(callback) { //callback should be a function(prefname)
@@ -28,6 +29,7 @@ load: function(callback) { //callback should be a function(prefname)
 	this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 	this.sbinterval = this.prefs.getIntPref("sbinterval");
 	this.bullroutes = this.prefs.getCharPref("bullroutes");
+	this.stops = this.prefs.getCharPref("stops");
 	this.handler = callback;
 	this.prefs.addObserver("", this, false);
 },
@@ -45,8 +47,11 @@ observe: function(subject, topic, data) {
 		case "bullroutes":
 			this.bullroutes = this.prefs.getCharPref("bullroutes");
 			break;
+		case "stops":
+			this.stops = this.prefs.getCharPref("stops");
+			break;
 	}
-	this.handler(data);
+	if(this.handler) this.handler(data);
 },
 
 };

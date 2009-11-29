@@ -49,12 +49,11 @@ ExtChiBusTrack.onclick = function(e) {
 		var str = stopstrs[i].split("<>");
 		var rt = str[0];var rtdir = str[1];var stpid = str[2];
 		ExtChiBusTrack.loadCTAData("getpredictions",function(response) {
-			var parser = new DOMParser();
+			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser);
 			var doc = parser.parseFromString(response, "text/xml");
-			var xpathexp = doc.createExpression("bustime-response/prd",null);
-			if(!xpathexp.evaluate(doc,XPathResult.BOOLEAN_TYPE,null).booleanValue)
-				return;
 			var box = ExtChiBusTrack._predtobox.transformToDocument(doc);
+			if(box.documentElement == null) return; //xslt is unable to do anything...
 			hbox.appendChild(box.documentElement);
 			document.getElementById("chibustrack-panel").openPopup(e.target,'before_start');
 		},{rt: rt, rtdir: rtdir, stpid: stpid});

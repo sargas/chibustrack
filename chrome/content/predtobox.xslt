@@ -18,10 +18,17 @@
 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 <xsl:template match="/">
+<xsl:if test="(bustime-response/prd) or (bustime-response/error)">
 <groupbox style="background-color: yellow;border: blue solid" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
 <vbox style="padding:1em;">
 
+<xsl:if test="bustime-response/error">
+	<label><xsl:value-of select="bustime-response/error/msg"/></label>
+	<label>For Route <xsl:value-of select="bustime-response/error/rt"/></label>
+</xsl:if>
+
+<xsl:if test="bustime-response/prd">
 <label>Route <xsl:value-of select="bustime-response/prd/rt" />, <xsl:value-of select="bustime-response/prd/rtdir" /></label>
 <label><xsl:value-of select="bustime-response/prd/stpnm" /></label>
 
@@ -32,14 +39,17 @@
 		<xsl:call-template name="FormatDate">
 			<xsl:with-param name="DateTime" select="prdtm"/>
 		</xsl:call-template>
+		<xsl:if test="dly"><html:span style="color:red"> DELAYED</html:span></xsl:if>
 	</html:li>
 </xsl:for-each>
 
 </html:ul>
 
+</xsl:if>
 </vbox>
 
 </groupbox>
+</xsl:if>
 </xsl:template>
 
 <!-- from http://geekswithblogs.net/workdog/archive/2007/02/08/105858.aspx and adopted -->
@@ -54,6 +64,13 @@
 	</xsl:if>
 	<xsl:value-of select="':'"/>
 	<xsl:value-of select="substring($DateTime,13,2)"/>
+	<xsl:value-of select="' '"/>
+	<xsl:if test="$hr &gt; 12">
+		<xsl:value-of select="'PM'"/>
+	</xsl:if>
+	<xsl:if test="$hr &lt;= 12">
+		<xsl:value-of select="'AM'"/>
+	</xsl:if>
 </xsl:template>
 </xsl:stylesheet>
 

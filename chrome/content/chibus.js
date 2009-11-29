@@ -49,7 +49,8 @@ var ExtChiBusTrack = {
 	loadroutes: function() {
 		//populate the little drop down box when adding routes
 		this.loadCTAData("getroutes",function(response) {
-			var parser = new DOMParser();
+			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser);
 			var doc = parser.parseFromString(response, "text/xml");
 			var routes = ExtChiBusTrack._routetomenu.transformToDocument(doc);
 			var menulist = document.getElementById("bullroutes");
@@ -74,7 +75,8 @@ var ExtChiBusTrack = {
 		var routes = ExtChiBusTrackPrefs.bullroutes.split(';');
 		for(var j=0;j<routes.length;++j)
 		ExtChiBusTrack.loadCTAData("getservicebulletins",function(response) {
-			var parser = new DOMParser();
+			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser);
 			var doc = parser.parseFromString(response, "text/xml");
 
 			if (doc.documentElement.childElementCount == 0) {
@@ -155,7 +157,8 @@ var ExtChiBusTrack = {
 
 		//now we add little routes...
 		this.loadCTAData("getroutes",function(response) {
-			var parser = new DOMParser();
+			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser);
 			var doc = parser.parseFromString(response, "text/xml");
 			var routes = ExtChiBusTrack._routetomenu.transformToDocument(doc);
 			routes.firstChild.addEventListener("command",ExtChiBusTrack.addStopDir,false);
@@ -183,7 +186,8 @@ var ExtChiBusTrack = {
 
 		//now we add little routes...
 		ExtChiBusTrack.loadCTAData("getdirections",function(response) {
-			var parser = new DOMParser();
+			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser);
 			var doc = parser.parseFromString(response, "text/xml");
 			var dirs = ExtChiBusTrack._dirtomenu.transformToDocument(doc);
 			dirs.firstChild.addEventListener("command",ExtChiBusTrack.addStopStop,false);
@@ -219,7 +223,8 @@ var ExtChiBusTrack = {
 		
 		//Now, grand finale!!!
 		ExtChiBusTrack.loadCTAData("getstops",function(response) {
-			var parser = new DOMParser();
+			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+				.createInstance(Components.interfaces.nsIDOMParser);
 			var doc = parser.parseFromString(response, "text/xml");
 			var stops = ExtChiBusTrack._stoptomenu.transformToDocument(doc);
 			stops.firstChild.addEventListener("command",ExtChiBusTrack.addStopGood,false);
@@ -289,6 +294,8 @@ var ExtChiBusTrack = {
 
 		var stops = ExtChiBusTrackPrefs.stops.split('|');
 		var newstr = stops.splice(0,stops.indexOf(stopstr)).join("|") + "|"+stops.slice(stops.indexOf(stopstr)+1).join("|");
+		// a little house cleaning (not needed, but keeps things smaller)
+		newstr = newstr.replace(/\|+/g,"|");
 		ExtChiBusTrackPrefs.prefs.setCharPref("stops",newstr);
 	},
 };

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+    This file is part of Chicago Bus Tracker.
+
+    Chicago Bus Tracker is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chicago Bus Tracker is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
+    ***** END LICENSE BLOCK ***** -->
+<?xml-stylesheet href="chrome://global/skin/global.css" type="text/css"?>
+
+<dialog title="Chicago Bus Track Error"
+	xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+	buttons="accept,extra2,disclosure"
+	buttonlabelaccept="Okay"
+	buttonlabelextra2="Disable Chicago Bus Tracker"
+	ondialogdisclosure="showMore();return false;">
+
+	<script type="application/javascript" src="chrome://chibustrack/content/error.js"/>
+
+	<dialogheader title="Chicago Bus Tracker Error" id="chibustrack-errorheader"/>
+	<groupbox>
+		<label id="chibustrack-errormsg"/>
+	</groupbox>
+	<groupbox id="more-info" hidden="true">
+		<caption label="Raw Response" />
+		<textbox multiline="true" rows="6" cols="30" id="chibustrack-errorresponse"/>
+	</groupbox>
+</dialog>

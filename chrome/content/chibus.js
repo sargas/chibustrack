@@ -20,15 +20,37 @@ var ExtChiBusTrack = {
 	_stoptomenu: null,
 	_predtobox: null,
 	sbtimer: null, //id of timer
-	loadCTAData: function(verb,callback,params) { //simplified $.get
+	loadCTAData: function(verb,callback,params,ignoreErr) { //simplified $.get
+		//callback if a function of a document object for the XML response
+		//params is optional
+		//ignoreErr means the callback will (hopefully) take care of it
 		var xhr = new XMLHttpRequest();
 		var args = "";
+		if(!navigator.onLine) {
+			//eck....okay, we silently fail/hang for now.
+			//Could be worse, this is probably one of the least annoying thats to do
+			return;
+		}
+
 		xhr.onreadystatechange  = function() {
 			if(xhr.readyState  == 4) {
 				if(xhr.status  == 200) {
-					callback(xhr.responseText);
+					var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
+						.createInstance(Components.interfaces.nsIDOMParser);
+					var doc = parser.parseFromString(xhr.responseText, "text/xml");
+					var xpathexpr = doc.createExpression("bustime-response/error",null);
+					if(!ignoreErr && xpathexpr.evaluate(doc,XPathResult.BOOLEAN_TYPE,null).booleanValue) {
+						xpathexpr = doc.createExpression("bustime-response/error/msg",null);
+						var serializer = new XMLSerializer();
+						window.openDialog("chrome://chibustrack/content/error.xul","",
+								"chrome,dialog,resizable=yes",
+								xpathexpr.evaluate(doc,XPathResult.STRING_TYPE,null).stringValue,
+								serializer.serializeToString(doc)).focus();
+					} else {
+						callback(doc);
+					}
 				} else {
-					alert("Error code " + xhr.status);
+					alert("Sorry, but Chicago Bus Tracker has obtained XMLHttpRequest Error code " + xhr.status);
 				}
 			}
 		}
@@ -48,10 +70,7 @@ var ExtChiBusTrack = {
 	},
 	loadroutes: function() {
 		//populate the little drop down box when adding routes
-		this.loadCTAData("getroutes",function(response) {
-			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-				.createInstance(Components.interfaces.nsIDOMParser);
-			var doc = parser.parseFromString(response, "text/xml");
+		this.loadCTAData("getroutes",function(doc) {
 			var routes = ExtChiBusTrack._routetomenu.transformToDocument(doc);
 			var menulist = document.getElementById("bullroutes");
 			routes.firstChild.addEventListener("command",ExtChiBusTrack.addBullRoute,false);
@@ -74,11 +93,7 @@ var ExtChiBusTrack = {
 		//iterate through each route
 		var routes = ExtChiBusTrackPrefs.bullroutes.split(';');
 		for(var j=0;j<routes.length;++j)
-		ExtChiBusTrack.loadCTAData("getservicebulletins",function(response) {
-			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-				.createInstance(Components.interfaces.nsIDOMParser);
-			var doc = parser.parseFromString(response, "text/xml");
-
+		ExtChiBusTrack.loadCTAData("getservicebulletins",function(doc) {
 			if (doc.documentElement.childElementCount == 0) {
 				return; //nothing to report :)
 			}
@@ -156,10 +171,7 @@ var ExtChiBusTrack = {
 		document.getElementById("addstop").openPopup(e.target,"after_start");
 
 		//now we add little routes...
-		this.loadCTAData("getroutes",function(response) {
-			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-				.createInstance(Components.interfaces.nsIDOMParser);
-			var doc = parser.parseFromString(response, "text/xml");
+		this.loadCTAData("getroutes",function(doc) {
 			var routes = ExtChiBusTrack._routetomenu.transformToDocument(doc);
 			routes.firstChild.addEventListener("command",ExtChiBusTrack.addStopDir,false);
 			
@@ -185,10 +197,7 @@ var ExtChiBusTrack = {
 		stopbox.appendChild(loadinglabel);
 
 		//now we add little routes...
-		ExtChiBusTrack.loadCTAData("getdirections",function(response) {
-			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-				.createInstance(Components.interfaces.nsIDOMParser);
-			var doc = parser.parseFromString(response, "text/xml");
+		ExtChiBusTrack.loadCTAData("getdirections",function(doc) {
 			var dirs = ExtChiBusTrack._dirtomenu.transformToDocument(doc);
 			dirs.firstChild.addEventListener("command",ExtChiBusTrack.addStopStop,false);
 			
@@ -222,10 +231,7 @@ var ExtChiBusTrack = {
 		stopbox.appendChild(loadinglabel);
 		
 		//Now, grand finale!!!
-		ExtChiBusTrack.loadCTAData("getstops",function(response) {
-			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-				.createInstance(Components.interfaces.nsIDOMParser);
-			var doc = parser.parseFromString(response, "text/xml");
+		ExtChiBusTrack.loadCTAData("getstops",function(doc) {
 			var stops = ExtChiBusTrack._stoptomenu.transformToDocument(doc);
 			stops.firstChild.addEventListener("command",ExtChiBusTrack.addStopGood,false);
 			
@@ -297,5 +303,11 @@ var ExtChiBusTrack = {
 		// a little house cleaning (not needed, but keeps things smaller)
 		newstr = newstr.replace(/\|+/g,"|");
 		ExtChiBusTrackPrefs.prefs.setCharPref("stops",newstr);
+	},
+	reloadSB: function() {
+		ExtChiBusTrack.loadstatusbar();
+		window.clearInterval(ExtChiBusTrack.sbtimer);
+		ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,
+			ExtChiBusTrackPrefs.sbinterval*60*1000);
 	},
 };

@@ -21,9 +21,7 @@ window.addEventListener("load", function() {
 				ExtChiBusTrack.loadstatusbar();
 				break;
 			case "sbinterval":
-				window.clearInterval(ExtChiBusTrack.sbtimer);
-				ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,
-					ExtChiBusTrackPrefs.sbinterval*60*1000);
+				ExtChiBusTrack.reloadSB();
 				break;
 		}
 	});
@@ -41,6 +39,10 @@ window.addEventListener("load", function() {
 
 ExtChiBusTrack.onclick = function(e) {
 	if(e.button != 0) return;
+	if(ExtChiBusTrackPrefs.stops.replace('|','') == "") {
+		ExtChiBusTrack.onoptionclick(e);
+		return;
+	}
 	var stopstrs = ExtChiBusTrackPrefs.stops.split('|');
 	var hbox = document.getElementById("chibustrack-panel").firstChild;
 	while(hbox.firstChild) hbox.removeChild(hbox.firstChild);
@@ -48,15 +50,12 @@ ExtChiBusTrack.onclick = function(e) {
 		if(stopstrs[i] == "") continue;
 		var str = stopstrs[i].split("<>");
 		var rt = str[0];var rtdir = str[1];var stpid = str[2];
-		ExtChiBusTrack.loadCTAData("getpredictions",function(response) {
-			var parser = Components.classes["@mozilla.org/xmlextras/domparser;1"]
-				.createInstance(Components.interfaces.nsIDOMParser);
-			var doc = parser.parseFromString(response, "text/xml");
+		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			var box = ExtChiBusTrack._predtobox.transformToDocument(doc);
 			if(box.documentElement == null) return; //xslt is unable to do anything...
 			hbox.appendChild(box.documentElement);
 			document.getElementById("chibustrack-panel").openPopup(e.target,'before_start');
-		},{rt: rt, rtdir: rtdir, stpid: stpid});
+		},{rt: rt, rtdir: rtdir, stpid: stpid},true);
 	}
 };
 ExtChiBusTrack.onoptionclick = function(e) {

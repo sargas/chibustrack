@@ -26,8 +26,9 @@
 		</panel>
 		<statusbarpanel id="chibustrack-icon" context="_child">
 			<image alt="Chicago Bus Tracker Options" onclick="ExtChiBusTrack.onclick(event);" src="chrome://chibustrack/skin/icon_bustrackerlogo.png"/>
-			<menupopup id="chibustrack-icon-menu">
-				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)"/>
+			<menupopup id="chibustrack-icon-menu" position="start_after">
+				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)" default="true"/>
+				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()"/>
 			</menupopup>
 		</statusbarpanel>
 	</statusbar>

@@ -93,6 +93,7 @@ var ExtChiBusTrack = {
 		//iterate through each route
 		var routes = ExtChiBusTrackPrefs.bullroutes.split(';');
 		for(var j=0;j<routes.length;++j)
+		if(routes[j] != "")
 		ExtChiBusTrack.loadCTAData("getservicebulletins",function(doc) {
 			if (doc.documentElement.childElementCount == 0) {
 				return; //nothing to report :)

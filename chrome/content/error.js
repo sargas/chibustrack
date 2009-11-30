@@ -22,4 +22,5 @@ window.addEventListener("load",function () {
 
 function showMore() {
 	document.getElementById("more-info").setAttribute("hidden",false);
+	document.documentElement.getButton("disclosure").collapsed = true;
 }

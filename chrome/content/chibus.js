@@ -29,6 +29,15 @@ var ExtChiBusTrack = {
 			return;
 		}
 
+		/* Need to paramaterize params
+		 * adapted from jQuery code (1.3.2) */
+		if (params) {
+			var s = [];
+			for (var j in params)
+				s[s.length] = encodeURIComponent(j) + '=' + encodeURIComponent(params[j]);
+			args = "&" + s.join("&").replace(/%20/g, "+");
+		}
+		var url = "http://www.ctabustracker.com/bustime/api/v1/"+verb+"?key=HeDbySM4CUDgRDsrGnRGZmD6K"+args;
 		xhr.onreadystatechange  = function() {
 			if(xhr.readyState  == 4) {
 				if(xhr.status  == 200) {
@@ -40,9 +49,10 @@ var ExtChiBusTrack = {
 						xpathexpr = doc.createExpression("bustime-response/error/msg",null);
 						var serializer = new XMLSerializer();
 						window.openDialog("chrome://chibustrack/content/error.xul","",
-								"chrome,dialog,resizable=yes",
+								"chrome,dialog,resizable=yes,scrollbars",
 								xpathexpr.evaluate(doc,XPathResult.STRING_TYPE,null).stringValue,
-								serializer.serializeToString(doc)).focus();
+								serializer.serializeToString(doc),
+								url).focus();
 					} else {
 						callback(doc);
 					}
@@ -52,18 +62,9 @@ var ExtChiBusTrack = {
 			}
 		}
 
-		/* Need to paramaterize params
-		 * adapted from jQuery code (1.3.2) */
-		if (params) {
-			var s = [];
-			for (var j in params)
-				s[s.length] = encodeURIComponent(j) + '=' + encodeURIComponent(params[j]);
-			args = "&" + s.join("&").replace(/%20/g, "+");
-		}
 
-		xhr.open("GET","http://www.ctabustracker.com/bustime/api/v1/"+verb+"?key=HeDbySM4CUDgRDsrGnRGZmD6K"+args,
-				true);xhr.send(null);
-		if(false) alert("http://www.ctabustracker.com/bustime/api/v1/"+verb+"?key=HeDbySM4CUDgRDsrGnRGZmD6K"+args);
+		xhr.open("GET",url,true);xhr.send(null);
+		if(false) alert(url);
 	},
 	loadstatusbar: function() {
 		var statusbar = document.getElementById("status-bar");

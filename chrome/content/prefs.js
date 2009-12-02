@@ -45,11 +45,19 @@ loadstops: function() {
 	var prefids = stopnames.map(function(e) { return e.replace(rtregex,"$1")});
 	this.stops = new Array();
 	prefids.forEach(function(e,i,a) {
+		var temp = new Array("rt","dir","stpid","stpnm");
+		var tempb = false;
+		temp.forEach(function (ea,ia,aa) {
+			if(!ExtChiBusTrackPrefs.prefs.prefHasUserValue("stops."+e+"."+ea)) {
+				tempb = true;
+			}
+		});
+		if(tempb) return;
 		ExtChiBusTrackPrefs.stops.push({
 			prefid: e,
 			rt: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".rt"),
-			stpnm: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".stpnm"),
 			stpid: ExtChiBusTrackPrefs.prefs.getIntPref ("stops."+e+".stpid"),
+			stpnm: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".stpnm"),
 			dir: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".dir") });
 	});
 },

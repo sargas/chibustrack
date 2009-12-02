@@ -5,7 +5,6 @@
 * first start panel
 * restructure bus stops list
 * show select stops in statusbar
-* More tech supporty stuff in error.xul
 * grouping stops for arrival times
 * arrival times in one line (delayed? bold)
 * figure out why observing stops.* doesn't work

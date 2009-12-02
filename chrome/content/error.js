@@ -18,6 +18,7 @@ window.addEventListener("load",function () {
 	document.documentElement.getButton("extra2").collapsed = true;
 	document.getElementById("chibustrack-errormsg").textContent = window.arguments[0];
 	document.getElementById("chibustrack-errorresponse").setAttribute("value",window.arguments[1]);
+	document.getElementById("chibustrack-errorrequest").setAttribute("value",window.arguments[2]);
 },false);
 
 function showMore() {

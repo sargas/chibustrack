@@ -30,8 +30,17 @@
 	<groupbox>
 		<label id="chibustrack-errormsg"/>
 	</groupbox>
+	<groupbox>
+		<label>Please report all unexpected errors to <a href="joe@neoturbine.net">joe@neoturbine.net</a>.</label>
+	</groupbox>
 	<groupbox id="more-info" hidden="true">
-		<caption label="Raw Response" />
-		<textbox multiline="true" rows="6" cols="30" id="chibustrack-errorresponse"/>
+		<groupbox>
+			<caption label="Request" />
+			<textbox multiline="true" rows="3" cols="30" id="chibustrack-errorrequest"/>
+		</groupbox>
+		<groupbox>
+			<caption label="Raw Response" />
+			<textbox multiline="true" rows="6" cols="30" id="chibustrack-errorresponse"/>
+		</groupbox>
 	</groupbox>
 </dialog>

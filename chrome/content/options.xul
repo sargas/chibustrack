@@ -22,17 +22,6 @@
 <script type="text/javascript" src="chrome://chibustrack/content/chibus.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/options.js" />
 
-<panel id="addbulletin" position="after_start">
-<hbox id="bullroutes">
-	<label value="Route: "/>
-</hbox>
-</panel>
-
-<panel id="addstop" position="after_start">
-<hbox id="stoproutes">
-</hbox>
-</panel>
-
 <prefpane label="Chicago Bus Tracker Options">
 	<preferences>
 		<preference id="sbints" name="extensions.chibustrack.sbinterval" type="int"/>
@@ -44,7 +33,7 @@
 		<listbox id="selbullroutes" rows="4" flex="1">
 		</listbox>
 		<vbox>
-			<button flex="1" label="Add Route" popup="addbulletin"/>
+			<button flex="1" label="Add Route" oncommand="ExtChiBusTrack.addBull(event)"/>
 			<button flex="1" label="Remove" id="rmBulBut" oncommand="ExtChiBusTrack.removeBullRoute(event)" />
 		</vbox>
 		</hbox>

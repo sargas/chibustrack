@@ -29,34 +29,31 @@ window.addEventListener("load", function() {
 	ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,ExtChiBusTrackPrefs.sbinterval*60*1000);
 
 	//load up xslt for route predictions
-	ExtChiBusTrack._predtobox = new XSLTProcessor();
+	ExtChiBusTrack._styles['pred'] = new XSLTProcessor();
 	var theTransform = document.implementation.createDocument("", "test", null);
 	theTransform.addEventListener("load", function() {
-		ExtChiBusTrack._predtobox.importStylesheet(theTransform);
+		ExtChiBusTrack._styles['pred'].importStylesheet(theTransform);
 	},false);
 	theTransform.load("chrome://chibustrack/content/predtobox.xslt");
 },false);
 
-ExtChiBusTrack.onclick = function(e) {
-	if(e.button != 0) return;
-	if(ExtChiBusTrackPrefs.stops.replace('|','') == "") {
-		ExtChiBusTrack.onoptionclick(e);
-		return;
-	}
-	var stopstrs = ExtChiBusTrackPrefs.stops.split('|');
+ExtChiBusTrack.onclick = function(ev) {
+	if(ev.button != 0) return;
+	//reload em....outa do this automatically :(
+	ExtChiBusTrackPrefs.loadstops();
+
+	//clear em
 	var hbox = document.getElementById("chibustrack-panel").firstChild;
 	while(hbox.firstChild) hbox.removeChild(hbox.firstChild);
-	for(var i=0;i<stopstrs.length;++i) {
-		if(stopstrs[i] == "") continue;
-		var str = stopstrs[i].split("<>");
-		var rt = str[0];var rtdir = str[1];var stpid = str[2];
+
+	ExtChiBusTrackPrefs.stops.forEach(function (e,i,a) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
-			var box = ExtChiBusTrack._predtobox.transformToDocument(doc);
+			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
 			if(box.documentElement == null) return; //xslt is unable to do anything...
 			hbox.appendChild(box.documentElement);
-			document.getElementById("chibustrack-panel").openPopup(e.target,'before_start');
-		},{rt: rt, rtdir: rtdir, stpid: stpid},true);
-	}
+			document.getElementById("chibustrack-panel").openPopup(ev.target,'before_start');
+		},{rt: e.rt, rtdir: e.rtdir, stpid: e.stpid},true);
+	});
 };
 ExtChiBusTrack.onoptionclick = function(e) {
 	window.openDialog('chrome://chibustrack/content/options.xul','_blank','chrome,all,dialog=no');

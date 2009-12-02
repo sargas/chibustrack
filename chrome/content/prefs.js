@@ -19,8 +19,8 @@ var ExtChiBusTrackPrefs = {
 sbinterval: null, //interval for service bullintin timer
 prefs: null,
 bullroutes: null, //comma seperated list of routes
-stops: null, //<> seperated values within |
-handler: null,
+stops: null, //objects
+handler: null, //callback for custom actions on pref changes
 
 load: function(callback) { //callback should be a function(prefname)
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
@@ -29,13 +29,29 @@ load: function(callback) { //callback should be a function(prefname)
 	this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 	this.sbinterval = this.prefs.getIntPref("sbinterval");
 	this.bullroutes = this.prefs.getCharPref("bullroutes");
-	this.stops = this.prefs.getCharPref("stops");
 	this.handler = callback;
 	this.prefs.addObserver("", this, false);
+	this.loadstops();
 },
 
 unload: function() {
 	this.prefs.removeObserver("", this);
+},
+
+loadstops: function() {
+	var stops = this.prefs.getChildList("stops.",{});
+	var rtregex = /stops\.([0-9]+)\.rt$/;
+	var stopnames = stops.filter(function(e,i,a) {return (rtregex.exec(e)!==null)});
+	var prefids = stopnames.map(function(e) { return e.replace(rtregex,"$1")});
+	this.stops = new Array();
+	prefids.forEach(function(e,i,a) {
+		ExtChiBusTrackPrefs.stops.push({
+			prefid: e,
+			rt: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".rt"),
+			stpnm: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".stpnm"),
+			stpid: ExtChiBusTrackPrefs.prefs.getIntPref ("stops."+e+".stpid"),
+			dir: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".dir") });
+	});
 },
 
 observe: function(subject, topic, data) {
@@ -47,11 +63,57 @@ observe: function(subject, topic, data) {
 		case "bullroutes":
 			this.bullroutes = this.prefs.getCharPref("bullroutes");
 			break;
-		case "stops":
-			this.stops = this.prefs.getCharPref("stops");
-			break;
 	}
+
+	//i hate that this doesn't work. For some reason, this.loadstops causes subsequant observers
+	//to think that a different pref changed. Weird :'(
+	//var stopregex = /^stops\.\d+\.rt$/;
+	//if(stopregex.exec(data) !== null) this.loadstops(); //manual reloading of stops
+
 	if(this.handler) this.handler(data);
+},
+
+addStop: function(route, dir, stopname, stopid) {
+	//see if we got any duplicate of this....
+	var tempflag = false;
+	this.stops.forEach(function (e,i,a) {
+		if(e.rt == route && e.stpid == stopid && e.dir == dir) tempflag = true;
+	});
+	if(tempflag) return;
+
+	//get next free pref id...
+	var i = 1;
+	while(this.prefs.prefHasUserValue("stops."+i+".rt")) i++;
+
+	this.prefs.setCharPref("stops."+i+".dir",dir);
+	this.prefs.setCharPref("stops."+i+".stpnm",stopname);
+	this.prefs.setIntPref ("stops."+i+".stpid",stopid);
+	this.prefs.setCharPref("stops."+i+".rt",route);
+},
+
+removeStop: function (prefid) {
+	this.prefs.clearUserPref("stops."+prefid+".dir");
+	this.prefs.clearUserPref("stops."+prefid+".stpnm");
+	this.prefs.clearUserPref("stops."+prefid+".stpid");
+	this.prefs.clearUserPref("stops."+prefid+".rt");
+},
+
+addBullRoute: function (route) {
+	//for now, ignoring duplicate routes
+	if(this.bullroutes.split(';').indexOf(route) == -1) {
+		this.prefs.setCharPref("bullroutes",this.bullroutes + ";" + route);
+	}
+},
+
+removeBullRoute: function (route) {
+	//might as well sort the list in the prefs while we're at it
+	var routes = this.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
+	var newroutes = new Array();
+
+	for(var i=0;i<routes.length;++i) {
+		if(routes[i] != route && routes[i] != "") newroutes.push(routes[i]);
+	}
+	this.prefs.setCharPref("bullroutes",newroutes.join(";"));
 },
 
 };

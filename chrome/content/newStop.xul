@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+<wizard id="chibustrack-stopwiz" title="Add Bus Stop" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onwizardfinish="return finish();">
+<script type="text/javascript" src="chrome://chibustrack/content/prefs.js" />
+<script type="text/javascript" src="chrome://chibustrack/content/chibus.js" />
+<script type="text/javascript" src="chrome://chibustrack/content/newStop.js" />
+	<wizardpage id="chibustrack-routepage" onpageshow="onPage('route');">
+		<label value="What route would you like to check?" />
+		<menulist class="loading-menus"><menupopup><menuitem label="Loading...." /></menupopup></menulist>
+	</wizardpage>
+
+	<wizardpage id="chibustrack-dirpage" onpageshow="onPage('dir');">
+		<label value="What direction should be monitored?" />
+		<menulist class="loading-menus"><menupopup><menuitem label="Loading...." /></menupopup></menulist>
+	</wizardpage>
+
+	<wizardpage id="chibustrack-stoppage" onpageshow="onPage('stop');">
+		<label value="Please select the desired stops." />
+		<menulist class="loading-menus"><menupopup><menuitem label="Loading..." /></menupopup></menulist>
+	</wizardpage>
+</wizard>

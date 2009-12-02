@@ -15,48 +15,54 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
 window.addEventListener("load",function () {
-	
+
 	ExtChiBusTrackPrefs.load(function(data) {
 		switch(data) {
 		case "bullroutes":
 			ExtChiBusTrack.loadBullRoutes();
 			break;
-		case "stops":
-			ExtChiBusTrack.loadStops();
-			break;
 		}
 	});
-	ExtChiBusTrack._routetomenu = new XSLTProcessor();
-	ExtChiBusTrack._dirtomenu =   new XSLTProcessor();
-	ExtChiBusTrack._stoptomenu =  new XSLTProcessor();
 
 	//load from prefs
 	ExtChiBusTrack.loadBullRoutes();
 	ExtChiBusTrack.loadStops();
-
-	// from mdc
-	var theTransform = document.implementation.createDocument("", "test", null);
-	// just an example to get a transform into a script as a DOM
-	// XMLDocument.load is asynchronous, so all processing happens in the 
-	// onload handler
-
-	//initialize the xlst stylesheet.
-	//Needed to be done right away to avoid a race condition
-	theTransform.addEventListener("load", function() {
-		ExtChiBusTrack._routetomenu.importStylesheet(theTransform);
-		ExtChiBusTrack.loadroutes();
-	}, false);
-	theTransform.load("chrome://chibustrack/content/routetomenu.xslt");
-
-	//more transforms....
-	var nextTransform = document.implementation.createDocument("","test",null);
-	nextTransform.addEventListener("load",function() {
-		ExtChiBusTrack._dirtomenu.importStylesheet(nextTransform);
-	},false);
-	nextTransform.load("chrome://chibustrack/content/dirtomenu.xslt");
-	var nextnextTransform = document.implementation.createDocument("","test",null);
-	nextnextTransform.addEventListener("load",function() {
-		ExtChiBusTrack._stoptomenu.importStylesheet(nextnextTransform);
-	},false);
-	nextnextTransform.load("chrome://chibustrack/content/stoptomenu.xslt");
 },false);
+
+ExtChiBusTrack.addStop = function (e) {
+	openDialog("chrome://chibustrack/content/newStop.xul","","dependent,dialog,modal");
+	ExtChiBusTrack.loadStops();
+};
+ExtChiBusTrack.addBull = function (e) {
+	openDialog("chrome://chibustrack/content/newBull.xul","","dependent,dialog,modal");
+};
+ExtChiBusTrack.loadStops = function () {
+	ExtChiBusTrackPrefs.loadstops(); //manual reloading :(
+	var selstops = document.getElementById("selstops");
+	
+	//clear the routes
+	while(selstops.firstChild) selstops.removeChild(selstops.firstChild);
+
+	ExtChiBusTrackPrefs.stops.forEach(function (e,i,a) {
+		var newlistitem = document.createElement("listitem");
+		newlistitem.setAttribute("label","Route "+e.rt+", "+e.dir+": "+e.stpnm);
+		newlistitem.setAttribute("value",e.prefid);
+		selstops.appendChild(newlistitem);
+		document.getElementById("rmStop").setAttribute("disabled",false);
+	});
+	if(!selstops.hasChildNodes()) {
+		document.getElementById("rmStop").setAttribute("disabled",true);
+	}
+};
+ExtChiBusTrack.removeStop = function (e) {
+	var selstops = document.getElementById("selstops");
+	if(selstops.selectedItem == null) return;
+	var prefid = selstops.selectedItem.getAttribute("value");
+
+	ExtChiBusTrackPrefs.removeStop(prefid);
+	ExtChiBusTrack.loadStops();
+};
+ExtChiBusTrack.removeBullRoute = function (e) {
+	if(document.getElementById("selbullroutes").selectedItem == null) return;
+	ExtChiBusTrackPrefs.removeBullRoute(document.getElementById("selbullroutes").selectedItem.getAttribute("value"));
+};

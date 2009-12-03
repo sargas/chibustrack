@@ -21,6 +21,9 @@ window.addEventListener("load",function () {
 		case "bullroutes":
 			ExtChiBusTrack.loadBullRoutes();
 			break;
+		case "stops":
+			ExtChiBusTrack.loadStops();
+			break;
 		}
 	});
 
@@ -31,13 +34,11 @@ window.addEventListener("load",function () {
 
 ExtChiBusTrack.addStop = function (e) {
 	openDialog("chrome://chibustrack/content/newStop.xul","","dependent,dialog,modal");
-	ExtChiBusTrack.loadStops();
 };
 ExtChiBusTrack.addBull = function (e) {
 	openDialog("chrome://chibustrack/content/newBull.xul","","dependent,dialog,modal");
 };
 ExtChiBusTrack.loadStops = function () {
-	ExtChiBusTrackPrefs.loadstops(); //manual reloading :(
 	var selstops = document.getElementById("selstops");
 	
 	//clear the routes
@@ -60,7 +61,6 @@ ExtChiBusTrack.removeStop = function (e) {
 	var prefid = selstops.selectedItem.getAttribute("value");
 
 	ExtChiBusTrackPrefs.removeStop(prefid);
-	ExtChiBusTrack.loadStops();
 };
 ExtChiBusTrack.removeBullRoute = function (e) {
 	if(document.getElementById("selbullroutes").selectedItem == null) return;

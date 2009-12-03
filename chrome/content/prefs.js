@@ -35,6 +35,7 @@ load: function(callback) { //callback should be a function(prefname)
 },
 
 unload: function() {
+	if(this.prefs ==null) return;
 	this.prefs.removeObserver("", this);
 },
 
@@ -56,14 +57,19 @@ loadstops: function() {
 		ExtChiBusTrackPrefs.stops.push({
 			prefid: e,
 			rt: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".rt"),
+			dir: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".dir"),
 			stpid: ExtChiBusTrackPrefs.prefs.getIntPref ("stops."+e+".stpid"),
-			stpnm: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".stpnm"),
-			dir: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".dir") });
+			stpnm: ExtChiBusTrackPrefs.prefs.getCharPref("stops."+e+".stpnm") });
 	});
 },
 
 observe: function(subject, topic, data) {
 	if (topic != "nsPref:changed") return;
+
+	var originaldata = data;
+	var stopregex = /^stops\.\d+\.rt$/; // get the *.rt changes, matters that we only get when *all* added
+	if(stopregex.exec(data) !== null) data = "stops"; //manual reloading of stops
+
 	switch(data) {
 		case "sbinterval":
 			this.sbinterval = this.prefs.getIntPref("sbinterval");
@@ -71,14 +77,31 @@ observe: function(subject, topic, data) {
 		case "bullroutes":
 			this.bullroutes = this.prefs.getCharPref("bullroutes");
 			break;
+		case "stops":
+			this.loadstops();
+			break;
 	}
 
-	//i hate that this doesn't work. For some reason, this.loadstops causes subsequant observers
-	//to think that a different pref changed. Weird :'(
-	//var stopregex = /^stops\.\d+\.rt$/;
-	//if(stopregex.exec(data) !== null) this.loadstops(); //manual reloading of stops
 
 	if(this.handler) this.handler(data);
+
+	//okay, here is everything i know about this bug:
+	//multiple observers need to be present (aka, main overlay, dialog, wizards, etc)
+	//the first observer will get this function called
+	//if this first observer does not do anything (or does something with the same pref called,
+	//for example data="ballroutes" causing getCharPref("bullroutes")), then all the other observers
+	//will get the same call to their observers
+	//
+	//now, if it does something else....like, for instance, calls a get*Pref or anything on other prefs,
+	//then the first observer will recieve the right signal, but the others will see that the last pref
+	//touched was the one that changed (INSTEAD OF THE ONE THAT ACTUALLY CHANGD).
+	//
+	//I don't know if i'm misunderstanding the pref system or what, but this does suck. and I can't think
+	//of another way to avoid going through all routes except caching.
+	//
+	//So i'm just gonna run prefHasUserValue at the very end on the one originally called with and let this bug
+	//rest for now with this workaround. Hopefully its not a firefox bug.
+	this.prefs.prefHasUserValue(originaldata);
 },
 
 addStop: function(route, dir, stopname, stopid) {

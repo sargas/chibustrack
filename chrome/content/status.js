@@ -39,8 +39,6 @@ window.addEventListener("load", function() {
 
 ExtChiBusTrack.onclick = function(ev) {
 	if(ev.button != 0) return;
-	//reload em....outa do this automatically :(
-	ExtChiBusTrackPrefs.loadstops();
 
 	//clear em
 	var hbox = document.getElementById("chibustrack-panel").firstChild;

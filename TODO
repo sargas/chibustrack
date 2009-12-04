@@ -4,7 +4,6 @@
 * restructure bus stops list
 * show select stops in statusbar
 * figure out why get*Pref causes a different nspref:changed
-* break up directory structure
 * investigate when predictions don't load
 * better error handling for predictions
 * see if bug causes given direction to be ignored at terminals

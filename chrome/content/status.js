@@ -54,10 +54,20 @@ ExtChiBusTrack.onclick = function(ev) {
 	document.getElementById("chibustrack-panelload").setAttribute("collapsed",false);
 	document.getElementById("chibustrack-panel").openPopup(ev.target,'before_start');
 
+	var rterrors = new Array();
 	ExtChiBusTrackPrefs.stops.forEach(function (e,i,a) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
 			if(box.documentElement == null) return; //xslt is unable to do anything...
+
+			//any errors
+			if(box.getElementsByClassName("chibustrack-errors").length != 0) {
+				if(rterrors.indexOf(e.rt) == -1) {
+					rterrors.push(e.rt);
+				} else {
+					return;
+				}
+			}
 			hbox.appendChild(box.documentElement);
 			document.getElementById("chibustrack-panelload").setAttribute("collapsed",true);
 		},{rt: e.rt, rtdir: e.dir, stpid: e.stpid},true);

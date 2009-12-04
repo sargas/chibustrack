@@ -24,7 +24,7 @@
 <vbox>
 
 <xsl:if test="bustime-response/error">
-	<label><xsl:value-of select="bustime-response/error/msg"/></label>
+	<label class="chibustrack-errors"><xsl:value-of select="bustime-response/error/msg"/></label>
 	<label>For Route <xsl:value-of select="bustime-response/error/rt"/></label>
 </xsl:if>
 

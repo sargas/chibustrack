@@ -7,6 +7,6 @@
 <script type="text/javascript" src="chrome://chibustrack/content/newBull.js" />
 	<wizardpage id="chibustrack-routepage" onpageshow="loadRoutes();">
 		<label value="What route would you like to check?" />
-		<menulist class="loading-menus"><menupopup><menuitem label="Loading...." /></menupopup></menulist>
+		<vbox class="loading-menus"><label>Loading...</label><progressmeter mode="undetermined"/></vbox>
 	</wizardpage>
 </wizard>

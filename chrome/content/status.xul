@@ -21,7 +21,11 @@
 	<script type="application/x-javascript" src="chrome://chibustrack/content/status.js" />
 	<statusbar id="status-bar">
 		<panel id="chibustrack-panel">
-			<hbox align="stretch" equalsize="always">
+			<vbox id="chibustrack-panelload">
+				<label style="font-size:large;" >Loading.....</label>
+				<progressmeter mode="undetermined"/>
+			</vbox>
+			<hbox align="stretch"  style="border: solid;" id="chibustrack-panelbox">
 			</hbox>
 		</panel>
 		<statusbarpanel id="chibustrack-icon" context="_child">

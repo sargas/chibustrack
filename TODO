@@ -1,14 +1,15 @@
-* Make colors work well, from nasa theme to default to personas
-** Try panel -> tooltippanel for arrival times?
-** including links in options
-** including arrival times
+* Try panel -> tooltippanel for arrival times?
+* colors for links in options
 * first start panel
 * restructure bus stops list
 * show select stops in statusbar
-* grouping stops for arrival times
-* arrival times in one line (delayed? bold)
 * figure out why get*Pref causes a different nspref:changed
-
+* break up directory structure
+* investigate when predictions don't load
+* better error handling for predictions
+* see if bug causes given direction to be ignored at terminals
+* sb get lost (maybe if they only affect one direction?)
 
 Future:
 * movable toolbox buttons of information
+* grouping stops for arrival times

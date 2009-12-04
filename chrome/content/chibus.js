@@ -57,7 +57,8 @@ var ExtChiBusTrack = {
 						callback(doc);
 					}
 				} else {
-					alert("Sorry, but Chicago Bus Tracker has obtained XMLHttpRequest Error code " + xhr.status);
+					alert("Sorry, but Chicago Bus Tracker has obtained XMLHttpRequest Error code " + xhr.status
+							+": \n"+xhr.statusText);
 				}
 			}
 		}

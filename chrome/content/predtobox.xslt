@@ -19,9 +19,9 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" >
 <xsl:template match="/">
 <xsl:if test="(bustime-response/prd) or (bustime-response/error)">
-<groupbox style="background-color: yellow;border: blue solid" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+<groupbox xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
 
-<vbox style="padding:1em;">
+<vbox>
 
 <xsl:if test="bustime-response/error">
 	<label><xsl:value-of select="bustime-response/error/msg"/></label>
@@ -29,7 +29,7 @@
 </xsl:if>
 
 <xsl:if test="bustime-response/prd">
-<label>Route <xsl:value-of select="bustime-response/prd/rt" />, <xsl:value-of select="bustime-response/prd/rtdir" /></label>
+<label>Route <xsl:value-of select="bustime-response/prd/rt" /> <xsl:value-of select="concat(' (',bustime-response/prd/rtdir,')')" /></label>
 <label><xsl:value-of select="bustime-response/prd/stpnm" /></label>
 
 <html:ul>
@@ -39,7 +39,7 @@
 		<xsl:call-template name="FormatDate">
 			<xsl:with-param name="DateTime" select="prdtm"/>
 		</xsl:call-template>
-		<xsl:if test="dly"><html:span style="color:red"> DELAYED</html:span></xsl:if>
+		<xsl:if test="dly"><html:span style="font-weight:bold;"> (DELAYED)</html:span></xsl:if>
 	</html:li>
 </xsl:for-each>
 
@@ -56,21 +56,28 @@
 <xsl:template name="FormatDate">
 	<xsl:param name="DateTime" />
 	<xsl:variable name="hr" select="substring($DateTime,10,2)"/>
+
+	<!-- hours -->
 	<xsl:if test="$hr &gt; 12">
 		<xsl:value-of select="$hr - 12"/>
 	</xsl:if>
 	<xsl:if test="$hr &lt;= 12">
 		<xsl:value-of select="$hr"/>
 	</xsl:if>
+
+	<!-- minute -->
 	<xsl:value-of select="':'"/>
 	<xsl:value-of select="substring($DateTime,13,2)"/>
 	<xsl:value-of select="' '"/>
+
+	<!-- AM/PM -->
 	<xsl:if test="$hr &gt; 12">
 		<xsl:value-of select="'PM'"/>
 	</xsl:if>
 	<xsl:if test="$hr &lt;= 12">
 		<xsl:value-of select="'AM'"/>
 	</xsl:if>
+
 </xsl:template>
 </xsl:stylesheet>
 

@@ -40,17 +40,27 @@ window.addEventListener("load", function() {
 ExtChiBusTrack.onclick = function(ev) {
 	if(ev.button != 0) return;
 
+	//ah, first run
+	if(ExtChiBusTrackPrefs.stops.length == 0) {
+		this.onoptionclick(ev);
+		return;
+	}
+
 	//clear em
-	var hbox = document.getElementById("chibustrack-panel").firstChild;
+	var hbox = document.getElementById("chibustrack-panelbox");
 	while(hbox.firstChild) hbox.removeChild(hbox.firstChild);
+
+	//show loading...
+	document.getElementById("chibustrack-panelload").setAttribute("collapsed",false);
+	document.getElementById("chibustrack-panel").openPopup(ev.target,'before_start');
 
 	ExtChiBusTrackPrefs.stops.forEach(function (e,i,a) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
 			if(box.documentElement == null) return; //xslt is unable to do anything...
 			hbox.appendChild(box.documentElement);
-			document.getElementById("chibustrack-panel").openPopup(ev.target,'before_start');
-		},{rt: e.rt, rtdir: e.rtdir, stpid: e.stpid},true);
+			document.getElementById("chibustrack-panelload").setAttribute("collapsed",true);
+		},{rt: e.rt, rtdir: e.dir, stpid: e.stpid},true);
 	});
 };
 ExtChiBusTrack.onoptionclick = function(e) {

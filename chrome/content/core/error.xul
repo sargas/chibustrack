@@ -24,7 +24,7 @@
 	buttonlabelextra2="Disable Chicago Bus Tracker"
 	ondialogdisclosure="showMore();return false;">
 
-	<script type="application/javascript" src="chrome://chibustrack/content/error.js"/>
+	<script type="application/javascript" src="chrome://chibustrack/content/core/error.js"/>
 
 	<dialogheader title="Chicago Bus Tracker Error" id="chibustrack-errorheader"/>
 	<groupbox>

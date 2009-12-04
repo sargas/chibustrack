@@ -48,7 +48,7 @@ var ExtChiBusTrack = {
 					if(!ignoreErr && xpathexpr.evaluate(doc,XPathResult.BOOLEAN_TYPE,null).booleanValue) {
 						xpathexpr = doc.createExpression("bustime-response/error/msg",null);
 						var serializer = new XMLSerializer();
-						window.openDialog("chrome://chibustrack/content/error.xul","",
+						window.openDialog("chrome://chibustrack/content/core/error.xul","",
 								"chrome,dialog,resizable=yes,scrollbars",
 								xpathexpr.evaluate(doc,XPathResult.STRING_TYPE,null).stringValue,
 								serializer.serializeToString(doc),

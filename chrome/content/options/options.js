@@ -33,10 +33,10 @@ window.addEventListener("load",function () {
 },false);
 
 ExtChiBusTrack.addStop = function (e) {
-	openDialog("chrome://chibustrack/content/newStop.xul","","dependent,dialog,modal");
+	openDialog("chrome://chibustrack/content/options/newStop.xul","","dependent,dialog,modal");
 };
 ExtChiBusTrack.addBull = function (e) {
-	openDialog("chrome://chibustrack/content/newBull.xul","","dependent,dialog,modal");
+	openDialog("chrome://chibustrack/content/options/newBull.xul","","dependent,dialog,modal");
 };
 ExtChiBusTrack.loadStops = function () {
 	var selstops = document.getElementById("selstops");

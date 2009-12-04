@@ -34,7 +34,7 @@ window.addEventListener("load", function() {
 	theTransform.addEventListener("load", function() {
 		ExtChiBusTrack._styles['pred'].importStylesheet(theTransform);
 	},false);
-	theTransform.load("chrome://chibustrack/content/predtobox.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/predtobox.xslt");
 },false);
 
 ExtChiBusTrack.onclick = function(ev) {
@@ -64,6 +64,6 @@ ExtChiBusTrack.onclick = function(ev) {
 	});
 };
 ExtChiBusTrack.onoptionclick = function(e) {
-	window.openDialog('chrome://chibustrack/content/options.xul','_blank','chrome,all,dialog=no');
+	window.openDialog('chrome://chibustrack/content/options/options.xul','_blank','chrome,all,dialog=no');
 };
 

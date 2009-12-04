@@ -85,19 +85,19 @@ window.addEventListener("load",function () {
 	theTransform.addEventListener("load", function() {
 		ExtChiBusTrack._styles['route'].importStylesheet(theTransform);
 	}, false);
-	theTransform.load("chrome://chibustrack/content/routetomenu.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/routetomenu.xslt");
 
 	//more transforms....
 	var nextTransform = document.implementation.createDocument("","test",null);
 	nextTransform.addEventListener("load",function() {
 		ExtChiBusTrack._styles['dir'].importStylesheet(nextTransform);
 	},false);
-	nextTransform.load("chrome://chibustrack/content/dirtomenu.xslt");
+	nextTransform.load("chrome://chibustrack/content/styles/dirtomenu.xslt");
 	var nextnextTransform = document.implementation.createDocument("","test",null);
 	nextnextTransform.addEventListener("load",function() {
 		ExtChiBusTrack._styles['stop'].importStylesheet(nextnextTransform);
 	},false);
-	nextnextTransform.load("chrome://chibustrack/content/stoptomenu.xslt");
+	nextnextTransform.load("chrome://chibustrack/content/styles/stoptomenu.xslt");
 
 	//we need prefs
 	ExtChiBusTrackPrefs.load();

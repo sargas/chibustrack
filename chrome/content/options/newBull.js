@@ -55,7 +55,7 @@ window.addEventListener("load",function () {
 	theTransform.addEventListener("load", function() {
 		ExtChiBusTrack._styles['route'].importStylesheet(theTransform);
 	}, false);
-	theTransform.load("chrome://chibustrack/content/routetomenu.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/routetomenu.xslt");
 
 	//we need prefs
 	ExtChiBusTrackPrefs.load();

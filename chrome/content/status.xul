@@ -16,8 +16,8 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK ***** -->
 <overlay id="chibustrackstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript" src="chrome://chibustrack/content/prefs.js" />
-	<script type="application/x-javascript" src="chrome://chibustrack/content/chibus.js" />
+	<script type="application/x-javascript" src="chrome://chibustrack/content/core/prefs.js" />
+	<script type="application/x-javascript" src="chrome://chibustrack/content/core/chibus.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/status.js" />
 	<statusbar id="status-bar">
 		<panel id="chibustrack-panel">

@@ -8,6 +8,7 @@
 * see if bug causes given direction to be ignored at terminals
 * sb get lost (maybe if they only affect one direction?)
 * make requests only go to the current panel/statusbarpanel
+* BUS ICON!!!
 
 Future:
 * movable toolbox buttons of information

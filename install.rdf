@@ -17,8 +17,9 @@
 		</em:targetApplication>
 
 		<em:name>Chicago Bus Tracker</em:name>
-		<em:description>Displays service bulletins for your favorite CTA bus routes.</em:description>
+		<em:description>Displays service bulletins and stop arrival times for your favorite CTA bus routes.</em:description>
 		<em:creator>Joseph Jon Booker</em:creator>
+		<em:developer>Joseph Jon Booker</em:developer>
 
 		<em:iconURL>chrome://chibustrack/skin/icon.png</em:iconURL>
 		<em:optionsURL>chrome://chibustrack/content/options.xul</em:optionsURL>

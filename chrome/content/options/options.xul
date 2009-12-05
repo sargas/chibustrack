@@ -52,18 +52,17 @@
 		</vbox>
 		</hbox>
 	</groupbox>
-	<groupbox flex="1">
+	<groupbox style="width:500px;height:100px">
 		<label>
-			This extension redistributable under the terms of the <html:a href="chrome://chibustrack/content/COPYING">
-				GNU GPL3</html:a>.
+			This extension redistributable under the terms of the
+			<html:a href="chrome://chibustrack/content/COPYING">GNU GPL3</html:a>.
 		</label><label>
 			Data provided by CTA Bus Tracker.
 		</label><label>
 			See <html:a target="_blank" href="http://ctabustracker.com">http://ctabustracker.com</html:a>
-				for more information concerning the data.
+			for more information concerning the data.
 		</label><label>
 			This program is not endorsed by the CTA nor is the author affliated with them
-		</label><label>
 			besides being a regular 97 commuter. :)
 		</label>
 	</groupbox>

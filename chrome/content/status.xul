@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK ***** -->
+<?xml-stylesheet href="chrome://chibustrack/skin/status.css" type="text/css"?>
 <overlay id="chibustrackstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript" src="chrome://chibustrack/content/core/prefs.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/core/chibus.js" />
@@ -22,10 +23,10 @@
 	<statusbar id="status-bar">
 		<panel id="chibustrack-panel">
 			<vbox id="chibustrack-panelload">
-				<label style="font-size:large;" >Loading.....</label>
+				<label id="chibustrack-loadinglabel" >Loading.....</label>
 				<progressmeter mode="undetermined"/>
 			</vbox>
-			<hbox style="display:block;border: solid;" id="chibustrack-panelbox">
+			<hbox id="chibustrack-panelbox">
 			</hbox>
 		</panel>
 		<statusbarpanel id="chibustrack-icon" context="_child">

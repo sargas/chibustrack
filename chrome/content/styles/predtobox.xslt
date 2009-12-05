@@ -39,7 +39,7 @@
 		<xsl:call-template name="FormatDate">
 			<xsl:with-param name="DateTime" select="prdtm"/>
 		</xsl:call-template>
-		<xsl:if test="dly"><html:span style="font-weight:bold;"> (DELAYED)</html:span></xsl:if>
+		<xsl:if test="dly"><html:span class="chibustrack-delayed"> (DELAYED)</html:span></xsl:if>
 	</html:li>
 </xsl:for-each>
 

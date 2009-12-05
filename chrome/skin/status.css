@@ -1,0 +1,12 @@
+#chibustrack-loadinglabel {
+	font-size: large;
+}
+
+#chibustrack-panelbox {
+	display: block;
+	border: solid;
+}
+
+.chibustrack-delayed {
+	font-weight:bold;
+}

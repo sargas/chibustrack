@@ -16,6 +16,7 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK ***** -->
 <?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://chibustrack/skin/options.css" type="text/css" ?>
 <prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" title="Chicago Bus Tracker Options">
 
 <script type="text/javascript" src="chrome://chibustrack/content/core/prefs.js" />
@@ -52,7 +53,7 @@
 		</vbox>
 		</hbox>
 	</groupbox>
-	<groupbox style="width:500px;height:100px">
+	<groupbox id="infobox">
 		<label>
 			This extension redistributable under the terms of the
 			<html:a href="chrome://chibustrack/content/COPYING">GNU GPL3</html:a>.

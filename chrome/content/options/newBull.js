@@ -34,9 +34,15 @@ function loadRoutes() {
 }
 
 function finish() {
-	var route = document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value");
-	
-	ExtChiBusTrackPrefs.addBullRoute(route);
+	//cheat a little, make this next loop work
+	//i blame xul for not having a <listbox>.checkItems property
+	document.getElementById("chibustrack-routebox").selectAll();
+	document.getElementById("chibustrack-routebox").selectedItems.forEach(function (e,i,a) {
+		if(!e.checked) return;
+		var route = e.getAttribute("value");
+		ExtChiBusTrackPrefs.addBullRoute(route);
+	});
+
 	return true;
 }
 
@@ -55,7 +61,7 @@ window.addEventListener("load",function () {
 	theTransform.addEventListener("load", function() {
 		ExtChiBusTrack._styles['route'].importStylesheet(theTransform);
 	}, false);
-	theTransform.load("chrome://chibustrack/content/styles/routetomenu.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/multiroutetomenu.xslt");
 
 	//we need prefs
 	ExtChiBusTrackPrefs.load();

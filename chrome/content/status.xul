@@ -25,7 +25,7 @@
 				<label style="font-size:large;" >Loading.....</label>
 				<progressmeter mode="undetermined"/>
 			</vbox>
-			<hbox align="stretch"  style="border: solid;" id="chibustrack-panelbox">
+			<hbox style="display:block;border: solid;" id="chibustrack-panelbox">
 			</hbox>
 		</panel>
 		<statusbarpanel id="chibustrack-icon" context="_child">

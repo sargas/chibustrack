@@ -6,7 +6,7 @@
 <script type="text/javascript" src="chrome://chibustrack/content/core/chibus.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/options/newBull.js" />
 	<wizardpage id="chibustrack-routepage" onpageshow="loadRoutes();">
-		<label value="What route would you like to check?" />
+		<label value="What routes would you like to check?" />
 		<vbox class="loading-menus"><label>Loading...</label><progressmeter mode="undetermined"/></vbox>
 	</wizardpage>
 </wizard>

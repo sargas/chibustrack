@@ -1,0 +1,19 @@
+body {
+	background-color: rgb(100,100,230);
+}
+
+#headerbox {
+	border: solid rgb(50,50,230);
+	-moz-border-radius: 50px;
+	background-color: rgb(75,75,230);
+	text-align: center
+}
+
+.helpbox {
+	border: solid rgb(50,50,230);
+	-moz-border-radius: 20px;
+	background-color: rgb(95,95,230);
+	
+	/* top and bottom spacing */
+	margin-top: 1em;
+}

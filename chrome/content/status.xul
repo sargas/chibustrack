@@ -33,7 +33,8 @@
 			<image alt="Chicago Bus Tracker Options" onclick="ExtChiBusTrack.onclick(event);" src="chrome://chibustrack/skin/icon.small.png"/>
 			<menupopup id="chibustrack-icon-menu" position="start_after">
 				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)" default="true"/>
-				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()"/>
+				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" id="chibustrack-reloadsb"/>
+				<menuitem label="Help" oncommand="gBrowser.selectedTab = gBrowser.addTab('chrome://chibustrack/content/help.xhtml');" />
 			</menupopup>
 		</statusbarpanel>
 	</statusbar>

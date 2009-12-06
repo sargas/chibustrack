@@ -9,4 +9,7 @@
 		<label value="What routes would you like to check?" />
 		<vbox class="loading-menus"><label>Loading...</label><progressmeter mode="undetermined"/></vbox>
 	</wizardpage>
+	<wizardpage>
+		<description>Once you click "Finish", the service bulletins (if any) will appear in the Firefox status bar.</description>
+	</wizardpage>
 </wizard>

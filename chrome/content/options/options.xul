@@ -63,6 +63,8 @@
 			See <html:a target="_blank" href="http://ctabustracker.com">http://ctabustracker.com</html:a>
 			for more information concerning the data.
 		</label><label>
+			The icon (<image src="chrome://chibustrack/skin/icon.small.png"/>) is provided by Dmitriy Vysotskiy.
+		</label><label>
 			This program is not endorsed by the CTA nor is the author affliated with them
 			besides being a regular 97 commuter. :)
 		</label>

@@ -97,7 +97,7 @@ window.addEventListener("load",function () {
 	nextnextTransform.addEventListener("load",function() {
 		ExtChiBusTrack._styles['stop'].importStylesheet(nextnextTransform);
 	},false);
-	nextnextTransform.load("chrome://chibustrack/content/styles/stoptomenu.xslt");
+	nextnextTransform.load("chrome://chibustrack/content/styles/multistoptomenu.xslt");
 
 	//we need prefs
 	ExtChiBusTrackPrefs.load();

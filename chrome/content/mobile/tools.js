@@ -48,3 +48,140 @@ ExtChiBusTrack.loadStops = function () { //mobile version :)
 		document.getElementById("chibustrack-rmStop").setAttribute("disabled",true);
 	}
 };
+
+ExtChiBusTrack.addStopRoute = function(e) {
+	var deck = document.getElementById("chibustrack-deck");
+	deck.selectedIndex = 1;
+
+	//no need to load if we got our old menu (assuming this doesn't change while we are here)
+	var old = document.getElementById("chibustrack-routebox");
+	if(old) return;
+
+	//load routes
+	ExtChiBusTrack._styles['route'] = new XSLTProcessor();
+	var theTransform = document.implementation.createDocument("", "test", null);
+	theTransform.addEventListener("load", function() {
+		ExtChiBusTrack._styles['route'].importStylesheet(theTransform);
+		ExtChiBusTrack.loadStopPage('route');
+	},false);
+	theTransform.load("chrome://chibustrack/content/styles/routetomenu.xslt");
+};
+
+ExtChiBusTrack.addStopDir = function(e) {
+	document.getElementById("chibustrack-deck").selectedIndex = 2;
+	var old = document.getElementById("chibustrack-dirbox");
+	if(old) return; //TODO reload if different route
+
+	//load dirs
+	ExtChiBusTrack._styles['dir'] = new XSLTProcessor();
+	var theTransform = document.implementation.createDocument("", "test", null);
+	theTransform.addEventListener("load", function() {
+		ExtChiBusTrack._styles['dir'].importStylesheet(theTransform);
+		ExtChiBusTrack.loadStopPage('dir');
+	},false);
+	theTransform.load("chrome://chibustrack/content/styles/dirtomenu.xslt");
+};
+
+ExtChiBusTrack.addStopStop = function(e) {
+	document.getElementById("chibustrack-deck").selectedIndex = 3;
+	var old = document.getElementById("chibustrack-stopbox");
+	if(old) return; //TODO reload if different route/direction
+
+	//load stops
+	ExtChiBusTrack._styles['stop'] = new XSLTProcessor();
+	var theTransform = document.implementation.createDocument("", "test", null);
+	theTransform.addEventListener("load", function() {
+		ExtChiBusTrack._styles['stop'].importStylesheet(theTransform);
+		ExtChiBusTrack.loadStopPage('stop');
+	},false);
+	theTransform.load("chrome://chibustrack/content/styles/stoptomenu.xslt");
+};
+
+ExtChiBusTrack.addStopFinal = function(e) {
+	//yippi, lets add the stop
+	var route = document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value");
+	var dir = document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value");
+	var stopname = document.getElementById("chibustrack-stopbox").getSelectedItem(0).getAttribute("label");
+	var stopid = document.getElementById("chibustrack-stopbox").getSelectedItem(0).getAttribute("value");
+	ExtChiBusTrackPrefs.addStop(route,dir,stopname,stopid);
+
+	ExtChiBusTrack.resetPage("dir");
+	document.getElementById("chibustrack-deck").selectedIndex = 0;
+	ExtChiBusTrack.resetPage("stop");
+};
+
+ExtChiBusTrack.loadStopPage = function(pagename) {
+	var page = document.getElementById("chibustrack-"+pagename+"page");
+
+	var loadingbox = page.getElementsByClassName("chibustrack-loadingmenus");
+	loadingbox.item(0).setAttribute("collapsed",false);
+
+	//next, get the action and params based on the page
+	//verb should not be null at end
+	var verb = null;var params = null;var curpage = null;var nextaction=null;var nextString = null;
+	switch(pagename) {
+		case "route":
+			verb = "getroutes";
+			curpage = 1;
+			nextaction = ExtChiBusTrack.addStopDir;
+			nextString = "Choose Direction";
+			break;
+		case "dir":
+			verb = "getdirections";
+			params = {rt: document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")};
+			curpage = 2;
+			nextaction = ExtChiBusTrack.addStopStop;
+			nextString = "Choose Stop";
+			break;
+		case "stop":
+			verb = "getstops";
+			params = {
+				rt:  document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value"),
+				dir: document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value") };
+			curpage = 3;
+			nextaction = ExtChiBusTrack.addStopFinal;
+			nextString = "Add Stop";
+			break;
+	}
+
+	//now we take care of business B)
+	ExtChiBusTrack.loadCTAData(verb,function(doc) {
+		//setup menu
+		var menu = ExtChiBusTrack._styles[pagename].transformToDocument(doc);
+		menu.documentElement.id = "chibustrack-"+pagename+"box";
+		menu.documentElement.setAttribute("flex","1");
+
+		//setup buttons
+		var hbox = document.createElement("hbox");
+		hbox.id = "chibustrack-"+pagename+"supportbox";
+		var nextButton = document.createElement("button");
+		nextButton.setAttribute("label",nextString);
+		nextButton.addEventListener("click",nextaction,false);
+		hbox.appendChild(nextButton);
+		var spacer = document.createElement("spacer");
+		spacer.setAttribute("flex","1");
+		hbox.appendChild(spacer);
+		var cancelButton = document.createElement("button");
+		cancelButton.setAttribute("label","Cancel");
+		cancelButton.addEventListener("click",function(event) {document.getElementById('chibustrack-deck').selectedIndex = curpage-1},false);
+		hbox.appendChild(cancelButton);
+
+		//add elements to page
+		page.appendChild(menu.documentElement);
+		page.appendChild(hbox);
+		loadingbox.item(0).setAttribute("collapsed",true);
+	},params);
+};
+
+ExtChiBusTrack.resetPage = function(pagename) {
+	var page = document.getElementById("chibustrack-"+pagename+"page");
+
+	var loadingbox = page.getElementsByClassName("chibustrack-loadingmenus");
+	loadingbox.item(0).setAttribute("collapsed",false);
+
+	var old = document.getElementById("chibustrack-"+pagename+"box");
+	if(old) {
+		page.removeChild(old);
+		page.removeChild(document.getElementById("chibustrack-"+pagename+"supportbox"));
+	}
+}

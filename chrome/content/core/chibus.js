@@ -65,7 +65,7 @@ var ExtChiBusTrack = {
 
 
 		xhr.open("GET",url,true);xhr.send(null);
-		if(false) alert(url);
+		if(false) dump(url+"\n");
 	},
 	loadstatusbar: function() {
 		var statusbar = document.getElementById("status-bar");
@@ -142,7 +142,7 @@ var ExtChiBusTrack = {
 			ExtChiBusTrackPrefs.sbinterval*60*1000);
 	},
 	removeStop: function (e) { //used in mobile and firefox
-		var selstops = document.getElementById("chibustracks-selstops");
+		var selstops = document.getElementById("chibustrack-selstops");
 		if(selstops.selectedItem == null) return;
 		var prefid = selstops.selectedItem.getAttribute("value");
 

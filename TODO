@@ -10,6 +10,11 @@
 * make requests only go to the current panel/statusbarpanel
 * BUS ICON!!!
 
+mobile:
+* alerts -> dump's ?
+* make sure error handling works
+* make selstops listbox interactable :(
+
 Future:
 * movable toolbox buttons of information
 * grouping stops for arrival times

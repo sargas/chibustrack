@@ -35,19 +35,36 @@
 				<description>Chicago Bus Tracker</description>
 			</hbox>
 
-			<deck flex="1" id="chibustrack-box">
-				<vbox>
-					<listbox id="chibustrack-selstops" flex="1"/>
+			<deck flex="1" id="chibustrack-deck">
+				<vbox id="chibustrack-firstpage">
+					<listbox id="chibustrack-selstops" flex="1" seltype="single" disabled="false"/>
 					<hbox>
 						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(event)" />
 						<spacer flex="1"/>
-						<button label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />
+						<button label="Add Stop" oncommand="ExtChiBusTrack.addStopRoute(event)" />
 						<button label="Remove" id="chibustrack-rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
 					</hbox>
 				</vbox>
-				<vbox>
-					<box id="chibustrack-stopsroutes" flex="1"/>
-					<button label="Choose Direction" />
+				<vbox id="chibustrack-routepage">
+					<vbox class="chibustrack-loadingmenus">
+						<label>Loading...</label>
+						<progressmeter mode="undetermined"/>
+						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 0" flex="1" />
+					</vbox>
+				</vbox>
+				<vbox id="chibustrack-dirpage">
+					<vbox class="chibustrack-loadingmenus">
+						<label>Loading...</label>
+						<progressmeter mode="undetermined"/>
+						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 1" flex="1" />
+					</vbox>
+				</vbox>
+				<vbox id="chibustrack-stoppage">
+					<vbox class="chibustrack-loadingmenus">
+						<label>Loading...</label>
+						<progressmeter mode="undetermined"/>
+						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 2" flex="1" />
+					</vbox>
 				</vbox>
 			</deck>
 		</vbox>

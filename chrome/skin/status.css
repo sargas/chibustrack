@@ -10,3 +10,7 @@
 .chibustrack-delayed {
 	font-weight:bold;
 }
+
+#chibustrack-iconrealicon {
+	list-style-image: url("chrome://chibustrack/skin/icon.small.png");
+}

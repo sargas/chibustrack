@@ -6,3 +6,7 @@
 a {
 	text-decoration: underline;
 }
+
+.smallicon {
+	list-style-image: url("chrome://chibustrack/skin/icon.small.png");
+}

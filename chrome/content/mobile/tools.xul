@@ -17,19 +17,35 @@
     ***** END LICENSE BLOCK ***** -->
 <?xml-stylesheet href="chrome://chibustrack/skin/mobile.css" type="text/css"?>
 <overlay id="chibustrack" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-
+	<script type="application/x-javascript" src="chrome://chibustrack/content/core/prefs.js" />
+	<script type="application/x-javascript" src="chrome://chibustrack/content/core/chibus.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/mobile/tools.js"/>
   
 	<vbox id="panel-controls">
 	<toolbarbutton id="tool-chibustrack" type="radio" group="1"
 		class="panel-button button-image"
 		insertbefore="tool-addons"
-		linkedpanel="geoguide-container"/>
+		oncommand="ExtChiBusTrack.loadStops()"
+		linkedpanel="chibustrack-container"/>
 	</vbox>
   
 	<deck id="panel-items">
 		<vbox flex="1" class="panel-dark" id="chibustrack-container">
-			<label>Hi</label>
+			<hbox id="chibustrack-header" class="panel-header" align="center">
+				<description>Chicago Bus Tracker</description>
+			</hbox>
+
+			<groupbox flex="1" id="chibustrack-box">
+				<vbox>
+					<listbox id="chibustrack-stops" flex="1"/>
+					<hbox>
+						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(event)" />
+						<spacer flex="1"/>
+						<button label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />
+						<button label="Remove" id="chibustrack-rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
+					</hbox>
+				</vbox>
+			</groupbox>
 		</vbox>
 	</deck>
 </overlay>

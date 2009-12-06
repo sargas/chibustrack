@@ -1,0 +1,19 @@
+
+/* next three are based on the geoguide extension by Fabrice Desre */
+#tool-chibustrack {
+	list-style-image: url(chrome://chibustrack/skin/icon.png);
+	border-width: 8px !important;
+	-moz-border-image: url("chrome://browser/skin/images/buttondark-default-64.png") 8 repeat repeat;
+	width: 64px;
+	height: 64px;
+}
+
+#tool-chibustrack[checked=true] {
+	list-style-image: url(chrome://chibustrack/skin/icon.png);
+	border-width: 8px !important;
+	-moz-border-image: url("chrome://browser/skin/images/buttondark-active-64.png") 8 repeat repeat;
+}
+
+#tool-chibustrack[loading] {
+	list-style-image: url(chrome://browser/skin/images/throbber.png);
+}

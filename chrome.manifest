@@ -1,4 +1,8 @@
 content	chibustrack chrome/content/
-skin chibustrack chibustrack-1.0  chrome/skin/
+skin chibustrack default chrome/skin/
 
-overlay	chrome://browser/content/browser.xul	chrome://chibustrack/content/status.xul
+overlay	chrome://browser/content/browser.xul	chrome://chibustrack/content/status.xul	application={ec8030f7-c20a-464f-9b0e-13a3a9e97384}
+overlay	chrome://browser/content/browser.xul	chrome://chibustrack/content/mobile/tools.xul	application={a23983c0-fd0e-11dc-95ff-0800200c9a66}
+
+override chrome://chibustrack/content/options/options.xul chrome://chibustrack/content/mobile/options/options.xul application={a23983c0-fd0e-11dc-95ff-0800200c9a66}
+

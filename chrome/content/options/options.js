@@ -55,13 +55,6 @@ ExtChiBusTrack.loadStops = function () {
 		document.getElementById("rmStop").setAttribute("disabled",true);
 	}
 };
-ExtChiBusTrack.removeStop = function (e) {
-	var selstops = document.getElementById("selstops");
-	if(selstops.selectedItem == null) return;
-	var prefid = selstops.selectedItem.getAttribute("value");
-
-	ExtChiBusTrackPrefs.removeStop(prefid);
-};
 ExtChiBusTrack.removeBullRoute = function (e) {
 	if(document.getElementById("selbullroutes").selectedItem == null) return;
 	ExtChiBusTrackPrefs.removeBullRoute(document.getElementById("selbullroutes").selectedItem.getAttribute("value"));

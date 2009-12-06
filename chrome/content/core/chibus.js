@@ -134,4 +134,11 @@ var ExtChiBusTrack = {
 		ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,
 			ExtChiBusTrackPrefs.sbinterval*60*1000);
 	},
+	removeStop: function (e) { //used in mobile and firefox
+		var selstops = document.getElementById("chibustracks-selstops");
+		if(selstops.selectedItem == null) return;
+		var prefid = selstops.selectedItem.getAttribute("value");
+
+		ExtChiBusTrackPrefs.removeStop(prefid);
+	},
 };

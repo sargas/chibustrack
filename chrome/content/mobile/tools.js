@@ -15,7 +15,13 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
 window.addEventListener("load", function() {
-	ExtChiBusTrackPrefs.load(null);
+	ExtChiBusTrackPrefs.load(function(data) {
+		switch(data) {
+		case "stops":
+			ExtChiBusTrack.loadStops();
+			break;
+		}
+	});
 	var panels = document.getElementById("panel-items");
 	panels.addEventListener("select",function(e) {
 		if (panels.selectedPanel.id == "chibustrack-container") {
@@ -26,7 +32,7 @@ window.addEventListener("load", function() {
 },false);
 
 ExtChiBusTrack.loadStops = function () { //mobile version :)
-	var selstops = document.getElementById("chibustrack-stops");
+	var selstops = document.getElementById("chibustrack-selstops");
 
 	//clear the routes
 	while(selstops.firstChild) selstops.removeChild(selstops.firstChild);

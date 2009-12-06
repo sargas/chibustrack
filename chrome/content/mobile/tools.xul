@@ -35,9 +35,9 @@
 				<description>Chicago Bus Tracker</description>
 			</hbox>
 
-			<groupbox flex="1" id="chibustrack-box">
+			<deck flex="1" id="chibustrack-box">
 				<vbox>
-					<listbox id="chibustrack-stops" flex="1"/>
+					<listbox id="chibustrack-selstops" flex="1"/>
 					<hbox>
 						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(event)" />
 						<spacer flex="1"/>
@@ -45,7 +45,11 @@
 						<button label="Remove" id="chibustrack-rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
 					</hbox>
 				</vbox>
-			</groupbox>
+				<vbox>
+					<box id="chibustrack-stopsroutes" flex="1"/>
+					<button label="Choose Direction" />
+				</vbox>
+			</deck>
 		</vbox>
 	</deck>
 </overlay>

@@ -45,7 +45,7 @@
 	<groupbox>
 		<caption label="Bus Stops" />
 		<hbox>
-		<listbox id="selstops" rows="4" flex="1">
+		<listbox id="chibustrack-selstops" rows="4" flex="1">
 		</listbox>
 		<vbox>
 			<button flex="1" label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />

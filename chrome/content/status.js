@@ -35,6 +35,12 @@ window.addEventListener("load", function() {
 		ExtChiBusTrack._styles['pred'].importStylesheet(theTransform);
 	},false);
 	theTransform.load("chrome://chibustrack/content/styles/predtobox.xslt");
+
+	//handle our first time ran (running?)
+	if(ExtChiBusTrackPrefs.firstrun) {
+		gBrowser.addTab("chrome://chibustrack/content/help.xhtml");
+		ExtChiBusTrackPrefs.prefs.setBoolPref("firstrun",false);
+	}
 },false);
 
 ExtChiBusTrack.onclick = function(ev) {

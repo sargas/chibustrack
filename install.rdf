@@ -45,6 +45,6 @@
 		<em:developer>Joseph Jon Booker</em:developer>
 
 		<em:iconURL>chrome://chibustrack/skin/icon.png</em:iconURL>
-		<em:optionsURL>chrome://chibustrack/content/options.xul</em:optionsURL>
+		<em:optionsURL>chrome://chibustrack/content/options/options.xul</em:optionsURL>
 	</Description>
 </RDF>

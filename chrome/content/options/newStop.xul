@@ -19,4 +19,8 @@
 		<label value="Please select the desired stops." />
 		<vbox class="loading-menus"><label>Loading...</label><progressmeter mode="undetermined"/></vbox>
 	</wizardpage>
+
+	<wizardpage>
+		<description>To view predicted bus arrival times, remember to left-click the icon (<image src="chrome://chibustrack/skin/icon.small.png"/>) in Firefox's status bar.</description>
+	</wizardpage>
 </wizard>

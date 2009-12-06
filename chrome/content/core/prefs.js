@@ -21,6 +21,7 @@ prefs: null,
 bullroutes: null, //comma seperated list of routes
 stops: null, //objects
 handler: null, //callback for custom actions on pref changes
+firstrun: null, //idealy this rarely changes :P
 
 load: function(callback) { //callback should be a function(prefname)
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
@@ -29,6 +30,7 @@ load: function(callback) { //callback should be a function(prefname)
 	this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 	this.sbinterval = this.prefs.getIntPref("sbinterval");
 	this.bullroutes = this.prefs.getCharPref("bullroutes");
+	this.firstrun = this.prefs.getBoolPref("firstrun");
 	this.handler = callback;
 	this.prefs.addObserver("", this, false);
 	this.loadstops();

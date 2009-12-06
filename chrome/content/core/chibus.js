@@ -70,12 +70,15 @@ var ExtChiBusTrack = {
 	loadstatusbar: function() {
 		var statusbar = document.getElementById("status-bar");
 		var icon = document.getElementById("chibustrack-icon");
+		var reloadsb = document.getElementById("chibustrack-reloadsb");
 
 		//rid ourselves of all previous bulletins:
 		var oldpanels = document.getElementsByClassName("ctabustrack-bulletins");
 		while(oldpanels.length>0) {
 			statusbar.removeChild(oldpanels[0]);
 		}
+		//disable for now, reenable if there are any routes
+		reloadsb.setAttribute("disabled",true);
 
 		//CTA API docs say the name is unique. Lets hold them to it
 		var names = new Array();
@@ -83,8 +86,12 @@ var ExtChiBusTrack = {
 		//iterate through each route
 		var routes = ExtChiBusTrackPrefs.bullroutes.split(';');
 		for(var j=0;j<routes.length;++j)
-		if(routes[j] != "")
+		if(routes[j] != "") 
 		ExtChiBusTrack.loadCTAData("getservicebulletins",function(doc) {
+
+			//even if we got nothing to report, at least we had some route to look at
+			reloadsb.setAttribute("disabled",false);
+
 			if (doc.documentElement.childElementCount == 0) {
 				return; //nothing to report :)
 			}

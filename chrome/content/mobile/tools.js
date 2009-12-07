@@ -200,12 +200,14 @@ ExtChiBusTrack.checkTimes = function(useCache) {
 	var prefid = selstops.selectedItem.getAttribute("value");
 	var stop = ExtChiBusTrackPrefs.getStop(prefid);
 
-	if(useCache && ExtChiBusTrack._cache && //not sure why manual check needed,
-			(ExtChiBusTrack._cache.rt == stop.rt) && // but ExtChiBusTrack._cache == stop
-			(ExtChiBusTrack._cache.dir == stop.dir) && // doesn't work :/
-			(ExtChiBusTrack._cache.stpid == stop.stpid) ){
+	if(useCache && ExtChiBusTrack._cache &&
+			(ExtChiBusTrack._cache.rt == stop.rt) &&
+			(ExtChiBusTrack._cache.dir == stop.dir) &&
+			(ExtChiBusTrack._cache.stpid == stop.stpid) &&
+			(new Date().getTime() - ExtChiBusTrack._cache.time < 1000*ExtChiBusTrackPrefs.cachetime) ){
 		return;
 	}
+	stop.time = new Date().getTime(); //original time in milliseconds
 	ExtChiBusTrack._cache = stop;
 	
 	var page = document.getElementById("chibustrack-predpage");
@@ -222,10 +224,14 @@ ExtChiBusTrack.checkTimes = function(useCache) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
 			if(box.documentElement == null) { //handle an unknown error (no errror tags) :( )
-				box = document.createElement("groupbox");
+				box = document.createElement("vbox");
 				var templabel = document.createElement("label");
 				templabel.textContent = "An unknown error has occured";
+				var tempbutton = document.createElement("button");
+				tempbutton.setAttribute("label","Go Back");
+				tempbutton.setAttribute("oncommand","document.getElementById('chibustrack-deck').selectedIndex = 0");
 				box.appendChild(templabel);
+				box.appendChild(tempbutton);
 			} else box = box.documentElement;
 			page.appendChild(box);
 			loadingbox.setAttribute("collapsed",true);

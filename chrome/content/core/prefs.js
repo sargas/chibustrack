@@ -20,6 +20,7 @@ sbinterval: null, //interval for service bullintin timer
 prefs: null,
 bullroutes: null, //comma seperated list of routes
 stops: null, //objects
+cachetime: null, //seconds for how long to keep prefs for
 handler: null, //callback for custom actions on pref changes
 firstrun: null, //idealy this rarely changes :P
 
@@ -31,6 +32,7 @@ load: function(callback) { //callback should be a function(prefname)
 	this.sbinterval = this.prefs.getIntPref("sbinterval");
 	this.bullroutes = this.prefs.getCharPref("bullroutes");
 	this.firstrun = this.prefs.getBoolPref("firstrun");
+	this.cachetime = this.prefs.getCharPref("cachetime");
 	this.handler = callback;
 	this.prefs.addObserver("", this, false);
 	this.loadstops();
@@ -81,6 +83,9 @@ observe: function(subject, topic, data) {
 			break;
 		case "stops":
 			this.loadstops();
+			break;
+		case "cachetime":
+			this.cachetime = this.prefs.getCharPref("cachetime");
 			break;
 	}
 

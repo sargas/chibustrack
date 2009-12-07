@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+    This file is part of Chicago Bus Tracker.
+
+    Chicago Bus Tracker is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chicago Bus Tracker is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
+    ***** END LICENSE BLOCK ***** -->
+<!-- heavily inspired by Fabrice Desré's GeoGuide extension, also licensed under GPL3+ -->
+<?xml-stylesheet href="chrome://chibustrack/skin/mobile.css" type="text/css"?>
+<vbox id="chibustrack" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+	<!-- THIS ISNT RIGHT!!!! Need https://hg.mozilla.org/mobile-browser/rev/52a6eef433fc to get released though :( -->
+	<setting type="string" pref="extensions.chibustrack.cachetime" title="Prediction Cache Time" desc="In seconds only.">
+	</setting>
+</vbox>

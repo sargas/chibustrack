@@ -11,10 +11,7 @@
 * use caching
 
 mobile:
-* alerts -> dump's ?
-* make sure error handling works
-* make listboxes usable (increase size, panning, etc)
-* invalidate caches after configurable amount of time
+* include sb's
 
 Future:
 * movable toolbox buttons of information

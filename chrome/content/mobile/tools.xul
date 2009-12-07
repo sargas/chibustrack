@@ -38,7 +38,7 @@
 
 			<deck flex="1" id="chibustrack-deck">
 				<vbox id="chibustrack-firstpage">
-					<listbox id="chibustrack-selstops" flex="1"/>
+					<richlistbox id="chibustrack-selstops" flex="1"/>
 					<hbox>
 						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(true)" />
 						<spacer flex="1"/>

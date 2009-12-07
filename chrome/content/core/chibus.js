@@ -16,8 +16,11 @@
     ***** END LICENSE BLOCK *****/
 var ExtChiBusTrack = {
 	_styles: new Array(), //hold the xslt stylesheets
+
 	_paramsD: new Array(), //cache used in mobile
 	_paramsS: new Array(), //ditto
+	_cache: null, //ditto
+
 	sbtimer: null, //id of timer
 	loadCTAData: function(verb,callback,params,ignoreErr) { //simplified $.get
 		//callback if a function of a document object for the XML response

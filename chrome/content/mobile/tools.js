@@ -190,4 +190,46 @@ ExtChiBusTrack.resetPage = function(pagename) {
 		page.removeChild(old);
 		page.removeChild(document.getElementById("chibustrack-"+pagename+"supportbox"));
 	}
-}
+};
+
+ExtChiBusTrack.checkTimes = function(useCache) {
+	document.getElementById("chibustrack-deck").selectedIndex = 4;
+
+	var selstops = document.getElementById("chibustrack-selstops");
+	if(selstops.selectedItem == null) return;
+	var prefid = selstops.selectedItem.getAttribute("value");
+	var stop = ExtChiBusTrackPrefs.getStop(prefid);
+
+	if(useCache && ExtChiBusTrack._cache && //not sure why manual check needed,
+			(ExtChiBusTrack._cache.rt == stop.rt) && // but ExtChiBusTrack._cache == stop
+			(ExtChiBusTrack._cache.dir == stop.dir) && // doesn't work :/
+			(ExtChiBusTrack._cache.stpid == stop.stpid) ){
+		return;
+	}
+	ExtChiBusTrack._cache = stop;
+	
+	var page = document.getElementById("chibustrack-predpage");
+	var loadingbox = page.getElementsByClassName("chibustrack-loadingmenus").item(0);
+	
+	//clear previous stuff
+	while(page.lastChild != loadingbox) page.removeChild(page.lastChild);
+
+	//load prediction(s)
+	ExtChiBusTrack._styles['pred'] = new XSLTProcessor();
+	var theTransform = document.implementation.createDocument("", "test", null);
+	theTransform.addEventListener("load", function() {
+		ExtChiBusTrack._styles['pred'].importStylesheet(theTransform);
+		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
+			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
+			if(box.documentElement == null) { //handle an unknown error (no errror tags) :( )
+				box = document.createElement("groupbox");
+				var templabel = document.createElement("label");
+				templabel.textContent = "An unknown error has occured";
+				box.appendChild(templabel);
+			} else box = box.documentElement;
+			page.appendChild(box);
+			loadingbox.setAttribute("collapsed",true);
+		},{rt: stop.rt, rtdir: stop.dir, stpid: stop.stpid},true);
+	},false);
+	theTransform.load("chrome://chibustrack/content/styles/fancypredtobox.xslt");
+};

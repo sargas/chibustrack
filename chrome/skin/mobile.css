@@ -17,3 +17,11 @@
 #tool-chibustrack[loading] {
 	list-style-image: url(chrome://browser/skin/images/throbber.png);
 }
+
+#chibustrack-loadinglabel {
+	font-size: large;
+}
+
+.chibustrack-delayed {
+	font-weight:bold;
+}

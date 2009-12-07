@@ -9,10 +9,15 @@
 * sb get lost (maybe if they only affect one direction?)
 * make requests only go to the current panel/statusbarpanel
 * BUS ICON!!!
+* switch to using https://developer.mozilla.org/En/Using_JavaScript_code_modules
+* remove/checktimes buttons enabled only when an item is selected
+* use caching
 
 mobile:
 * alerts -> dump's ?
 * make sure error handling works
+* make listboxes usable (increase size, panning, etc)
+* invalidate caches after configurable amount of time
 
 Future:
 * movable toolbox buttons of information

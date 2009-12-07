@@ -15,6 +15,7 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK ***** -->
+<!-- heavily inspired by Fabrice Desré's GeoGuide extension, also licensed under GPL3+ -->
 <?xml-stylesheet href="chrome://chibustrack/skin/mobile.css" type="text/css"?>
 <overlay id="chibustrack" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<script type="application/x-javascript" src="chrome://chibustrack/content/core/prefs.js" />
@@ -39,7 +40,7 @@
 				<vbox id="chibustrack-firstpage">
 					<listbox id="chibustrack-selstops" flex="1"/>
 					<hbox>
-						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(event)" />
+						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(true)" />
 						<spacer flex="1"/>
 						<button label="Add Stop" oncommand="ExtChiBusTrack.addStopRoute(event)" />
 						<button label="Remove" id="chibustrack-rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
@@ -62,6 +63,13 @@
 				<vbox id="chibustrack-stoppage">
 					<vbox class="chibustrack-loadingmenus">
 						<label>Loading...</label>
+						<progressmeter mode="undetermined"/>
+						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 2" flex="1" />
+					</vbox>
+				</vbox>
+				<vbox id="chibustrack-predpage">
+					<vbox class="chibustrack-loadingmenus">
+						<label id="chibustrack-loadinglabel">Loading...</label>
 						<progressmeter mode="undetermined"/>
 						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 2" flex="1" />
 					</vbox>

@@ -131,6 +131,15 @@ removeStop: function (prefid) {
 	this.prefs.clearUserPref("stops."+prefid+".rt");
 },
 
+getStop: function (prefid) {
+	return {
+		rt: this.prefs.getCharPref("stops."+prefid+".rt"),
+		prefid: prefid, //for consistency sake
+		dir: this.prefs.getCharPref("stops."+prefid+".dir"),
+		stpid: this.prefs.getIntPref("stops."+prefid+".stpid"),
+		stpnm: this.prefs.getCharPref("stops."+prefid+".stpnm") };
+},
+
 addBullRoute: function (route) {
 	//for now, ignoring duplicate routes
 	if(this.bullroutes.split(';').indexOf(route) == -1) {

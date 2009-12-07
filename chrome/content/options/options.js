@@ -49,13 +49,11 @@ ExtChiBusTrack.loadStops = function () {
 		newlistitem.setAttribute("label","Route "+e.rt+", "+e.dir+": "+e.stpnm);
 		newlistitem.setAttribute("value",e.prefid);
 		selstops.appendChild(newlistitem);
-		document.getElementById("rmStop").setAttribute("disabled",false);
 	});
-	if(!selstops.hasChildNodes()) {
-		document.getElementById("rmStop").setAttribute("disabled",true);
-	}
+	ExtChiBusTrack.toggleFromList('chibustrack-selstops','rmStop');
 };
 ExtChiBusTrack.removeBullRoute = function (e) {
 	if(document.getElementById("selbullroutes").selectedItem == null) return;
 	ExtChiBusTrackPrefs.removeBullRoute(document.getElementById("selbullroutes").selectedItem.getAttribute("value"));
+	ExtChiBusTrack.toggleFromList("selbullroutes","rmBulBut");
 };

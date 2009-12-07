@@ -4,7 +4,6 @@
 * investigate when predictions don't load
 * sb get lost (maybe if they only affect one direction?)
 * switch to using https://developer.mozilla.org/En/Using_JavaScript_code_modules
-* remove/checktimes buttons enabled only when an item is selected
 
 mobile:
 * include sb's

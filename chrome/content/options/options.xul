@@ -31,11 +31,11 @@
 	<groupbox>
 		<caption label="Service Bulletins" />
 		<hbox>
-		<listbox id="selbullroutes" rows="4" flex="1">
+		<listbox id="selbullroutes" rows="4" flex="1" onselect="ExtChiBusTrack.toggleFromList('selbullroutes','rmBulBut');">
 		</listbox>
 		<vbox>
 			<button flex="1" label="Add Route" oncommand="ExtChiBusTrack.addBull(event)"/>
-			<button flex="1" label="Remove" id="rmBulBut" oncommand="ExtChiBusTrack.removeBullRoute(event)" />
+			<button flex="1" label="Remove" id="rmBulBut" disabled="true" oncommand="ExtChiBusTrack.removeBullRoute(event)" />
 		</vbox>
 		</hbox>
 		<hbox><label>Updates every </label>
@@ -45,7 +45,8 @@
 	<groupbox>
 		<caption label="Bus Stops" />
 		<hbox>
-		<listbox id="chibustrack-selstops" rows="4" flex="1">
+		<listbox id="chibustrack-selstops" rows="4" flex="1"
+				onselect="ExtChiBusTrack.toggleFromList('chibustrack-selstops','rmStop');">
 		</listbox>
 		<vbox>
 			<button flex="1" label="Add Stop" oncommand="ExtChiBusTrack.addStop(event)" />

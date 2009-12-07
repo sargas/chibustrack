@@ -35,11 +35,9 @@ ExtChiBusTrack.loadStops = function () { //mobile version :)
 		newlistitem.setAttribute("label","Route "+e.rt+", "+e.dir+": "+e.stpnm);
 		newlistitem.setAttribute("value",e.prefid);
 		selstops.appendChild(newlistitem);
-		document.getElementById("chibustrack-rmStop").setAttribute("disabled",false);
 	});
-	if(!selstops.hasChildNodes()) {
-		document.getElementById("chibustrack-rmStop").setAttribute("disabled",true);
-	}
+	ExtChiBusTrack.toggleFromList('chibustrack-selstops','chibustrack-checktimes');
+	ExtChiBusTrack.toggleFromList('chibustrack-selstops','chibustrack-rmStop');
 };
 
 ExtChiBusTrack.addStopRoute = function(e) {
@@ -161,8 +159,12 @@ ExtChiBusTrack.loadStopPage = function(pagename) {
 		var hbox = document.createElement("hbox");
 		hbox.id = "chibustrack-"+pagename+"supportbox";
 		var nextButton = document.createElement("button");
+		nextButton.id = "chibustrack-"+pagename+"nextbutton";
 		nextButton.setAttribute("label",nextString);
 		nextButton.addEventListener("click",nextaction,false);
+		nextButton.addEventListener("select",function (event) {
+			ExtChiBusTrack.toggleFromList("chibustrack-"+pagename+"box","chibustrack-"+pagename+"nextbutton"); },false);
+		nextButton.disabled = true;
 		hbox.appendChild(nextButton);
 		var spacer = document.createElement("spacer");
 		spacer.setAttribute("flex","1");

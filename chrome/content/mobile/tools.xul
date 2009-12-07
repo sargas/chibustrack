@@ -38,9 +38,11 @@
 
 			<deck flex="1" id="chibustrack-deck">
 				<vbox id="chibustrack-firstpage">
-					<richlistbox id="chibustrack-selstops" flex="1"/>
+					<richlistbox id="chibustrack-selstops" flex="1"
+						onselect="ExtChiBusTrack.toggleFromList('chibustrack-selstops','chibustrack-checktimes');
+							  ExtChiBusTrack.toggleFromList('chibustrack-selstops','chibustrack-rmStop');"/>
 					<hbox>
-						<button label="Check Times" oncommand="ExtChiBusTrack.checkTimes(true)" />
+						<button label="Check Times" id="chibustrack-checktimes" oncommand="ExtChiBusTrack.checkTimes(true)" />
 						<spacer flex="1"/>
 						<button label="Add Stop" oncommand="ExtChiBusTrack.addStopRoute(event)" />
 						<button label="Remove" id="chibustrack-rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />

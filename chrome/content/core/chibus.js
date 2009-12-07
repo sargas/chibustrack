@@ -134,11 +134,8 @@ var ExtChiBusTrack = {
 			newlistitem.setAttribute("label",routes[i]);
 			newlistitem.setAttribute("value",routes[i]);
 			selbullroutes.appendChild(newlistitem);
-			document.getElementById("rmBulBut").setAttribute("disabled",false);
 		}
-		if(!selbullroutes.hasChildNodes()) {
-			document.getElementById("rmBulBut").setAttribute("disabled",true);
-		}
+		ExtChiBusTrack.toggleFromList("selbullroutes","rmBulBut");
 	},
 	reloadSB: function() {
 		ExtChiBusTrack.loadstatusbar();
@@ -152,5 +149,14 @@ var ExtChiBusTrack = {
 		var prefid = selstops.selectedItem.getAttribute("value");
 
 		ExtChiBusTrackPrefs.removeStop(prefid);
+	},
+	toggleFromList: function(listboxid,buttonid) { //buttonid is enabled if theres a selection in listboxid
+		var box = document.getElementById(listboxid);
+		var button = document.getElementById(buttonid);
+		if(box.selectedCount > 0) {
+			button.disabled = false;
+		} else {
+			button.disabled = true;
+		}
 	},
 };

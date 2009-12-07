@@ -23,8 +23,12 @@ window.addEventListener("load", function() {
 			case "sbinterval":
 				ExtChiBusTrack.reloadSB();
 				break;
+			case "showInTools":
+				document.getElementById("chibustrack-menu").setAttribute("collapsed",!ExtChiBusTrackPrefs.showInTools);
+				break;
 		}
 	});
+	document.getElementById("chibustrack-menu").setAttribute("collasped",!ExtChiBusTrackPrefs.showInTools);
 	ExtChiBusTrack.loadstatusbar();
 	ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,ExtChiBusTrackPrefs.sbinterval*60*1000);
 

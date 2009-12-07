@@ -23,6 +23,7 @@ stops: null, //objects
 cachetime: null, //seconds for how long to keep prefs for
 handler: null, //callback for custom actions on pref changes
 firstrun: null, //idealy this rarely changes :P
+showInTools: null, //for eric, but making easy to turn off
 
 load: function(callback) { //callback should be a function(prefname)
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
@@ -33,6 +34,7 @@ load: function(callback) { //callback should be a function(prefname)
 	this.bullroutes = this.prefs.getCharPref("bullroutes");
 	this.firstrun = this.prefs.getBoolPref("firstrun");
 	this.cachetime = this.prefs.getCharPref("cachetime");
+	this.showInTools = this.prefs.getBoolPref("showInTools");
 	this.handler = callback;
 	this.prefs.addObserver("", this, false);
 	this.loadstops();
@@ -87,6 +89,8 @@ observe: function(subject, topic, data) {
 		case "cachetime":
 			this.cachetime = this.prefs.getCharPref("cachetime");
 			break;
+		case "showInTools":
+			this.showInTools = this.prefs.getBoolPref("showInTools");
 	}
 
 

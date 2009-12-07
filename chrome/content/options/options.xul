@@ -26,6 +26,7 @@
 <prefpane label="Chicago Bus Tracker Options">
 	<preferences>
 		<preference id="sbints" name="extensions.chibustrack.sbinterval" type="int"/>
+		<preference id="menu" name="extensions.chibustrack.showInTools" type="bool"/>
 	</preferences>
 
 	<groupbox>
@@ -53,6 +54,9 @@
 			<button flex="1" label="Remove" id="rmStop" oncommand="ExtChiBusTrack.removeStop(event)" />
 		</vbox>
 		</hbox>
+	</groupbox>
+	<groupbox>
+		<checkbox label="Show menu under 'Tools'" preference="menu" />
 	</groupbox>
 </prefpane>
 </prefwindow>

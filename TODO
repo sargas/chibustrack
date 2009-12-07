@@ -2,13 +2,9 @@
 * show select stops in statusbar
 * figure out why get*Pref causes a different nspref:changed
 * investigate when predictions don't load
-* better error handling for predictions
-* see if bug causes given direction to be ignored at terminals
 * sb get lost (maybe if they only affect one direction?)
-* make requests only go to the current panel/statusbarpanel
 * switch to using https://developer.mozilla.org/En/Using_JavaScript_code_modules
 * remove/checktimes buttons enabled only when an item is selected
-* use caching
 
 mobile:
 * include sb's

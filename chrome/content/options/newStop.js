@@ -16,31 +16,37 @@
     ***** END LICENSE BLOCK *****/
 function onPage(pagename) {
 	var page = document.getElementById("chibustrack-"+pagename+"page");
-
-	//remove old stuff, show our temp menu
 	var old = document.getElementById("chibustrack-"+pagename+"box");
-	if(old) page.removeChild(old);
-	var menus = page.getElementsByClassName("loading-menus");
-	menus.item(0).setAttribute("collapsed",false);
 
-	//next, get the action and params based on the page
+	//now, get the action and params based on the page
 	var verb = null;var params = null; //verb should not be null at end
 	switch(pagename) {
 		case "route":
 			verb = "getroutes";
 			//params = null;
+			if(old) return; //for route, safe to assume routes don't change (if so, restarting the wizard isn't too horrid)
 			break;
 		case "dir":
 			verb = "getdirections";
 			params = {rt: document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")};
+			if(old && ExtChiBusTrack._paramsD == params.rt) return; //caching
+			ExtChiBusTrack._paramsD = params.rt;
 			break;
 		case "stop":
 			verb = "getstops";
 			params = {
 				rt:  document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value"),
 				dir: document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value") };
+			if(old && params.rt == ExtChiBusTrack._paramsS['rt'] && params.dir == ExtChiBusTrack._paramsS['dir']) return;
+			ExtChiBusTrack._paramsS['rt'] = params.rt;
+			ExtChiBusTrack._paramsS['dir'] = params.dir;
 			break;
 	}
+
+	//remove old stuff, show our temp menu
+	if(old) page.removeChild(old);
+	var menus = page.getElementsByClassName("loading-menus");
+	menus.item(0).setAttribute("collapsed",false);
 
 	//now we take care of business B)
 	ExtChiBusTrack.loadCTAData(verb,function(doc) {

@@ -64,7 +64,16 @@ ExtChiBusTrack.onclick = function(ev) {
 	ExtChiBusTrackPrefs.stops.forEach(function (e,i,a) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
-			if(box.documentElement == null) return; //xslt is unable to do anything...
+			if(box.documentElement == null) {
+				box = document.createElement("vbox");
+				var templabel = document.createElement("label");
+				templabel.textContent = "An unknown error has occured";
+				templabel.className = "chibustrack-errors";
+				var templabel2 = document.createElement("label");
+				templabel2.textContent = "For Route "+e.rt;
+				box.appendChild(templabel);
+				box.appendChild(templabel2);
+			} else box = box.documentElement; //little hack
 
 			//any errors
 			if(box.getElementsByClassName("chibustrack-errors").length != 0) {
@@ -74,7 +83,7 @@ ExtChiBusTrack.onclick = function(ev) {
 					return;
 				}
 			}
-			hbox.appendChild(box.documentElement);
+			hbox.appendChild(box);
 			document.getElementById("chibustrack-panelload").setAttribute("collapsed",true);
 		},{rt: e.rt, rtdir: e.dir, stpid: e.stpid},true);
 	});

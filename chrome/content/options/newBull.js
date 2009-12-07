@@ -17,9 +17,10 @@
 function loadRoutes() {
 	var page = document.getElementById("chibustrack-routepage");
 
-	//remove old stuff, show our temp menu
+	//only load this once
 	var old = document.getElementById("chibustrack-routebox");
-	if(old) page.removeChild(old);
+	if(old) return;
+
 	var menus = page.getElementsByClassName("loading-menus");
 	menus.item(0).setAttribute("collapsed",false);
 

@@ -39,7 +39,7 @@ ExtChiBusTrack.addBull = function (e) {
 	openDialog("chrome://chibustrack/content/options/newBull.xul","","dependent,dialog,modal");
 };
 ExtChiBusTrack.loadStops = function () {
-	var selstops = document.getElementById("selstops");
+	var selstops = document.getElementById("chibustrack-selstops");
 	
 	//clear the routes
 	while(selstops.firstChild) selstops.removeChild(selstops.firstChild);

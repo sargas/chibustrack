@@ -34,7 +34,9 @@
 			<menupopup id="chibustrack-icon-menu" position="start_after">
 				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)" default="true"/>
 				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" id="chibustrack-reloadsb"/>
+				<menuseparator/>
 				<menuitem label="Help" oncommand="gBrowser.selectedTab = gBrowser.addTab('chrome://chibustrack/content/help.xhtml');" />
+				<menuitem label="About" oncommand="ExtChiBusTrack.onaboutclick(event)" />
 			</menupopup>
 		</statusbarpanel>
 	</statusbar>

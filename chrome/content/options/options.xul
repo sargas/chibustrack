@@ -54,21 +54,5 @@
 		</vbox>
 		</hbox>
 	</groupbox>
-	<groupbox id="infobox">
-		<label>
-			This extension redistributable under the terms of the
-			<html:a href="chrome://chibustrack/content/COPYING">GNU GPL3</html:a>.
-		</label><label>
-			Data provided by CTA Bus Tracker.
-		</label><label>
-			See <html:a target="_blank" href="http://ctabustracker.com">http://ctabustracker.com</html:a>
-			for more information concerning the data.
-		</label><label>
-			The icon (<image class="smallicon"/>) is provided by Dmitriy Vysotskiy.
-		</label><label>
-			This program is not endorsed by the CTA nor is the author affliated with them
-			besides being a regular 97 commuter. :)
-		</label>
-	</groupbox>
 </prefpane>
 </prefwindow>

@@ -92,3 +92,6 @@ ExtChiBusTrack.onoptionclick = function(e) {
 	window.openDialog('chrome://chibustrack/content/options/options.xul','_blank','chrome,all,dialog=no');
 };
 
+ExtChiBusTrack.onaboutclick = function(e) {
+	window.openDialog('chrome://chibustrack/content/about.xul','_blank','chrome,all,dialog=yes');
+};

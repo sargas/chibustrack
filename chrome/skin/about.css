@@ -15,29 +15,21 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
 
-/* next three are based on the geoguide extension by Fabrice Desre */
-#tool-chibustrack {
-	list-style-image: url(chrome://chibustrack/skin/icon.png);
-	border-width: 8px !important;
-	-moz-border-image: url("chrome://browser/skin/images/buttondark-default-64.png") 8 repeat repeat;
-	width: 64px;
-	height: 64px;
+description {
+	font-size: xx-large;
+	text-align:center;
 }
 
-#tool-chibustrack[checked=true] {
-	list-style-image: url(chrome://chibustrack/skin/icon.png);
-	border-width: 8px !important;
-	-moz-border-image: url("chrome://browser/skin/images/buttondark-active-64.png") 8 repeat repeat;
+#infobox {
+	text-align:center;
+	padding; 2em;
+	width: 500px;
 }
 
-#tool-chibustrack[loading] {
-	list-style-image: url(chrome://browser/skin/images/throbber.png);
+a {
+	text-decoration: underline;
 }
 
-#chibustrack-loadinglabel {
-	font-size: large;
-}
-
-.chibustrack-delayed {
-	font-weight:bold;
+.smallicon {
+	list-style-image: url("chrome://chibustrack/skin/icon.small.png");
 }

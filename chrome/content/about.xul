@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!-- ***** BEGIN LICENSE BLOCK *****
+    This file is part of Chicago Bus Tracker.
+
+    Chicago Bus Tracker is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Chicago Bus Tracker is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
+    ***** END LICENSE BLOCK ***** -->
+<?xml-stylesheet href="chrome://global/skin" type="text/css"?>
+<?xml-stylesheet href="chrome://chibustrack/skin/about.css" type="text/css" ?>
+<dialog title="Chicago Bus Tracker" orient="vertical" autostretch="always" buttons="accept" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml">
+	<description>Chicago Bus Tracker</description>
+	<vbox id="infobox">
+		<label>
+			This extension redistributable under the terms of the
+			<html:a href="chrome://chibustrack/content/COPYING">GNU GPL3</html:a>.
+		</label><label>
+			Data provided by CTA Bus Tracker.
+		</label><label>
+			See <html:a target="_blank" href="http://ctabustracker.com">http://ctabustracker.com</html:a>
+			for more information concerning the data.
+		</label><label>
+			The icon (<image class="smallicon"/>) is provided by Dmitriy Vysotskiy.
+		</label><label>
+			This program is not endorsed by the CTA nor is the author affliated with them
+			besides being a regular 97 commuter. :)
+		</label>
+	</vbox>
+</dialog>

@@ -19,6 +19,5 @@
 <?xml-stylesheet href="chrome://chibustrack/skin/mobile.css" type="text/css"?>
 <vbox id="chibustrack" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
 	<!-- THIS ISNT RIGHT!!!! Need https://hg.mozilla.org/mobile-browser/rev/52a6eef433fc to get released though :( -->
-	<setting type="string" pref="extensions.chibustrack.cachetime" title="Prediction Cache Time" desc="In seconds only.">
-	</setting>
+	<setting type="string" pref="extensions.chibustrack.cachetime" title="Prediction Cache Time" desc="In seconds only."/>
 </vbox>

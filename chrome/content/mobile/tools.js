@@ -57,7 +57,7 @@ ExtChiBusTrack.addStopRoute = function(e) {
 		ExtChiBusTrack._styles['route'].importStylesheet(theTransform);
 		ExtChiBusTrack.loadStopPage('route');
 	},false);
-	theTransform.load("chrome://chibustrack/content/styles/routetomenu.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/richroutetomenu.xslt");
 };
 
 ExtChiBusTrack.addStopDir = function(e) {
@@ -75,7 +75,7 @@ ExtChiBusTrack.addStopDir = function(e) {
 		ExtChiBusTrack._styles['dir'].importStylesheet(theTransform);
 		ExtChiBusTrack.loadStopPage('dir');
 	},false);
-	theTransform.load("chrome://chibustrack/content/styles/dirtomenu.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/richdirtomenu.xslt");
 };
 
 ExtChiBusTrack.addStopStop = function(e) {
@@ -97,7 +97,7 @@ ExtChiBusTrack.addStopStop = function(e) {
 		ExtChiBusTrack._styles['stop'].importStylesheet(theTransform);
 		ExtChiBusTrack.loadStopPage('stop');
 	},false);
-	theTransform.load("chrome://chibustrack/content/styles/stoptomenu.xslt");
+	theTransform.load("chrome://chibustrack/content/styles/richstoptomenu.xslt");
 };
 
 ExtChiBusTrack.addStopFinal = function(e) {

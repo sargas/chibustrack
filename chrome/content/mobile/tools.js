@@ -22,13 +22,6 @@ window.addEventListener("load", function() {
 			break;
 		}
 	});
-	var panels = document.getElementById("panel-items");
-	panels.addEventListener("select",function(e) {
-		if (panels.selectedPanel.id == "chibustrack-container") {
-			ExtChiBusTrack.loadStops();
-		}
-	},false);
-
 },false);
 
 ExtChiBusTrack.loadStops = function () { //mobile version :)
@@ -70,7 +63,10 @@ ExtChiBusTrack.addStopRoute = function(e) {
 ExtChiBusTrack.addStopDir = function(e) {
 	document.getElementById("chibustrack-deck").selectedIndex = 2;
 	var old = document.getElementById("chibustrack-dirbox");
-	if(old) return; //TODO reload if different route
+	if(old && ExtChiBusTrack._paramsD == document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")){
+		//looking familiar....
+		return;
+	} else if(old) ExtChiBusTrack.resetPage('dir'); //suprisingly this is valid syntax
 
 	//load dirs
 	ExtChiBusTrack._styles['dir'] = new XSLTProcessor();
@@ -84,8 +80,15 @@ ExtChiBusTrack.addStopDir = function(e) {
 
 ExtChiBusTrack.addStopStop = function(e) {
 	document.getElementById("chibustrack-deck").selectedIndex = 3;
+
+	//reload or ignore if needed
 	var old = document.getElementById("chibustrack-stopbox");
-	if(old) return; //TODO reload if different route/direction
+	if(old
+		&& ExtChiBusTrack._paramsS['rt'] == document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")
+		&& ExtChiBusTrack._paramsS['dir'] == document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value")){
+		//we've been here before....
+		return;
+	} else if(old) ExtChiBusTrack.resetPage('stop');
 
 	//load stops
 	ExtChiBusTrack._styles['stop'] = new XSLTProcessor();
@@ -132,6 +135,7 @@ ExtChiBusTrack.loadStopPage = function(pagename) {
 			curpage = 2;
 			nextaction = ExtChiBusTrack.addStopStop;
 			nextString = "Choose Stop";
+			ExtChiBusTrack._paramsD = params.rt;
 			break;
 		case "stop":
 			verb = "getstops";
@@ -141,6 +145,8 @@ ExtChiBusTrack.loadStopPage = function(pagename) {
 			curpage = 3;
 			nextaction = ExtChiBusTrack.addStopFinal;
 			nextString = "Add Stop";
+			ExtChiBusTrack._paramsS['rt'] = params.rt;
+			ExtChiBusTrack._paramsS['dir'] = params.dir;
 			break;
 	}
 

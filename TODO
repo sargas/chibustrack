@@ -13,7 +13,6 @@
 mobile:
 * alerts -> dump's ?
 * make sure error handling works
-* make selstops listbox interactable :(
 
 Future:
 * movable toolbox buttons of information

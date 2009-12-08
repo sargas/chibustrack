@@ -21,7 +21,7 @@
 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>chibustrack@neoturbine.net</em:id>
-		<em:version>0.6</em:version>
+		<em:version>0.7</em:version>
 		<em:type>2</em:type>
 
 		<em:targetApplication>
@@ -35,6 +35,7 @@
 			<Description>
 				<em:id>{a23983c0-fd0e-11dc-95ff-0800200c9a66}</em:id>
 				<em:minVersion>1.0b2</em:minVersion>
+				<!-- ^ should be 1.0b4, i havnt tried 1.0b2, but AMO wouldn't take 1.0b4 -->
 				<em:maxVersion>1.0.*</em:maxVersion>
 			</Description>
 		</em:targetApplication>

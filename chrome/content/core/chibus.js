@@ -22,6 +22,7 @@ var ExtChiBusTrack = {
 	_cache: null, //ditto
 
 	_sbnum: null, //random number to fight race conditions
+	_stpnum: null, //yet again, needs to be in global scope (relatively speaking)
 
 	sbtimer: null, //id of timer
 	loadCTAData: function(verb,callback,params,ignoreErr) { //simplified $.get

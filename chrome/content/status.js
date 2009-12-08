@@ -55,6 +55,8 @@ ExtChiBusTrack.onclick = function(ev) {
 		return;
 	}
 
+	var mystpnum = Math.floor(Math.random()*200);
+	ExtChiBusTrack._stpnum = mystpnum;
 	//clear em
 	var hbox = document.getElementById("chibustrack-panelbox");
 	while(hbox.firstChild) hbox.removeChild(hbox.firstChild);
@@ -66,6 +68,7 @@ ExtChiBusTrack.onclick = function(ev) {
 	var rterrors = new Array();
 	ExtChiBusTrackPrefs.stops.forEach(function (e,i,a) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
+			if(ExtChiBusTrack._stpnum != mystpnum) return;
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
 			if(box.documentElement == null) {
 				box = document.createElement("vbox");
@@ -92,7 +95,7 @@ ExtChiBusTrack.onclick = function(ev) {
 	});
 };
 ExtChiBusTrack.onoptionclick = function(e) {
-	window.openDialog('chrome://chibustrack/content/options/options.xul','_blank','chrome,all,dialog=no');
+	window.openDialog('chrome://chibustrack/content/options/options.xul','_blank','chrome,all,dialog=yes');
 };
 
 ExtChiBusTrack.onaboutclick = function(e) {

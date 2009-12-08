@@ -78,7 +78,7 @@ var ExtChiBusTrack = {
 	loadstatusbar: function() {
 		var statusbar = document.getElementById("status-bar");
 		var icon = document.getElementById("chibustrack-icon");
-		var reloadsb = document.getElementById("chibustrack-reloadsb");
+		var reloadsb = document.getElementsByClassName("chibustrack-reloadsb");
 
 		var mysbnum = Math.floor(Math.random()*200); //doesn't happen often, so 1/200 chance of collision if does aint bad
 		ExtChiBusTrack._sbnum = mysbnum; //kept track of by the object, importantly not local
@@ -89,7 +89,7 @@ var ExtChiBusTrack = {
 			statusbar.removeChild(oldpanels[0]);
 		}
 		//disable for now, reenable if there are any routes
-		reloadsb.setAttribute("disabled",true);
+		for(var i = 0;i<reloadsb.length;++i) reloadsb[i].setAttribute("disabled",true);
 
 		//CTA API docs say the name is unique. Lets hold them to it
 		var names = new Array();
@@ -102,7 +102,7 @@ var ExtChiBusTrack = {
 			if(ExtChiBusTrack._sbnum != mysbnum) return; //looks like we're too late //happens when adding sb's rapidly
 
 			//even if we got nothing to report, at least we had some route to look at
-			reloadsb.setAttribute("disabled",false);
+			for(var i = 0;i<reloadsb.length;++i) reloadsb[i].setAttribute("disabled",false);
 
 			if (doc.documentElement.childElementCount == 0) {
 				return; //nothing to report :)

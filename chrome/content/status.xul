@@ -33,7 +33,7 @@
 			<image alt="Chicago Bus Tracker Options" onclick="ExtChiBusTrack.onclick(event);" id="chibustrack-iconrealicon"/>
 			<menupopup id="chibustrack-icon-menu" position="start_after">
 				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)" default="true"/>
-				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" id="chibustrack-reloadsb"/>
+				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" class="chibustrack-reloadsb"/>
 				<menuseparator/>
 				<menuitem label="Help" oncommand="gBrowser.selectedTab = gBrowser.addTab('chrome://chibustrack/content/help.xhtml');" />
 				<menuitem label="About" oncommand="ExtChiBusTrack.onaboutclick(event)" />
@@ -44,7 +44,7 @@
 		<menu label="Chicago Bus Tracker" id="chibustrack-menu" insertbefore="menu_pageInfo">
 			<menupopup>
 				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)"/>
-				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" id="chibustrack-reloadsb"/>
+				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" class="chibustrack-reloadsb"/>
 				<menuseparator/>
 				<menuitem label="Help" oncommand="gBrowser.selectedTab = gBrowser.addTab('chrome://chibustrack/content/help.xhtml');" />
 				<menuitem label="About" oncommand="ExtChiBusTrack.onaboutclick(event)" />

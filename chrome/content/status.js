@@ -29,8 +29,7 @@ window.addEventListener("load", function() {
 		}
 	});
 	document.getElementById("chibustrack-menu").setAttribute("collasped",!ExtChiBusTrackPrefs.showInTools);
-	ExtChiBusTrack.loadstatusbar();
-	ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,ExtChiBusTrackPrefs.sbinterval*60*1000);
+	ExtChiBusTrack.reloadSB();
 
 	//load up xslt for route predictions
 	ExtChiBusTrack._styles['pred'] = new XSLTProcessor();

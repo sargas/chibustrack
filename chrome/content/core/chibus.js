@@ -21,6 +21,8 @@ var ExtChiBusTrack = {
 	_paramsS: new Array(), //ditto
 	_cache: null, //ditto
 
+	_sbnum: null, //random number to fight race conditions
+
 	sbtimer: null, //id of timer
 	loadCTAData: function(verb,callback,params,ignoreErr) { //simplified $.get
 		//callback if a function of a document object for the XML response
@@ -77,6 +79,9 @@ var ExtChiBusTrack = {
 		var icon = document.getElementById("chibustrack-icon");
 		var reloadsb = document.getElementById("chibustrack-reloadsb");
 
+		var mysbnum = Math.floor(Math.random()*200); //doesn't happen often, so 1/200 chance of collision if does aint bad
+		ExtChiBusTrack._sbnum = mysbnum; //kept track of by the object, importantly not local
+
 		//rid ourselves of all previous bulletins:
 		var oldpanels = document.getElementsByClassName("ctabustrack-bulletins");
 		while(oldpanels.length>0) {
@@ -93,6 +98,7 @@ var ExtChiBusTrack = {
 		for(var j=0;j<routes.length;++j)
 		if(routes[j] != "") 
 		ExtChiBusTrack.loadCTAData("getservicebulletins",function(doc) {
+			if(ExtChiBusTrack._sbnum != mysbnum) return; //looks like we're too late //happens when adding sb's rapidly
 
 			//even if we got nothing to report, at least we had some route to look at
 			reloadsb.setAttribute("disabled",false);
@@ -139,7 +145,7 @@ var ExtChiBusTrack = {
 	},
 	reloadSB: function() {
 		ExtChiBusTrack.loadstatusbar();
-		window.clearInterval(ExtChiBusTrack.sbtimer);
+		if(ExtChiBusTrack.sbtimer) window.clearInterval(ExtChiBusTrack.sbtimer);
 		ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,
 			ExtChiBusTrackPrefs.sbinterval*60*1000);
 	},

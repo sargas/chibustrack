@@ -1,13 +1,10 @@
 * Try panel -> tooltippanel for arrival times?
 * show select stops in statusbar
 * figure out why get*Pref causes a different nspref:changed
-* investigate when predictions don't load
 * sb get lost (maybe if they only affect one direction?)
 * switch to using https://developer.mozilla.org/En/Using_JavaScript_code_modules
-
-mobile:
-* include sb's
 
 Future:
 * movable toolbox buttons of information
 * grouping stops for arrival times
+* work with other bus systems (OSU, Chattanooga, Richmond, etc) <from Thomas Paul>

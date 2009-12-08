@@ -29,17 +29,18 @@ function onPage(pagename) {
 		case "dir":
 			verb = "getdirections";
 			params = {rt: document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")};
-			if(old && ExtChiBusTrack._paramsD == params.rt) return; //caching
-			ExtChiBusTrack._paramsD = params.rt;
+			if(old && ExtChiBusTrack._cache['rt'] == params.rt) return; //caching
+			ExtChiBusTrack._cache['rt'] = params.rt;
 			break;
 		case "stop":
 			verb = "getstops";
 			params = {
 				rt:  document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value"),
 				dir: document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value") };
-			if(old && params.rt == ExtChiBusTrack._paramsS['rt'] && params.dir == ExtChiBusTrack._paramsS['dir']) return;
-			ExtChiBusTrack._paramsS['rt'] = params.rt;
-			ExtChiBusTrack._paramsS['dir'] = params.dir;
+			if(old && ExtChiBusTrack._cache['stop'] && params.rt == ExtChiBusTrack._cache['stop']['rt'] && params.dir == ExtChiBusTrack._cache['stop']['dir']) return;
+			ExtChiBusTrack._cache['stop'] = new Array();
+			ExtChiBusTrack._cache['stop']['rt'] = params.rt;
+			ExtChiBusTrack._cache['stop']['dir'] = params.dir;
 			break;
 	}
 

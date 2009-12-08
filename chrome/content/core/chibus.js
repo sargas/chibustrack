@@ -17,9 +17,7 @@
 var ExtChiBusTrack = {
 	_styles: new Array(), //hold the xslt stylesheets
 
-	_paramsD: new Array(), //cache used in mobile
-	_paramsS: new Array(), //ditto
-	_cache: null, //ditto
+	_cache: new Array(), // holds cache-ing info
 
 	_sbnum: null, //random number to fight race conditions
 	_stpnum: null, //yet again, needs to be in global scope (relatively speaking)

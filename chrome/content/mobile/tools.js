@@ -54,7 +54,7 @@ ExtChiBusTrack.addStopRoute = function(e) {
 ExtChiBusTrack.addStopDir = function(e) {
 	document.getElementById("chibustrack-deck").selectedIndex = 2;
 	var old = document.getElementById("chibustrack-dirbox");
-	if(old && ExtChiBusTrack._paramsD == document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")){
+	if(old && ExtChiBusTrack._cache['rt'] == document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")){
 		//looking familiar....
 		return;
 	} else if(old) ExtChiBusTrack.resetPage('dir'); //suprisingly this is valid syntax
@@ -67,9 +67,9 @@ ExtChiBusTrack.addStopStop = function(e) {
 
 	//reload or ignore if needed
 	var old = document.getElementById("chibustrack-stopbox");
-	if(old
-		&& ExtChiBusTrack._paramsS['rt'] == document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")
-		&& ExtChiBusTrack._paramsS['dir'] == document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value")){
+	if(old  && ExtChiBusTrack._cache['stop']
+		&& ExtChiBusTrack._cache['stop']['rt'] == document.getElementById("chibustrack-routebox").getSelectedItem(0).getAttribute("value")
+		&& ExtChiBusTrack._cache['stop']['dir'] == document.getElementById("chibustrack-dirbox").getSelectedItem(0).getAttribute("value")){
 		//we've been here before....
 		return;
 	} else if(old) ExtChiBusTrack.resetPage('stop');
@@ -127,8 +127,9 @@ ExtChiBusTrack.loadStopPage = function(pagename) {
 				curpage = 3;
 				nextaction = ExtChiBusTrack.addStopFinal;
 				nextString = "Add Stop";
-				ExtChiBusTrack._paramsS['rt'] = params.rt;
-				ExtChiBusTrack._paramsS['dir'] = params.dir;
+				ExtChiBusTrack._cache['stop'] = new Array();
+				ExtChiBusTrack._cache['stop']['rt'] = params.rt;
+				ExtChiBusTrack._cache['stop']['dir'] = params.dir;
 				break;
 		}
 
@@ -186,15 +187,15 @@ ExtChiBusTrack.checkTimes = function(useCache) {
 	var prefid = selstops.selectedItem.getAttribute("value");
 	var stop = ExtChiBusTrackPrefs.getStop(prefid);
 
-	if(useCache && ExtChiBusTrack._cache &&
-			(ExtChiBusTrack._cache.rt == stop.rt) &&
-			(ExtChiBusTrack._cache.dir == stop.dir) &&
-			(ExtChiBusTrack._cache.stpid == stop.stpid) &&
-			(new Date().getTime() - ExtChiBusTrack._cache.time < 1000*ExtChiBusTrackPrefs.cachetime) ){
+	if(useCache && ExtChiBusTrack._cache['pred'] &&
+			(ExtChiBusTrack._cache['pred'].rt == stop.rt) &&
+			(ExtChiBusTrack._cache['pred'].dir == stop.dir) &&
+			(ExtChiBusTrack._cache['pred'].stpid == stop.stpid) &&
+			(new Date().getTime() - ExtChiBusTrack._cache['pred'].time < 1000*ExtChiBusTrackPrefs.cachetime) ){
 		return;
 	}
 	stop.time = new Date().getTime(); //original time in milliseconds
-	ExtChiBusTrack._cache = stop;
+	ExtChiBusTrack._cache['pred'] = stop;
 	
 	var page = document.getElementById("chibustrack-predpage");
 	var loadingbox = page.getElementsByClassName("chibustrack-loadingmenus").item(0);

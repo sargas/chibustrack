@@ -127,23 +127,6 @@ var ExtChiBusTrack = {
 			}
 		},{rt: routes[j]});
 	},
-	loadBullRoutes: function () {
-		var routes = ExtChiBusTrackPrefs.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
-		var selbullroutes = document.getElementById("selbullroutes");
-		
-		//clear the routes
-		while(selbullroutes.firstChild) selbullroutes.removeChild(selbullroutes.firstChild);
-
-		//re-add them (if any)
-		for(var i=0;i<routes.length;++i) {
-			if(routes[i] == "") continue;
-			var newlistitem = document.createElement("listitem");
-			newlistitem.setAttribute("label",routes[i]);
-			newlistitem.setAttribute("value",routes[i]);
-			selbullroutes.appendChild(newlistitem);
-		}
-		ExtChiBusTrack.toggleFromList("selbullroutes","rmBulBut");
-	},
 	reloadSB: function() {
 		ExtChiBusTrack.loadstatusbar();
 		if(ExtChiBusTrack.sbtimer) window.clearInterval(ExtChiBusTrack.sbtimer);

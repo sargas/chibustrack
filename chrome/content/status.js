@@ -70,15 +70,17 @@ ExtChiBusTrack.onclick = function(ev) {
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			if(ExtChiBusTrack._stpnum != mystpnum) return;
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
-			if(box.documentElement == null) {
+			if(box.documentElement == null) { //no prediction //not an error
 				box = document.createElement("vbox");
 				var templabel = document.createElement("label");
-				templabel.textContent = "An unknown error has occured";
-				templabel.className = "chibustrack-errors";
+				templabel.textContent = "Route "+e.rt+ " ("+e.dir + ")";
 				var templabel2 = document.createElement("label");
-				templabel2.textContent = "For Route "+e.rt;
+				templabel2.textContent = e.stpnm;
+				var templabel3 = document.createElement("label");
+				templabel3.textContent = "No Predictions Available";
 				box.appendChild(templabel);
 				box.appendChild(templabel2);
+				box.appendChild(templabel3);
 			} else box = box.documentElement; //little hack
 
 			//any errors

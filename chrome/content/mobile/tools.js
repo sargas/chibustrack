@@ -158,13 +158,10 @@ ExtChiBusTrack.loadStopPage = function(pagename) {
 		//setup buttons
 		var hbox = document.createElement("hbox");
 		hbox.id = "chibustrack-"+pagename+"supportbox";
-		hbox.style.display = "block";
 		var nextButton = document.createElement("button");
 		nextButton.id = "chibustrack-"+pagename+"nextbutton";
 		nextButton.setAttribute("label",nextString);
 		nextButton.addEventListener("click",nextaction,false);
-		nextButton.addEventListener("select",function (event) {
-			ExtChiBusTrack.toggleFromList("chibustrack-"+pagename+"box","chibustrack-"+pagename+"nextbutton"); },false);
 		nextButton.disabled = true;
 		hbox.appendChild(nextButton);
 		var spacer = document.createElement("spacer");
@@ -226,17 +223,37 @@ ExtChiBusTrack.checkTimes = function(useCache) {
 		ExtChiBusTrack._styles['pred'].importStylesheet(theTransform);
 		ExtChiBusTrack.loadCTAData("getpredictions",function(doc) {
 			var box = ExtChiBusTrack._styles['pred'].transformToDocument(doc);
-			if(box.documentElement == null) { //handle an unknown error (no errror tags) :( )
+			if(box.documentElement == null) { // no predictions
 				box = document.createElement("vbox");
+				box.setAttribute("flex",1);
 				var templabel = document.createElement("label");
-				templabel.textContent = "An unknown error has occured";
-				var tempbutton = document.createElement("button");
-				tempbutton.setAttribute("label","Go Back");
-				tempbutton.setAttribute("oncommand","document.getElementById('chibustrack-deck').selectedIndex = 0");
+				templabel.textContent = "No Arrival Times are available.";
+
 				box.appendChild(templabel);
-				box.appendChild(tempbutton);
 			} else box = box.documentElement;
+
+			//add main thing
 			page.appendChild(box);
+
+			var footer = document.createElement("hbox");
+			var tempbutton = document.createElement("button");
+			tempbutton.setAttribute("label","Refresh");
+			tempbutton.addEventListener("command", function(event) {ExtChiBusTrack.checkTimes(false);},false);
+			var spacer1 = document.createElement("spacer");
+			spacer1.setAttribute("flex",1);
+			var tempbutton2 = document.createElement("button");
+			tempbutton2.setAttribute("label","Check Bulletins");
+			tempbutton2.addEventListener("command",function(event) {ExtChiBusTrack.getBull(stop.rt);},false);
+			var spacer2 = document.createElement("spacer");
+			spacer2.setAttribute("flex",1);
+			var tempbutton3 = document.createElement("button");
+			tempbutton3.setAttribute("label","Back");
+			tempbutton3.addEventListener("command",function(event) { document.getElementById('chibustrack-deck').selectedIndex = 0},false);
+			footer.appendChild(tempbutton);footer.appendChild(spacer1);
+			footer.appendChild(tempbutton2);footer.appendChild(spacer2);
+			footer.appendChild(tempbutton3);
+			page.appendChild(footer);
+
 			loadingbox.setAttribute("collapsed",true);
 		},{rt: stop.rt, rtdir: stop.dir, stpid: stop.stpid},true);
 	},false);

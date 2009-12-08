@@ -55,26 +55,6 @@
 		<xsl:with-param name="DateTime" select="bustime-response/prd/tmstmp"/>
 	</xsl:call-template>.</label>
 </xsl:if>
-	<hbox style="display:block;">
-		<button oncommand="ExtChiBusTrack.checkTimes(false);" label="Refresh" />
-		<spacer flex="1"/>
-<xsl:if test="(bustime-response/prd/rt) or (bustime-response/error/rt)">
-		<button label="Check Bulletins">
-				<!-- need to define this so we don't use it... -->
-				<xsl:variable name="apostrophe">'</xsl:variable>
-				<xsl:attribute name="oncommand">
-				<xsl:value-of select="'ExtChiBusTrack.getBull('" />
-				<xsl:value-of select="$apostrophe" />
-				<xsl:if test="bustime-response/prd/rt"><xsl:value-of select="bustime-response/prd/rt" /></xsl:if>
-				<xsl:if test="bustime-response/error/rt"><xsl:value-of select="bustime-response/error/rt" /></xsl:if>
-				<xsl:value-of select="$apostrophe" />
-				<xsl:value-of select="');'" />
-			</xsl:attribute>
-		</button>
-		<spacer flex="1"/>
-</xsl:if>
-		<button oncommand="document.getElementById('chibustrack-deck').selectedIndex = 0" label="Back"/>
-	</hbox>
 </vbox>
 
 </groupbox>

@@ -41,7 +41,7 @@
 					<richlistbox id="chibustrack-selstops" flex="1"
 						onselect="ExtChiBusTrack.toggleFromList('chibustrack-selstops','chibustrack-checktimes');
 							  ExtChiBusTrack.toggleFromList('chibustrack-selstops','chibustrack-rmStop');"/>
-					<hbox>
+					<hbox style="display:block;">
 						<button label="Check Times" id="chibustrack-checktimes" oncommand="ExtChiBusTrack.checkTimes(true)" />
 						<spacer flex="1"/>
 						<button label="Add Stop" oncommand="ExtChiBusTrack.addStopRoute(event)" />
@@ -73,7 +73,14 @@
 					<vbox class="chibustrack-loadingmenus">
 						<label id="chibustrack-loadinglabel">Loading...</label>
 						<progressmeter mode="undetermined"/>
-						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 2" flex="1" />
+						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 0" flex="1" />
+					</vbox>
+				</vbox>
+				<vbox id="chibustrack-sbpage">
+					<vbox class="chibustrack-loadingmenus">
+						<label id="chibustrack-loadinglabel">Loading...</label>
+						<progressmeter mode="undetermined"/>
+						<button label="Cancel" oncommand="document.getElementById('chibustrack-deck').selectedIndex = 4" flex="1" />
 					</vbox>
 				</vbox>
 			</deck>

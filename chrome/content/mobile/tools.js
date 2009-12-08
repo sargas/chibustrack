@@ -158,6 +158,7 @@ ExtChiBusTrack.loadStopPage = function(pagename) {
 		//setup buttons
 		var hbox = document.createElement("hbox");
 		hbox.id = "chibustrack-"+pagename+"supportbox";
+		hbox.style.display = "block";
 		var nextButton = document.createElement("button");
 		nextButton.id = "chibustrack-"+pagename+"nextbutton";
 		nextButton.setAttribute("label",nextString);
@@ -240,4 +241,62 @@ ExtChiBusTrack.checkTimes = function(useCache) {
 		},{rt: stop.rt, rtdir: stop.dir, stpid: stop.stpid},true);
 	},false);
 	theTransform.load("chrome://chibustrack/content/styles/fancypredtobox.xslt");
+};
+
+ExtChiBusTrack.getBull = function(rt) {
+	document.getElementById("chibustrack-deck").selectedIndex = 5;
+
+	//initialize things
+	var page = document.getElementById("chibustrack-sbpage");
+	var loadingbox = page.getElementsByClassName("chibustrack-loadingmenus");
+	loadingbox.item(0).setAttribute("collapsed",false);
+
+	while(page.lastChild != loadingbox.item(0)) page.removeChild(page.lastChild); //clear everything
+
+	//setup future
+	var vbox = document.createElement("vbox");
+	var backbutton = document.createElement("button");
+	backbutton.setAttribute("label","Go Back");
+	vbox.setAttribute("flex",1);
+	backbutton.setAttribute("oncommand","document.getElementById('chibustrack-deck').selectedIndex = 4");
+
+	ExtChiBusTrack.loadCTAData("getservicebulletins",function(doc) {
+
+		var list = document.createElement("richlistbox");
+		list.setAttribute("flex",1); //we want as tall as possible
+
+		var sb = doc.documentElement.children;
+		for (var i = 0; i < sb.length; i++) {
+			var item = document.createElement("richlistitem");
+			var name = sb[i].getElementsByTagName("nm")[0].textContent;
+			var subject = sb[i].getElementsByTagName("sbj")[0].textContent;
+			var details = sb[i].getElementsByTagName("dtl")[0].textContent;
+
+			var desc = document.createElement("description");
+			desc.textContent = name;
+
+			var tempbox = document.createElement("description");
+			tempbox.style.maxWidth = page.scrollWidth+"px"; //adaptive :)
+			//want to parse <br/> away
+			tempbox.textContent = details.replace(/<br.>/g,"\n");
+
+			var bigbox = document.createElement("vbox");
+			bigbox.appendChild(desc);
+			bigbox.appendChild(tempbox);
+			item.appendChild(bigbox);
+			list.appendChild(item);
+		}
+
+		//now add (if any)
+		loadingbox.item(0).setAttribute("collapsed",true);
+		if(list.children.length < 1) {
+			var nothing = document.createElement("label");
+			nothing.textContent = "No Service Bulletins for Route "+rt;
+			vbox.appendChild(nothing);
+		} else {
+			vbox.appendChild(list);
+		}
+		vbox.appendChild(backbutton);
+		page.appendChild(vbox);
+	},{rt: rt});
 };

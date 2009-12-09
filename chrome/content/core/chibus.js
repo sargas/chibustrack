@@ -14,6 +14,10 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
+
+//load prefs
+Components.utils.import("resource://chibustrack/prefs.js");
+
 var ExtChiBusTrack = {
 	_styles: new Array(), //hold the xslt stylesheets
 

@@ -14,6 +14,9 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
+
+var EXPORTED_SYMBOLS = ["ExtChiBusTrackPrefs"];
+
 var ExtChiBusTrackPrefs = {
 
 sbinterval: null, //interval for service bullintin timer
@@ -21,23 +24,49 @@ prefs: null,
 bullroutes: null, //comma seperated list of routes
 stops: null, //objects
 cachetime: null, //seconds for how long to keep prefs for
-handler: null, //callback for custom actions on pref changes
+handlers: new Object(), //callbacks for custom actions on pref changes
 firstrun: null, //idealy this rarely changes :P
 showInTools: null, //for eric, but making easy to turn off
 
-load: function(callback) { //callback should be a function(prefname)
+load: function() {
+	if(this.prefs) return; //lets not do this twice
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 		.getService(Components.interfaces.nsIPrefService)
 		.getBranch("extensions.chibustrack.");
+
+	//get our prefs....
 	this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
 	this.sbinterval = this.prefs.getIntPref("sbinterval");
 	this.bullroutes = this.prefs.getCharPref("bullroutes");
 	this.firstrun = this.prefs.getBoolPref("firstrun");
 	this.cachetime = this.prefs.getCharPref("cachetime");
 	this.showInTools = this.prefs.getBoolPref("showInTools");
-	this.handler = callback;
-	this.prefs.addObserver("", this, false);
+	//setup complicated prefs
 	this.loadstops();
+
+	//setup listener
+	this.prefs.addObserver("", this, false);
+},
+
+addHandler: function(parentwindow, callback) { //callback should take prefname as single argument
+	this.ensureLoaded();
+
+	//give reasonably random name
+	let name = "";
+	do {name = (((1+Math.random())*0x100000000)|0).toString(32).substring(1)}
+		while(typeof this.handlers[name] != "undefined"); //ensure unique
+	this.handlers[name] = callback;
+	//remove when done
+	parentwindow.addEventListener("unload", function() {
+		ExtChiBusTrackPrefs.removeHandler(name); },false);
+},
+
+ensureLoaded: function() { //quick conditional
+	if(this.prefs == null) this.load();
+},
+
+removeHandler: function(name) {
+	if(this.handlers[name]) delete this.handlers[name];
 },
 
 unload: function() {
@@ -46,6 +75,7 @@ unload: function() {
 },
 
 loadstops: function() {
+	this.ensureLoaded();
 	var stops = this.prefs.getChildList("stops.",{});
 	var rtregex = /stops\.([0-9]+)\.rt$/;
 	var stopnames = stops.filter(function(e,i,a) {return (rtregex.exec(e)!==null)});
@@ -94,7 +124,14 @@ observe: function(subject, topic, data) {
 	}
 
 
-	if(this.handler) this.handler(data);
+	for(var callbackname in this.handlers) {
+		var callback = this.handlers[callbackname];
+		callback(data);
+	};
+
+	//note that the following applied when each window would create an ExtChiBusTrackPrefs object
+	//the workaround is no longer needed since this object as moved to a module, but the info is
+	//kept here for reference.
 
 	//okay, here is everything i know about this bug:
 	//multiple observers need to be present (aka, main overlay, dialog, wizards, etc)
@@ -112,10 +149,11 @@ observe: function(subject, topic, data) {
 	//
 	//So i'm just gonna run prefHasUserValue at the very end on the one originally called with and let this bug
 	//rest for now with this workaround. Hopefully its not a firefox bug.
-	this.prefs.prefHasUserValue(originaldata);
+	//this.prefs.prefHasUserValue(originaldata);
 },
 
 addStop: function(route, dir, stopname, stopid) {
+	this.ensureLoaded();
 	//see if we got any duplicate of this....
 	var tempflag = false;
 	this.stops.forEach(function (e,i,a) {
@@ -134,6 +172,7 @@ addStop: function(route, dir, stopname, stopid) {
 },
 
 removeStop: function (prefid) {
+	this.ensureLoaded();
 	this.prefs.clearUserPref("stops."+prefid+".dir");
 	this.prefs.clearUserPref("stops."+prefid+".stpnm");
 	this.prefs.clearUserPref("stops."+prefid+".stpid");
@@ -141,6 +180,7 @@ removeStop: function (prefid) {
 },
 
 getStop: function (prefid) {
+	this.ensureLoaded();
 	return {
 		rt: this.prefs.getCharPref("stops."+prefid+".rt"),
 		prefid: prefid, //for consistency sake
@@ -150,6 +190,7 @@ getStop: function (prefid) {
 },
 
 addBullRoute: function (route) {
+	this.ensureLoaded();
 	//for now, ignoring duplicate routes
 	if(this.bullroutes.split(';').indexOf(route) == -1) {
 		this.prefs.setCharPref("bullroutes",this.bullroutes + ";" + route);
@@ -157,6 +198,7 @@ addBullRoute: function (route) {
 },
 
 removeBullRoute: function (route) {
+	this.ensureLoaded();
 	//might as well sort the list in the prefs while we're at it
 	var routes = this.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
 	var newroutes = new Array();
@@ -169,5 +211,3 @@ removeBullRoute: function (route) {
 
 };
 
-window.addEventListener("unload", function() {
-	ExtChiBusTrackPrefs.unload(); },false);

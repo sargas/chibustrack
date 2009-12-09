@@ -6,3 +6,4 @@ overlay	chrome://browser/content/browser.xul	chrome://chibustrack/content/mobile
 
 override chrome://chibustrack/content/options/options.xul chrome://chibustrack/content/mobile/options/options.xul application={a23983c0-fd0e-11dc-95ff-0800200c9a66}
 
+resource chibustrack modules/

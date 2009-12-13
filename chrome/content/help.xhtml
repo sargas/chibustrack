@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="utf-8" ?> 
 <!-- ***** BEGIN LICENSE BLOCK *****
     This file is part of Chicago Bus Tracker.
 
@@ -15,25 +15,44 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK ***** -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-		<title>Welcome to Chicago Bus Tracker</title>
+		<title>Chicago Bus Tracker | Help</title>
 		<link rel="stylesheet" type="text/css" href="chrome://chibustrack/skin/help.css" />
 	</head>
 	<body>
 		<div id="headerbox">
-		<h1>Chicago Bus Tracker</h1>
-		<p>Hello, welcome to Chicago Bus Tracker. To begin configuring, right-click the little icon (<img src="chrome://chibustrack/skin/icon.small.png"/>) at the lower left-hand side of the status bar.</p>
-		</div>
+		<h1>Welcome to Chicago Bus Tracker!</h1>
+		<p>This Mozilla Firefox extension fetches Estimated Bus Stop Arrival Times and Service Route Bullitens from the <em>Chicago Transit Authority's Bus Tracker</em> API.</p>
 
-		<div class="helpbox">
-		<h2>Getting Service Bulletins</h2>
-		<p>Right-click the <img src="chrome://chibustrack/skin/icon.small.png"/> icon, and click "Options". At the top is a button called "Add Route" which you may use to add routes to monitor. Notices will appear in your status bar when the CTA announces them (such as during reroutes, changes to service times, etc).</p>
+	<p>To begin seting up your routes, right-click on the CBT icon (<img src="chrome://chibustrack/skin/icon.small.png" alt="cbt-icon" />) at the lower left-hand side of the status bar.</p>
 		</div>
 
 		<div class="helpbox">
 		<h2>Bus Stop Arrival Times</h2>
-		<p>Right-click the <img src="chrome://chibustrack/skin/icon.small.png"/> icon, and click "Options". Click the "Add Stop" button to choose the stop(s) you'd like to watch, and feel free to add as many stops as you wish. Now, just left-clicking the icon (<img src="chrome://chibustrack/skin/icon.small.png"/>) will load up the latest predictions for the next arrival time.</p>
+		<p class="warfare">Track your most-used Bus Routes!</p>
+<ul>
+<li>Right-click the <img src="chrome://chibustrack/skin/icon.small.png" alt="cbt-icon" /> icon,</li>
+<li>click "Options"</li>
+<li>click the "Add Stop" button</li>
+<li>check the checkbox next to each of the stop numbers you'd like to watch</li>
+    <!-- this sounds bad .. i can't think of something better at the moment -->
+</ul>
+<p class="warfare">Now, just left-clicking the icon (<img src="chrome://chibustrack/skin/icon.small.png" alt="cbt-icon" />) will load up the latest predictions for the next arrival time.</p>
 		</div>
+
+		<div class="helpbox">
+		<h2>Getting Service Bulletins</h2>
+<p class="warfare">Service Bullitens, such as reroutes, changes to service times, etc., will appear in your status bar when the CTA announces them.</p>
+<ul>
+<li>Right-click the <img src="chrome://chibustrack/skin/icon.small.png" alt="cbt-icon" /> icon,</li>
+<li>click "Options"</li>
+<li>click the "Add Route" button to add routes to Chicago Bus Tracker</li>
+</ul>
+		</div>
+
 	</body>
+
 </html>

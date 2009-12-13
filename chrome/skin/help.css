@@ -14,8 +14,18 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
+
+/* i don't like these colors but i couldn't think of any better ones... */
+
 body {
 	background-color: rgb(100,100,230);
+	font-family:sans-serif;
+	margin:1.25em;
+}
+
+div {
+	max-width:90%;
+	margin:auto;
 }
 
 #headerbox {
@@ -25,11 +35,40 @@ body {
 	text-align: center
 }
 
+#headerbox p {
+	margin:auto;
+	display:block;
+	width:80%;
+}
+
+h1 {
+	padding-bottom:0;
+	margin-bottom:0;
+	font-size:2em;
+	font-weight:bolder;}
+
+h2 {
+	text-align:center;}
+
 .helpbox {
+	max-width:85%;
 	border: solid rgb(50,50,230);
 	-moz-border-radius: 20px;
 	background-color: rgb(95,95,230);
 	
 	/* top and bottom spacing */
 	margin-top: 1em;
+}
+
+.warfare { /* bringing up public transportation incites class warfare, what can i say... */
+	font-weight:bold;
+
+}
+
+p {
+	padding:.5em;
+}
+
+ul{
+	line-height:2em;
 }

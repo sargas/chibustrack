@@ -6,3 +6,9 @@ Future:
 * movable toolbox buttons of information
 * grouping stops for arrival times
 * work with other bus systems (OSU, Chattanooga, Richmond, etc) <from Thomas Paul>
+
+weave:
+* load once and only once
+* slim debug messages
+* test test test
+* add comments/swears everywhere

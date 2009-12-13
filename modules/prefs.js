@@ -56,9 +56,10 @@ addHandler: function(parentwindow, callback) { //callback should take prefname a
 	do {name = (((1+Math.random())*0x100000000)|0).toString(32).substring(1)}
 		while(typeof this.handlers[name] != "undefined"); //ensure unique
 	this.handlers[name] = callback;
-	//remove when done
-	parentwindow.addEventListener("unload", function() {
-		ExtChiBusTrackPrefs.removeHandler(name); },false);
+
+	if(parentwindow) //remove when done (optional if never done)
+		parentwindow.addEventListener("unload", function() {
+			ExtChiBusTrackPrefs.removeHandler(name); },false);
 },
 
 ensureLoaded: function() { //quick conditional
@@ -76,14 +77,14 @@ unload: function() {
 
 loadstops: function() {
 	this.ensureLoaded();
-	var stops = this.prefs.getChildList("stops.",{});
-	var rtregex = /stops\.([0-9]+)\.rt$/;
-	var stopnames = stops.filter(function(e,i,a) {return (rtregex.exec(e)!==null)});
-	var prefids = stopnames.map(function(e) { return e.replace(rtregex,"$1")});
+	let stops = this.prefs.getChildList("stops.",{});
+	let rtregex = /stops\.([0-9]+)\.rt$/;
+	let stopnames = stops.filter(function(e,i,a) {return (rtregex.exec(e)!==null)});
+	let prefids = stopnames.map(function(e) { return e.replace(rtregex,"$1")});
 	this.stops = new Array();
 	prefids.forEach(function(e,i,a) {
-		var temp = new Array("rt","dir","stpid","stpnm");
-		var tempb = false;
+		let temp = new Array("rt","dir","stpid","stpnm");
+		let tempb = false;
 		temp.forEach(function (ea,ia,aa) {
 			if(!ExtChiBusTrackPrefs.prefs.prefHasUserValue("stops."+e+"."+ea)) {
 				tempb = true;
@@ -102,10 +103,12 @@ loadstops: function() {
 observe: function(subject, topic, data) {
 	if (topic != "nsPref:changed") return;
 
-	var originaldata = data;
-	var stopregex = /^stops\.\d+\.rt$/; // get the *.rt changes, matters that we only get when *all* added
-	if(stopregex.exec(data) !== null) data = "stops"; //manual reloading of stops
+	let originaldata = data;
+	let stopregex = /^stops\.(\d+)\.rt$/; // get the *.rt changes, matters that we only get when *all* added
+	let result = stopregex.exec(data);
+	if(result !== null) data = "stops"; //if *.rt change, assume all stops are updated
 
+	let extra = null;
 	switch(data) {
 		case "sbinterval":
 			this.sbinterval = this.prefs.getIntPref("sbinterval");
@@ -114,7 +117,9 @@ observe: function(subject, topic, data) {
 			this.bullroutes = this.prefs.getCharPref("bullroutes");
 			break;
 		case "stops":
+			extra = this.getStop(result[1]); //get the old stop...
 			this.loadstops();
+			if(!extra) extra = this.getStop(result[1]); //get new one if there was no old one
 			break;
 		case "cachetime":
 			this.cachetime = this.prefs.getCharPref("cachetime");
@@ -124,9 +129,9 @@ observe: function(subject, topic, data) {
 	}
 
 
-	for(var callbackname in this.handlers) {
-		var callback = this.handlers[callbackname];
-		callback(data);
+	for(let callbackname in this.handlers) {
+		let callback = this.handlers[callbackname];
+		callback(data,extra);
 	};
 
 	//note that the following applied when each window would create an ExtChiBusTrackPrefs object
@@ -155,14 +160,14 @@ observe: function(subject, topic, data) {
 addStop: function(route, dir, stopname, stopid) {
 	this.ensureLoaded();
 	//see if we got any duplicate of this....
-	var tempflag = false;
+	let tempflag = false;
 	this.stops.forEach(function (e,i,a) {
 		if(e.rt == route && e.stpid == stopid && e.dir == dir) tempflag = true;
 	});
 	if(tempflag) return;
 
 	//get next free pref id...
-	var i = 1;
+	let i = 1;
 	while(this.prefs.prefHasUserValue("stops."+i+".rt")) i++;
 
 	this.prefs.setCharPref("stops."+i+".dir",dir);
@@ -181,12 +186,11 @@ removeStop: function (prefid) {
 
 getStop: function (prefid) {
 	this.ensureLoaded();
-	return {
-		rt: this.prefs.getCharPref("stops."+prefid+".rt"),
-		prefid: prefid, //for consistency sake
-		dir: this.prefs.getCharPref("stops."+prefid+".dir"),
-		stpid: this.prefs.getIntPref("stops."+prefid+".stpid"),
-		stpnm: this.prefs.getCharPref("stops."+prefid+".stpnm") };
+	let returnThingy = null; //returns null if not found
+	this.stops.forEach(function(e,i,a) {
+		if(e.prefid == prefid)
+			returnThingy = e; });
+	return returnThingy;
 },
 
 addBullRoute: function (route) {
@@ -200,10 +204,10 @@ addBullRoute: function (route) {
 removeBullRoute: function (route) {
 	this.ensureLoaded();
 	//might as well sort the list in the prefs while we're at it
-	var routes = this.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
-	var newroutes = new Array();
+	let routes = this.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
+	let newroutes = new Array();
 
-	for(var i=0;i<routes.length;++i) {
+	for(let i=0;i<routes.length;++i) {
 		if(routes[i] != route && routes[i] != "") newroutes.push(routes[i]);
 	}
 	this.prefs.setCharPref("bullroutes",newroutes.join(";"));

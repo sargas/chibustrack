@@ -14,7 +14,9 @@
     You should have received a copy of the GNU General Public License
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
+Components.utils.import("resource://chibustrack/weave/engine.js");
 window.addEventListener("load", function() {
+	Weave.Engines.register(ChiBusTrackEngine);
 	ExtChiBusTrackPrefs.addHandler(window,function(data) {
 		switch(data) {
 		case "stops":

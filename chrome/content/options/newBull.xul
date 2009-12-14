@@ -2,7 +2,6 @@
 <?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
 
 <wizard id="chibustrack-bullwiz" title="Add Service Bulletin Route" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onwizardfinish="return finish();">
-<script type="text/javascript" src="chrome://chibustrack/content/core/prefs.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/core/chibus.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/options/newBull.js" />
 	<wizardpage id="chibustrack-routepage" onpageshow="loadRoutes();">

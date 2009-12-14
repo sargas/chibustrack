@@ -17,7 +17,6 @@
     ***** END LICENSE BLOCK ***** -->
 <?xml-stylesheet href="chrome://chibustrack/skin/status.css" type="text/css"?>
 <overlay id="chibustrackstatus" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript" src="chrome://chibustrack/content/core/prefs.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/core/chibus.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/status.js" />
 	<statusbar id="status-bar">

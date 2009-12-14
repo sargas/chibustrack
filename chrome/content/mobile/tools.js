@@ -15,7 +15,7 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
 window.addEventListener("load", function() {
-	ExtChiBusTrackPrefs.load(function(data) {
+	ExtChiBusTrackPrefs.addHandler(window,function(data) {
 		switch(data) {
 		case "stops":
 			ExtChiBusTrack.loadStops();

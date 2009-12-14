@@ -1,8 +1,6 @@
 * Try panel -> tooltippanel for arrival times?
 * show select stops in statusbar
-* figure out why get*Pref causes a different nspref:changed
 * sb get lost (maybe if they only affect one direction?)
-* switch to using https://developer.mozilla.org/En/Using_JavaScript_code_modules
 
 Future:
 * movable toolbox buttons of information

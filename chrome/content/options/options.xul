@@ -19,7 +19,6 @@
 <?xml-stylesheet href="chrome://chibustrack/skin/options.css" type="text/css" ?>
 <prefwindow xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" xmlns:html="http://www.w3.org/1999/xhtml" title="Chicago Bus Tracker Options">
 
-<script type="text/javascript" src="chrome://chibustrack/content/core/prefs.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/core/chibus.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/options/options.js" />
 

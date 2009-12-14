@@ -16,7 +16,7 @@
     ***** END LICENSE BLOCK *****/
 window.addEventListener("load",function () {
 
-	ExtChiBusTrackPrefs.load(function(data) {
+	ExtChiBusTrackPrefs.addHandler(window,function(data) {
 		switch(data) {
 		case "bullroutes":
 			ExtChiBusTrack.loadBullRoutes();

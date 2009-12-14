@@ -18,7 +18,6 @@
 <!-- heavily inspired by Fabrice Desré's GeoGuide extension, also licensed under GPL3+ -->
 <?xml-stylesheet href="chrome://chibustrack/skin/mobile.css" type="text/css"?>
 <overlay id="chibustrack" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
-	<script type="application/x-javascript" src="chrome://chibustrack/content/core/prefs.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/core/chibus.js" />
 	<script type="application/x-javascript" src="chrome://chibustrack/content/mobile/tools.js"/>
   

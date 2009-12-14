@@ -3,7 +3,6 @@
 <?xml-stylesheet href="chrome://chibustrack/skin/options.css" type="text/css" ?>
 
 <wizard id="chibustrack-stopwiz" title="Add Bus Stop" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" onwizardfinish="return finish();">
-<script type="text/javascript" src="chrome://chibustrack/content/core/prefs.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/core/chibus.js" />
 <script type="text/javascript" src="chrome://chibustrack/content/options/newStop.js" />
 	<wizardpage id="chibustrack-routepage" onpageshow="onPage('route');">

@@ -27,6 +27,7 @@ cachetime: null, //seconds for how long to keep prefs for
 handlers: new Object(), //callbacks for custom actions on pref changes
 firstrun: null, //idealy this rarely changes :P
 showInTools: null, //for eric, but making easy to turn off
+sbdisplay: null, //int, probably should use constant flags
 
 load: function() {
 	if(this.prefs) return; //lets not do this twice
@@ -41,6 +42,7 @@ load: function() {
 	this.firstrun = this.prefs.getBoolPref("firstrun");
 	this.cachetime = this.prefs.getCharPref("cachetime");
 	this.showInTools = this.prefs.getBoolPref("showInTools");
+	this.sbdisplay = this.prefs.getIntPref("sbdisplay");
 	//setup complicated prefs
 	this.loadstops();
 
@@ -121,6 +123,10 @@ observe: function(subject, topic, data) {
 			break;
 		case "showInTools":
 			this.showInTools = this.prefs.getBoolPref("showInTools");
+			break;
+		case "sbdisplay":
+			this.sbdisplay = this.prefs.getIntPref("sbdisplay");
+			break;
 	}
 
 

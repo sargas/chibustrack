@@ -115,7 +115,7 @@ var ExtChiBusTrack = {
 				let panel = document.createElement("statusbarpanel");
 				let name = sb[i].getElementsByTagName("nm")[0].textContent;
 				let subject = sb[i].getElementsByTagName("sbj")[0].textContent;
-				let details = sb[i].getElementsByTagName("dtl")[0].textContent;
+				let details = sb[i].getElementsByTagName("dtl")[0].textContent.replace(/<br.>/g,"\n");
 
 				//Deal with duplicate bulletins the tough way...ignoring them
 				if(names.indexOf(name) != -1) continue;
@@ -127,7 +127,7 @@ var ExtChiBusTrack = {
 				subjectlabel.textContent = subject;
 				let detaillabel = document.createElement("label");
 				//try to match <br/> without using /
-				detaillabel.textContent = details.replace(/<br.>/g,"\n");
+				detaillabel.textContent = details;
 				subjectlabel.style.fontWeight = "bold";
 				tooltip.appendChild(subjectlabel);
 				tooltip.appendChild(detaillabel);
@@ -139,7 +139,15 @@ var ExtChiBusTrack = {
 				panel.appendChild(hacklabel); //must come here instead of label attribute
 				panel.appendChild(tooltip); //even though this doesn't show anything
 				panel.className = "ctabustrack-bulletins";
-				statusbar.insertBefore(panel,icon);
+				if(ExtChiBusTrackPrefs.sbdisplay == 0) statusbar.insertBefore(panel,icon);
+				else if(ExtChiBusTrackPrefs.sbdisplay == 1)
+					statusbar.insertBefore(panel,document.getElementById("statusbar-display"))
+				else {
+					var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
+						.getService(Components.interfaces.nsIAlertsService);
+					alertsService.showAlertNotification("chrome://chibustrack/skin/icon.png",
+							name,details);
+				}
 			}
 		},{rt: routes[j]});
 	},

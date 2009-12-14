@@ -26,6 +26,7 @@
 	<preferences>
 		<preference id="sbints" name="extensions.chibustrack.sbinterval" type="int"/>
 		<preference id="menu" name="extensions.chibustrack.showInTools" type="bool"/>
+		<preference id="sbdisplay" name="extensions.chibustrack.sbdisplay" type="int"/>
 	</preferences>
 
 	<groupbox>
@@ -55,7 +56,13 @@
 		</hbox>
 	</groupbox>
 	<groupbox>
+		<caption label="Display Options"/>
 		<checkbox label="Show menu under 'Tools'" preference="menu" />
+		<radiogroup preference="sbdisplay">
+			<radio label="Show Service Bulletins on right side of status bar" value="0"/>
+			<radio label="Show Service Bulletins on left side of status bar" value="1"/>
+			<radio label="Show Growl/Growl-like notifications" value="2"/>
+		</radiogroup>
 	</groupbox>
 </prefpane>
 </prefwindow>

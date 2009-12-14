@@ -17,6 +17,7 @@
 window.addEventListener("load", function() {
 	ExtChiBusTrackPrefs.addHandler(window,function(data) {
 		switch(data) {
+			case "sbdisplay": //fall through
 			case "bullroutes":
 				ExtChiBusTrack.loadstatusbar();
 				break;

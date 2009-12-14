@@ -21,6 +21,7 @@
 
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>chibustrack@neoturbine.net</em:id>
+		<em:homepageURL>http://github.com/sargas/chibustrack</em:homepageURL>
 		<em:version>0.7.1</em:version>
 		<em:type>2</em:type>
 
@@ -44,6 +45,8 @@
 		<em:description>Displays service bulletins and stop arrival times for your favorite CTA bus routes.</em:description>
 		<em:creator>Joseph Jon Booker</em:creator>
 		<em:developer>Joseph Jon Booker</em:developer>
+		<em:contributor>Sahal Anasari</em:contributor>
+		<em:contributor>Dmitriy Vysotskiy</em:contributor>
 
 		<em:iconURL>chrome://chibustrack/skin/icon.png</em:iconURL>
 		<em:optionsURL>chrome://chibustrack/content/options/options.xul</em:optionsURL>

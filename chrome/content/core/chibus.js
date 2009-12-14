@@ -108,18 +108,32 @@ var ExtChiBusTrack = {
 			//we got atleast one service bulletin...
 			var sb = doc.documentElement.children;
 			for (var i = 0; i < sb.length; i++) {
-				var panel = document.createElement("statusbarpanel");
-				var name = sb[i].getElementsByTagName("nm")[0].textContent;
-				var subject = sb[i].getElementsByTagName("sbj")[0].textContent;
-				var details = sb[i].getElementsByTagName("dtl")[0].textContent;
+				let panel = document.createElement("statusbarpanel");
+				let name = sb[i].getElementsByTagName("nm")[0].textContent;
+				let subject = sb[i].getElementsByTagName("sbj")[0].textContent;
+				let details = sb[i].getElementsByTagName("dtl")[0].textContent;
 
 				//Deal with duplicate bulletins the tough way...ignoring them
 				if(names.indexOf(name) != -1) continue;
 				names.push(name);
+
+				//setup tooltip.... this is way too many lines for this
+				let tooltip = document.createElement("tooltip");
+				let subjectlabel = document.createElement("label");
+				subjectlabel.textContent = subject;
+				let detaillabel = document.createElement("label");
 				//try to match <br/> without using /
-				details = subject+"\n"+details.replace(/<br.>/g,"\n");
-				panel.setAttribute("label",name);
-				panel.setAttribute("tooltiptext",details);
+				detaillabel.textContent = details.replace(/<br.>/g,"\n");
+				subjectlabel.style.fontWeight = "bold";
+				tooltip.appendChild(subjectlabel);
+				tooltip.appendChild(detaillabel);
+
+				let hacklabel = document.createElement("label"); //turns out label attribute is ignored
+				hacklabel.textContent = name; //if the panel has any children. so lets give a useful one
+
+				panel.setAttribute("tooltip","_child");
+				panel.appendChild(hacklabel); //must come here instead of label attribute
+				panel.appendChild(tooltip); //even though this doesn't show anything
 				panel.className = "ctabustrack-bulletins";
 				statusbar.insertBefore(panel,icon);
 			}

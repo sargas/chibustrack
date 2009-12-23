@@ -64,6 +64,4 @@ window.addEventListener("load",function () {
 	}, false);
 	theTransform.load("chrome://chibustrack/content/styles/multiroutetomenu.xslt");
 
-	//we need prefs
-	ExtChiBusTrackPrefs.load();
 },false);

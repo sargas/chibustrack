@@ -15,21 +15,14 @@
     along with Chicago Bus Tracker.  If not, see <http://www.gnu.org/licenses/>.
     ***** END LICENSE BLOCK *****/
 
-description {
-	font-size: xx-large;
-	text-align:center;
+function setIgnore(e) {
+	//e gives us a path into the dom
+	//from that we must gain everything we need
+	let sbname = e.target.parentNode.querySelector("label.sbname").value;
+	let system = "CTA";
+	let ignored = e.target.checked
+	ExtChiBusTrackSBStore.setIgnore(sbname,ignored);
 }
+ExtChiBusTrackSBStore.addHandler(window,function() {document.getElementById("sbrows").builder.rebuild()});
+ExtChiBusTrackPrefs.addHandler(window,function(data) {if(data == "bullroutes") document.getElementById("sbrows").builder.rebuild();});
 
-#infobox {
-	text-align:center;
-	padding: 2em;
-	width: 500px;
-}
-
-a {
-	text-decoration: underline;
-}
-
-.smallicon {
-	list-style-image: url("chrome://chibustrack/skin/icon.small.png");
-}

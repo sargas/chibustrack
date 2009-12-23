@@ -106,6 +106,4 @@ window.addEventListener("load",function () {
 	},false);
 	nextnextTransform.load("chrome://chibustrack/content/styles/multistoptomenu.xslt");
 
-	//we need prefs
-	ExtChiBusTrackPrefs.load();
 },false);

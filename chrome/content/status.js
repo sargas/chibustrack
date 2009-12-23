@@ -29,6 +29,7 @@ window.addEventListener("load", function() {
 				break;
 		}
 	});
+	ExtChiBusTrackSBStore.addHandler(window,function() {ExtChiBusTrack.loadstatusbar()});
 	document.getElementById("chibustrack-menu").setAttribute("collasped",!ExtChiBusTrackPrefs.showInTools);
 	ExtChiBusTrack.reloadSB();
 
@@ -103,4 +104,8 @@ ExtChiBusTrack.onoptionclick = function(e) {
 
 ExtChiBusTrack.onaboutclick = function(e) {
 	window.openDialog('chrome://chibustrack/content/about.xul','_blank','chrome,all,dialog=yes');
+};
+
+ExtChiBusTrack.onsbclick = function(e) {
+	window.openDialog('chrome://chibustrack/content/sb/sb.xul','_blank','chrome,all,dialog=yes');
 };

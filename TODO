@@ -2,6 +2,8 @@
 * show select stops in statusbar
 * sb get lost (maybe if they only affect one direction?)
 
+* Deleting sb route does not delete entries in cache
+
 Future:
 * movable toolbox buttons of information
 * grouping stops for arrival times

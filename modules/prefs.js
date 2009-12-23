@@ -30,7 +30,6 @@ showInTools: null, //for eric, but making easy to turn off
 sbdisplay: null, //int, probably should use constant flags
 
 load: function() {
-	if(this.prefs) return; //lets not do this twice
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 		.getService(Components.interfaces.nsIPrefService)
 		.getBranch("extensions.chibustrack.");
@@ -51,8 +50,6 @@ load: function() {
 },
 
 addHandler: function(parentwindow, callback) { //callback should take prefname as single argument
-	this.ensureLoaded();
-
 	//give reasonably random name
 	let name = "";
 	do {name = (((1+Math.random())*0x100000000)|0).toString(32).substring(1)}
@@ -63,21 +60,15 @@ addHandler: function(parentwindow, callback) { //callback should take prefname a
 		ExtChiBusTrackPrefs.removeHandler(name); },false);
 },
 
-ensureLoaded: function() { //quick conditional
-	if(this.prefs == null) this.load();
-},
-
 removeHandler: function(name) {
 	if(this.handlers[name]) delete this.handlers[name];
 },
 
 unload: function() {
-	if(this.prefs ==null) return;
 	this.prefs.removeObserver("", this);
 },
 
 loadstops: function() {
-	this.ensureLoaded();
 	var stops = this.prefs.getChildList("stops.",{});
 	var rtregex = /stops\.([0-9]+)\.rt$/;
 	var stopnames = stops.filter(function(e,i,a) {return (rtregex.exec(e)!==null)});
@@ -159,7 +150,6 @@ observe: function(subject, topic, data) {
 },
 
 addStop: function(route, dir, stopname, stopid) {
-	this.ensureLoaded();
 	//see if we got any duplicate of this....
 	var tempflag = false;
 	this.stops.forEach(function (e,i,a) {
@@ -178,7 +168,6 @@ addStop: function(route, dir, stopname, stopid) {
 },
 
 removeStop: function (prefid) {
-	this.ensureLoaded();
 	this.prefs.clearUserPref("stops."+prefid+".dir");
 	this.prefs.clearUserPref("stops."+prefid+".stpnm");
 	this.prefs.clearUserPref("stops."+prefid+".stpid");
@@ -186,7 +175,6 @@ removeStop: function (prefid) {
 },
 
 getStop: function (prefid) {
-	this.ensureLoaded();
 	return {
 		rt: this.prefs.getCharPref("stops."+prefid+".rt"),
 		prefid: prefid, //for consistency sake
@@ -196,7 +184,6 @@ getStop: function (prefid) {
 },
 
 addBullRoute: function (route) {
-	this.ensureLoaded();
 	//for now, ignoring duplicate routes
 	if(this.bullroutes.split(';').indexOf(route) == -1) {
 		this.prefs.setCharPref("bullroutes",this.bullroutes + ";" + route);
@@ -204,7 +191,6 @@ addBullRoute: function (route) {
 },
 
 removeBullRoute: function (route) {
-	this.ensureLoaded();
 	//might as well sort the list in the prefs while we're at it
 	var routes = this.bullroutes.split(';').sort(function(a,b) {return parseInt(a)-parseInt(b);});
 	var newroutes = new Array();
@@ -217,3 +203,4 @@ removeBullRoute: function (route) {
 
 };
 
+ExtChiBusTrackPrefs.load(); //always load up prefs

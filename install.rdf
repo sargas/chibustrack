@@ -22,7 +22,7 @@
 	<Description about="urn:mozilla:install-manifest">
 		<em:id>chibustrack@neoturbine.net</em:id>
 		<em:homepageURL>http://github.com/sargas/chibustrack</em:homepageURL>
-		<em:version>0.7.1</em:version>
+		<em:version>0.8</em:version>
 		<em:type>2</em:type>
 
 		<em:targetApplication>

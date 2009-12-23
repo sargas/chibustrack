@@ -35,7 +35,7 @@
 							<label class="sbname" value="?name"/>
 							<textbox multiline="true" cols="40" rows="4" value="?details"/>
 						</vbox>
-						<checkbox oncommand="setIgnore(event);" checked="?ignored" label="Ignore"/>
+						<checkbox oncommand="setIgnore(event);" checked="?ignored" label="Read"/>
 					</row>
 				</action>
 			</template>

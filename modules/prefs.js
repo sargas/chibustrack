@@ -17,6 +17,10 @@
 
 var EXPORTED_SYMBOLS = ["ExtChiBusTrackPrefs"];
 
+//load the sb cache, since we need to update it at times
+Components.utils.import("resource://chibustrack/sbstore.js");
+
+
 var ExtChiBusTrackPrefs = {
 
 sbinterval: null, //interval for service bullintin timer
@@ -105,6 +109,7 @@ observe: function(subject, topic, data) {
 			break;
 		case "bullroutes":
 			this.bullroutes = this.prefs.getCharPref("bullroutes");
+			ExtChiBusTrackSBStore.refreshRoutes(this.bullroutes.split(";"));
 			break;
 		case "stops":
 			this.loadstops();

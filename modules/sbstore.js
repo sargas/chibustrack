@@ -30,6 +30,7 @@ _ignoreResponse: { //callback when we don't care about response
 		if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED){
 			dump("TODO, BETTER THING TO DO, THINK Query canceled or aborted!");
 		}
+		ExtChiBusTrackSBStore.callHandlers();
 	}
 },
 
@@ -74,9 +75,15 @@ initTable: function() {
 			"ignored BOOLEAN"+
 			")");
 	newbulletins.executeAsync(this._ignoreResponse);
+	let newroutes = this.dbcon.createStatement("CREATE TABLE routes ("+
+			"id INTEGER PRIMARY KEY,"+
+			"system VARCHAR(255),"+
+			"rt VARCHAR(255)"+
+			")");
+	newroutes.executeAsync(this._ignoreResponse);
 },
 
-refreshSBs: function(route,sbarr) { //TODO: get route from first item, if exists
+refreshSBs: function(route,sbarr) { //called once per route
 	//sbarr is an array of {name: .., subject: ..., details: ...}
 	//assuming system is "CTA" for now
 	
@@ -99,7 +106,7 @@ refreshSBs: function(route,sbarr) { //TODO: get route from first item, if exists
 				});
 				if(!found) { //great, now we gotta delete it
 					let deletecommand = ExtChiBusTrackSBStore.dbcon.createStatement("DELETE FROM bulletins WHERE id = "+row.getResultByName("id"));
-					deletecommand.executeAsync(this._ignoreResponse);
+					deletecommand.executeAsync(ExtChiBusTrackSBStore._ignoreResponse);
 				} //if(!found)
 			} //for(let row = 
 		},
@@ -118,12 +125,61 @@ refreshSBs: function(route,sbarr) { //TODO: get route from first item, if exists
 					createcommand.params.rt = e.rt;
 					createcommand.params.subject = e.subject;
 					createcommand.params.details = e.details;
-					createcommand.executeAsync(this._ignoreResponse);
+					createcommand.executeAsync(ExtChiBusTrackSBStore._ignoreResponse);
 				});
 			}
 		}
 	});
 
+},
+
+refreshRoutes: function(routes) { //expecting new Array() object
+	//assuming system is "CTA" for now
+	
+	//this method just adds routes to the db
+	//and deletes routes+sb's from the db
+	let sqlcommand = this.dbcon.createStatement("SELECT id, rt FROM routes WHERE system='CTA'");
+	sqlcommand.executeAsync({
+		handleResult: function(aResultSet) {
+			for(let row = aResultSet.getNextRow();row;row = aResultSet.getNextRow()) {
+				let dbrt = row.getResultByName("rt");
+				let found = false;
+				routes = routes.filter(function(e,i,a) {
+					if(dbrt == e) {
+						found = true;
+						return false;
+					} else {
+						return true;
+					}
+				});
+				if(!found) { //great, now we gotta delete it
+					let deletecommand = ExtChiBusTrackSBStore.dbcon.createStatement("DELETE FROM routes WHERE id = "+row.getResultByName("id"));
+					deletecommand.executeAsync(ExtChiBusTrackSBStore._ignoreResponse);
+					//now delete sb's for this route
+					deletecommand = ExtChiBusTrackSBStore.dbcon.createStatement("DELETE FROM bulletins WHERE rt = :rt");
+					deletecommand.params.rt = dbrt;
+					deletecommand.executeAsync(ExtChiBusTrackSBStore._ignoreResponse);
+				} //if(!found)
+			} //for(let row = 
+		},
+		handleError: function(aError) {
+			dump("TODO, BETTER HANDLING FOR THIS: "+ aError.message);
+		},
+		handleCompletion: function(aReason) {
+			if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED){
+				dump("TODO, BETTER THING TO DO, THINK Query canceled or aborted!");
+			} else {
+				//now, add bulletins we didn't catch
+				//needs to be here instead of handleResult since handleResult is not called if the table is empty
+				routes.forEach(function(e,i,a) {
+					let createcommand = ExtChiBusTrackSBStore.dbcon
+						.createStatement("INSERT INTO routes (rt, system) VALUES (:rt, 'CTA')");
+					createcommand.params.rt = e;
+					createcommand.executeAsync(ExtChiBusTrackSBStore._ignoreResponse);
+				});
+			}
+		}
+	});
 },
 
 //returns true or false depending if we should ignore this sb
@@ -151,25 +207,7 @@ setIgnore: function(sbname, ignore) {
 	//just to be safe, make sure only true/false are added to db
 	let upstmt = this.dbcon.createStatement("UPDATE bulletins SET ignored="+(ignore?"'true'":"'false'")+" WHERE system='CTA' AND name=:sbname");
 	upstmt.params.sbname = sbname;
-	upstmt.executeAsync({
-		handleResult: function(aResultSet) {
-			//nothing happens here....
-		},
-		handleError: function(aError) {
-			dump("TODO, BETTER HANDLING FOR THIS: "+ aError.message);
-		},
-		handleCompletion: function(aReason) {
-			if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED){
-				dump("TODO, BETTER THING TO DO, THINK Query canceled or aborted!");
-				return;
-			}
-			//use our callbacks
-			for(var callbackname in ExtChiBusTrackSBStore.handlers) {
-				var callback = ExtChiBusTrackSBStore.handlers[callbackname];
-				callback();
-			};
-		}
-	});
+	upstmt.executeAsync(this._ignoreResponse);
 },
 
 //handler stuff
@@ -186,6 +224,13 @@ addHandler: function(parentwindow, callback) { //callback should take prefname a
 
 removeHandler: function(name) {
 	if(this.handlers[name]) delete this.handlers[name];
+},
+
+callHandlers: function() {
+	for(var callbackname in ExtChiBusTrackSBStore.handlers) {
+		var callback = ExtChiBusTrackSBStore.handlers[callbackname];
+		callback();
+	};
 },
 
 };

@@ -61,7 +61,7 @@
 		<radiogroup preference="sbdisplay">
 			<radio label="Show Service Bulletins on right side of status bar" value="0"/>
 			<radio label="Show Service Bulletins on left side of status bar" value="1"/>
-			<radio label="Show Growl/Growl-like notifications" value="2"/>
+			<radio label="Show Pop-up notifications (Growl or similiar)" value="2"/>
 		</radiogroup>
 	</groupbox>
 </prefpane>

@@ -1,8 +1,5 @@
-* Try panel -> tooltippanel for arrival times?
 * show select stops in statusbar
 * sb get lost (maybe if they only affect one direction?)
-
-* Deleting sb route does not delete entries in cache
 
 Future:
 * movable toolbox buttons of information

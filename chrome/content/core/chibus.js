@@ -69,8 +69,7 @@ var ExtChiBusTrack = {
 						callback(doc,params);
 					}
 				} else {
-					alert("Sorry, but Chicago Bus Tracker has obtained XMLHttpRequest Error code " + xhr.status
-							+": \n"+xhr.statusText);
+					alert("Sorry, but Chicago Bus Tracker has obtained XMLHttpRequest Error code " + xhr.status);
 				}
 			}
 		}
@@ -157,8 +156,8 @@ var ExtChiBusTrack = {
 				thelabel.addEventListener("click",function(e) {
 					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
 						.getService(Components.interfaces.nsIPromptService);
-					if(prompts.confirm(window,"Ignore Service Bulletin?",
-						"Would you like to ignore '"+name+"' ? It will show up again if the alert is repeated"))
+					if(prompts.confirm(window,"Mark Service Bulletin as Read",
+						"Would you like to mark '"+name+"' as read? It will show up again if the alert is repeated"))
 						ExtChiBusTrackSBStore.setIgnore(name,true);
 				},false);
 

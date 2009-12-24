@@ -32,11 +32,15 @@ handlers: new Object(), //callbacks for custom actions on pref changes
 firstrun: null, //idealy this rarely changes :P
 showInTools: null, //for eric, but making easy to turn off
 sbdisplay: null, //int, probably should use constant flags
+os: null, //observer service
 
 load: function() {
 	this.prefs = Components.classes["@mozilla.org/preferences-service;1"]
 		.getService(Components.interfaces.nsIPrefService)
 		.getBranch("extensions.chibustrack.");
+
+	this.os = Components.classes["@mozilla.org/observer-service;1"]
+		.getService(Components.interfaces.nsIObserverService);
 
 	//get our prefs....
 	this.prefs.QueryInterface(Components.interfaces.nsIPrefBranch2);
@@ -49,8 +53,9 @@ load: function() {
 	//setup complicated prefs
 	this.loadstops();
 
-	//setup listener
+	//setup listeners
 	this.prefs.addObserver("", this, false);
+	this.os.addObserver(this,"quit-application",false);
 },
 
 addHandler: function(parentwindow, callback) { //callback should take prefname as single argument
@@ -70,6 +75,7 @@ removeHandler: function(name) {
 
 unload: function() {
 	this.prefs.removeObserver("", this);
+	this.os.removeObserver(this,"quit-application");
 },
 
 loadstops: function() {
@@ -97,7 +103,11 @@ loadstops: function() {
 },
 
 observe: function(subject, topic, data) {
-	if (topic != "nsPref:changed") return;
+	if(topic == "quit-application") { //want cleanup
+		this.unload();
+		return;
+	}
+	if (topic != "nsPref:changed") return; //aint interested in anything else
 
 	var originaldata = data;
 	var stopregex = /^stops\.\d+\.rt$/; // get the *.rt changes, matters that we only get when *all* added

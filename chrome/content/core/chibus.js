@@ -78,42 +78,21 @@ var ExtChiBusTrack = {
 		xhr.open("GET",url,true);xhr.send(null);
 		if(false) dump(url+"\n");
 	},
-	loadstatusbar: function() {
-		let statusbar = document.getElementById("status-bar");
-		let icon = document.getElementById("chibustrack-icon");
-		let reloadsb = document.getElementsByClassName("chibustrack-reloadsb");
-
-		var mysbnum = Math.floor(Math.random()*200); //doesn't happen often, so 1/200 chance of collision if does aint bad
-		ExtChiBusTrack._sbnum = mysbnum; //kept track of by the object, importantly not local
-
-		//rid ourselves of all previous bulletins:
-		let oldpanels = document.getElementsByClassName("ctabustrack-bulletins");
-		while(oldpanels.length>0) {
-			statusbar.removeChild(oldpanels[0]);
-		}
-		//disable for now, reenable if there are any routes
-		for(let i = 0;i<reloadsb.length;++i) reloadsb[i].setAttribute("disabled",true);
-
-		//CTA API docs say the name is unique. Lets hold them to it
-		let names = new Array();
-
-		//iterate through each route
+	resetSBTimer: function() {
+		ExtChiBusTrack.reloadSBCache();
+		if(ExtChiBusTrack.sbtimer) window.clearInterval(ExtChiBusTrack.sbtimer);
+		ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.reloadSBCache,
+			ExtChiBusTrackPrefs.sbinterval*60*1000);
+	},
+	reloadSBCache: function() {
 		let routes = ExtChiBusTrackPrefs.bullroutes.split(';');
-		for(let j=0;j<routes.length;++j)
-		if(routes[j] != "") 
+		for(let j=0;j<routes.length;++j) if(routes[j] != "")
 		ExtChiBusTrack.loadCTAData("getservicebulletins",function(doc,params) { //need original route
-			if(ExtChiBusTrack._sbnum != mysbnum) return; //looks like we're too late //happens when adding sb's rapidly
-
-			//even if we got nothing to report, at least we had some route to look at
-			for(let i = 0;i<reloadsb.length;++i) reloadsb[i].setAttribute("disabled",false);
-
-			if (doc.documentElement.childElementCount == 0) {
-				return; //nothing to report :)
-			}
+			if (doc.documentElement.childElementCount == 0) return; // nothing to report :)
+			
 			//we got atleast one service bulletin...
 			let sb = doc.documentElement.children;
 
-			//cache em
 			let temparr = new Array();
 			for (let i = 0; i < sb.length; i++) {
 				temparr.push({
@@ -123,69 +102,10 @@ var ExtChiBusTrack = {
 					details: sb[i].getElementsByTagName("dtl")[0].textContent.replace(/<br.>/g,"\n"),
 				});
 			}
+
+			//now add them directly to the cache
 			ExtChiBusTrackSBStore.refreshSBs(params.rt,temparr);
-
-
-			for (let i = 0; i < sb.length; i++) {
-				let panel = document.createElement("statusbarpanel");
-				let name = sb[i].getElementsByTagName("nm")[0].textContent;
-				let subject = sb[i].getElementsByTagName("sbj")[0].textContent;
-				let details = sb[i].getElementsByTagName("dtl")[0].textContent.replace(/<br.>/g,"\n");
-
-				//Deal with duplicate bulletins the tough way...ignoring them
-				if(names.indexOf(name) != -1) continue;
-				names.push(name);
-
-				ExtChiBusTrackSBStore.ignored(name,function(needstobefalse) {if(!needstobefalse) {
-
-				//setup tooltip.... this is way too many lines for this
-				let tooltip = document.createElement("tooltip");
-				let subjectlabel = document.createElement("label");
-				subjectlabel.textContent = subject;
-				let detaillabel = document.createElement("label");
-				//try to match <br/> without using /
-				detaillabel.textContent = details;
-				subjectlabel.style.fontWeight = "bold";
-				tooltip.appendChild(subjectlabel);
-				tooltip.appendChild(detaillabel);
-
-				let thelabel = document.createElement("label"); //this is the actual text of the panel
-				thelabel.textContent = name;
-
-				//setup ignoring ability
-				thelabel.addEventListener("click",function(e) {
-					var prompts = Components.classes["@mozilla.org/embedcomp/prompt-service;1"]
-						.getService(Components.interfaces.nsIPromptService);
-					if(prompts.confirm(window,"Mark Service Bulletin as Read",
-						"Would you like to mark '"+name+"' as read? It will show up again if the alert is repeated"))
-						ExtChiBusTrackSBStore.setIgnore(name,true);
-				},false);
-
-				panel.setAttribute("tooltip","_child");
-				panel.appendChild(thelabel); //must come here instead of label attribute
-				panel.appendChild(tooltip); //even though this doesn't show anything
-				panel.className = "ctabustrack-bulletins";
-
-				if(ExtChiBusTrackPrefs.sbdisplay == 0) statusbar.insertBefore(panel,icon);
-				else if(ExtChiBusTrackPrefs.sbdisplay == 1)
-					statusbar.insertBefore(panel,document.getElementById("statusbar-display"))
-				else {
-					var alertsService = Components.classes["@mozilla.org/alerts-service;1"]
-						.getService(Components.interfaces.nsIAlertsService);
-					alertsService.showAlertNotification("chrome://chibustrack/skin/icon.png",
-							name,details);
-					//if we growl it, we only do it once
-					ExtChiBusTrackSBStore.setIgnore(name,true);
-				}
-				}}); //end of needstobefalse for ignore
-			} //foreach
 		},{rt: routes[j]});
-	},
-	reloadSB: function() {
-		ExtChiBusTrack.loadstatusbar();
-		if(ExtChiBusTrack.sbtimer) window.clearInterval(ExtChiBusTrack.sbtimer);
-		ExtChiBusTrack.sbtimer = window.setInterval(ExtChiBusTrack.loadstatusbar,
-			ExtChiBusTrackPrefs.sbinterval*60*1000);
 	},
 	removeStop: function (e) { //used in mobile and firefox
 		var selstops = document.getElementById("chibustrack-selstops");

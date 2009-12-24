@@ -119,6 +119,7 @@ observe: function(subject, topic, data) {
 			break;
 		case "bullroutes":
 			this.bullroutes = this.prefs.getCharPref("bullroutes");
+			//take care of cache
 			ExtChiBusTrackSBStore.refreshRoutes(this.bullroutes.split(";"));
 			break;
 		case "stops":

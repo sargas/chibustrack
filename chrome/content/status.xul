@@ -35,7 +35,7 @@
 
 				<menuseparator/>
 				<menuitem label="Service Bulletins" oncommand="ExtChiBusTrack.onsbclick(event)" />
-				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" class="chibustrack-reloadsb"/>
+				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.resetSBTimer()" class="chibustrack-reloadsb"/>
 
 				<menuseparator/>
 				<menuitem label="Help" oncommand="gBrowser.selectedTab = gBrowser.addTab('chrome://chibustrack/content/help.xhtml');" />
@@ -49,7 +49,7 @@
 				<menuitem label="Options" oncommand="ExtChiBusTrack.onoptionclick(event)"/>
 				<menuseparator/>
 				<menuitem label="Service Bulletins" oncommand="ExtChiBusTrack.onsbclick(event)" />
-				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.reloadSB()" class="chibustrack-reloadsb"/>
+				<menuitem label="Reload Service Bulletins" oncommand="ExtChiBusTrack.resetSBTimer()" class="chibustrack-reloadsb"/>
 				<menuseparator/>
 				<menuitem label="Help" oncommand="gBrowser.selectedTab = gBrowser.addTab('chrome://chibustrack/content/help.xhtml');" />
 				<menuitem label="About" oncommand="ExtChiBusTrack.onaboutclick(event)" />

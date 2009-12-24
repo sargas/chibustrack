@@ -45,7 +45,7 @@ init: function() {
 		.getService(Components.interfaces.mozIStorageService);
 	this.dbcon = storageService.openDatabase(file);
 
-	let tablelist = this.dbcon.createStatement("select count(*) from SQLite_Master");
+	let tablelist = this.dbcon.createStatement("SELECT count(*) from SQLite_Master");
 	tablelist.executeAsync({
 		handleResult: function(aResultSet) {
 			let num = aResultSet.getNextRow().getResultByIndex(0);
@@ -127,6 +127,8 @@ refreshSBs: function(route,sbarr) { //called once per route
 					createcommand.params.details = e.details;
 					createcommand.executeAsync(ExtChiBusTrackSBStore._ignoreResponse);
 				});
+				//make sure this gets called
+				if(sbarr.length == 0) ExtChiBusTrackSBStore.callHandlers();
 			}
 		}
 	});
@@ -202,6 +204,9 @@ ignored: function(sbname,callback) {
 	});
 },
 
+//THERE BE MAGIC HERE!
+//WILL TAKE CARE OF UPDATING MULTIPLE ENTRIES IN DB
+//NOTE THAT 'name' ARE "UNIQUE"
 setIgnore: function(sbname, ignore) {
 	//maybe we should check that sbname actually exists in db?
 	//just to be safe, make sure only true/false are added to db
@@ -232,6 +237,34 @@ callHandlers: function() {
 		callback();
 	};
 },
+
+//handling SB's....
+getAllBulletins: function(callback,includeIgnored) { //returns Array of {name:,subject:,details:,system:}
+	let sqlcommand = this.dbcon.createStatement("SELECT DISTINCT system, name, subject, details, ignored FROM bulletins"+
+			(includeIgnored?"":" WHERE ignored='false'") );
+	sqlcommand.executeAsync({
+		handleResult: function(aResultSet) {
+			let output = new Array();
+			for(let row = aResultSet.getNextRow();row;row = aResultSet.getNextRow()) {
+				output.push({
+					system: row.getResultByName("system"),
+					name: row.getResultByName("name"),
+					subject: row.getResultByName("subject"),
+					details: row.getResultByName("details")});
+			}
+			callback(output);
+		},
+		handleError: function(aError) {
+			dump("TODO, BETTER HANDLING FOR THIS: "+ aError.message);
+		},
+		handleCompletion: function(aReason) {
+			if (aReason != Components.interfaces.mozIStorageStatementCallback.REASON_FINISHED){
+				dump("TODO, BETTER THING TO DO, THINK Query canceled or aborted!");
+			}
+		}
+	});
+},
+
 
 };
 
